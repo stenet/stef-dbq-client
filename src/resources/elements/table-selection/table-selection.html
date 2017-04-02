@@ -1,0 +1,14 @@
+<template class="table-selection">  
+  <require from="./table-selection.css"></require>
+
+  <div class="databases">
+    <dx-widget name="dxSelectBox" options.bind="databaseOptions" class="database-select-box"></dx-widget>
+  </div>
+  <div class="tables">
+    <div class="tables-container">
+      <dx-widget name="dxDataGrid" options.bind="tableOptions"></dx-widget>
+    </div>
+  </div>
+  
+  <table-information view-model.ref="tableInformationViewModel"></table-information>
+</template>

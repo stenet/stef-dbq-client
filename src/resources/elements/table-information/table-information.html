@@ -1,0 +1,18 @@
+<template>
+  <dx-widget name="dxPopup" options.bind="tableInfoPopupOptions" class="tableinfo-popup">
+    <dx-template name="contentTemplate">
+      <div class="tableinfo-container">
+        <div>
+          <div if.bind="!tableInfo.table.isView">Tabelle: ${tableInfo.table.tableName}</div>
+          <div if.bind="tableInfo.table.isView">View: ${tableInfo.table.tableName}</div>
+          <div if.bind="tableInfo.table.primaryKeyColumn">Primärschlüssel: ${tableInfo.table.primaryKeyColumn}</div>
+        </div>
+        <div>
+          <div>
+            <dx-widget name="dxDataGrid" options.bind="tableInfoGridOptions"></dx-widget>
+          </div>
+        </div>
+      </div>
+    </dx-template>
+  </dx-widget>
+</template>

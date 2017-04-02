@@ -1,0 +1,12 @@
+<template>
+  <require from="./code-editor.css"></require>
+
+  <dx-widget name="dxPopup" options.bind="codePopupOptions" class="codeeditor-popup">
+    <dx-template name="contentTemplate">
+      <div class="codeeditor-container">
+        <editor class="codeeditor" view-model.ref="editorViewModel" table-data.bind="editorData" language="csharp"></editor>
+        <column-chooser class="codeditor-columnchooser" view-model.ref="columnChooserViewModel" fixed-table-id.bind="fixedTableId" notification.bind="columnChooserNotification"></column-chooser>
+      </div>
+    </dx-template>
+  </dx-widget>
+</template>

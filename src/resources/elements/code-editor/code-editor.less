@@ -1,0 +1,31 @@
+@import "../../import.less";
+
+.codeeditor-popup {
+  .dx-popup-normal {
+    border-radius: 0;
+    border: 0;
+
+    &.dx-state-focused.dx-overlay-content {
+      border: 0;
+    }
+    .dx-popup-content {
+      padding: 0;
+    }
+  }
+  
+  .toolbar(50px, #2C3E50, white);
+}
+
+.codeeditor-container {
+  display: flex;
+  height: 100%;
+  
+  > .codeeditor {
+    height: 100%;
+    width: 100%;
+  }
+  > .codeditor-columnchooser {
+    flex: 300px 0 0;
+    position: relative;
+  }
+}

@@ -1,0 +1,21 @@
+<template class="container">
+  <require from="./container.css"></require>
+
+  <div class="container-sidebar">
+    <div class="container-table-selection">
+      <div>
+        <table-selection notification.bind="tableSelectionNotification"></table-selection>
+      </div>
+    </div>
+    <div class="container-buttons">
+      <dx-widget id="settings-button" name="dxButton" options.bind="settingButtonOptions"></dx-widget>
+    </div>
+  </div>
+
+  <div class="tables">
+    <table repeat.for="data of tableData" css.bind="{height: tableHeight}" table-data.bind="data" notification.bind="tableNotification"></table>
+  </div>
+
+  <databases view-model.ref="databasesViewModel"></databases>
+  <dx-widget name="dxContextMenu" view-model.ref="containerContextMenuViewModel" options.bind="containerContextMenuOptions"></dx-widget>
+</template>

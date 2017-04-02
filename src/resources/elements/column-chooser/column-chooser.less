@@ -1,0 +1,39 @@
+@import "../../import.less";
+
+.columnchooser {
+  display: flex;
+  flex-direction: column;
+
+  > .columnchooser-tables {
+    background-color: #34495E;
+    padding: 5px;
+
+    .dx-selectbox {
+      .editor(#34495E);
+    }
+  }
+  > .columnchooser-columns {
+    flex-grow: 1;
+    position: relative;
+
+    > div {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+
+      .dx-datagrid {
+        background-color: #EEEEEE;
+        color: gray;
+      }
+      .dx-datagrid-rowsview {
+          border-top: none;
+      }
+      .dx-datagrid-header-panel {
+        border-bottom: none;
+
+        .grid-search-panel(#34495E);
+        .toolbar(40px, #34495E, lightgray, 5px);
+      } 
+    }
+  }
+}

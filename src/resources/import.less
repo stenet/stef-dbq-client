@@ -1,0 +1,113 @@
+.toolbar(@size, @backgroundColor, @iconColor, @padding: 0) {
+  .dx-toolbar {
+    height: @size;
+    margin: 0;
+    padding: 0 @padding;
+    background-color: @backgroundColor;
+    box-sizing: border-box;
+    border-bottom: none;
+
+    .dx-toolbar-items-container {
+      height: @size;
+
+      > div {
+        -webkit-border-horizontal-spacing: 0;
+        -webkit-border-vertical-spacing: 0;
+      }
+    }
+    .dx-toolbar-label {
+      color: @iconColor;
+    }
+    .dx-button {
+      border: 0;
+      background-color: transparent;
+      width: @size;
+      height: @size;
+      display: flex;
+      justify-content: center;
+
+      &:hover {
+        background-color: lighten(@backgroundColor, 30%);
+      }
+      .dx-button-content {
+        display: flex;
+        align-items: center;
+
+        i {
+          color: @iconColor;
+        }
+      }
+    }
+    .dx-texteditor {
+      border: none;
+
+      .dx-texteditor-buttons-container {
+        .dx-numberbox-spin-button {
+          background-color: lighten(@backgroundColor, 20%);
+          padding: 0;
+
+          &.dx-state-hover {
+            .dx-numberbox-spin-up-icon, .dx-numberbox-spin-down-icon {
+              background-color: lighten(@backgroundColor, 30%);
+            }
+          }
+          .dx-numberbox-spin-up-icon, .dx-numberbox-spin-down-icon {
+            color: @iconColor;
+          }
+        }
+      }
+      input {
+        background-color: lighten(@backgroundColor, 15%);
+        color: @iconColor;
+      }
+    }
+  }
+}
+
+.grid-search-panel(@backgroundColor) {
+  .dx-datagrid-search-panel {
+    border: none;
+
+    .dx-icon {
+      color: lightgray;
+    }
+    .dx-placeholder {
+      color: lightgray;
+    }
+    input {
+      color: lightgray;
+      background-color: lighten(@backgroundColor, 15%);
+    }
+  }
+}
+
+.editor(@backgroundColor) {
+  border: none;
+
+  .dx-texteditor-container {
+    input {
+      color: lightgray;
+      background-color: lighten(@backgroundColor, 15%);
+    }
+    .dx-button-normal {
+      .dx-dropdowneditor-icon {
+        color: lightgray;
+      }
+    }
+    .dx-placeholder {
+      color: lightgray;
+    }
+  }
+  &.dx-dropdowneditor {
+    &.dx-state-hover {
+      .dx-dropdowneditor-icon {
+        background-color: lighten(@backgroundColor, 30%);
+      }
+    }
+    &.dx-dropdowneditor-active {
+      .dx-dropdowneditor-icon {
+        background-color: lighten(@backgroundColor, 20%);
+      }
+    }
+  }
+}

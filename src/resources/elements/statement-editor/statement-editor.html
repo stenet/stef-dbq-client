@@ -1,0 +1,13 @@
+<template>
+  <require from="./statement-editor.css"></require>
+
+  <dx-widget name="dxPopup" options.bind="statementPopupOptions" class="statementeditor-popup">
+    <dx-template name="contentTemplate">
+      <div class="statementeditor-container">
+        <table-selection class="statementeditor-table-selection" view-model.ref="tableSelectionViewModel" notification.bind="tableSelectionNotification"></table-selection>
+        <editor class="statementeditor" view-model.ref="editorViewModel" table-data.bind="editorData"></editor>
+        <column-chooser class="statementeditor-columnchooser" view-model.ref="columnChooserViewModel" fixed-table-id.bind="fixedTableId" notification.bind="columnChooserNotification"></column-chooser>
+      </div>
+    </dx-template>
+  </dx-widget>
+</template>

@@ -1,0 +1,1 @@
+export const DATABASE_REMOVED = "DATABASE_REMOVED";

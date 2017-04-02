@@ -1,0 +1,33 @@
+@import "../../import.less";
+ 
+.table {
+  display: block;
+  padding: 0 5px;
+  box-sizing: border-box;
+
+  > * {
+    max-width: 100% !important;
+  }
+  > * > .dx-datagrid {
+    box-sizing: border-box;
+
+    .dx-datagrid-header-panel {
+      border: none;
+
+      .grid-search-panel(#34495E);
+      .toolbar(40px, #2C3E50, white);
+    }
+  }
+
+  .table-no-all-rows-loaded {
+    color: white;
+    background-color: red;
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+    border-radius: 30px;
+    margin: 5px;
+    text-align: center;
+    font-size: 14px;
+  }
+}

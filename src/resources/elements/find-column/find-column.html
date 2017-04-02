@@ -1,0 +1,12 @@
+<template>
+  <require from="./find-column.css"></require>
+
+  <dx-widget name="dxPopup" options.bind="findColumnPopupOptions" class="findcolumn-popup">
+    <dx-template name="contentTemplate">
+      <div class="findcolumn-container">
+        <dx-widget name="dxSelectBox" options.bind="columnSelectDataOptions">
+        </dx-widget>
+      </div>
+    </dx-template>
+  </dx-widget>
+</template>

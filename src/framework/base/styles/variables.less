@@ -1,0 +1,26 @@
+@headerHeight: 60px;
+@toolbarHeight: 60px;
+@sidebarCollapsedWidth: 60px;
+@sidebarExpandedWidth: 280px;
+@padding: 12px;
+@themeColor: #17C4BB;
+@fontSize: 12px;
+
+.transition(@property, @duration: .3s) {
+    transition: all @duration cubic-bezier(.62,.28,.23,.99);
+    transition-property: @property;
+}
+.animatationLeftFadeIn() {
+    animation: leftFadeIn .3s cubic-bezier(.62,.28,.23,.99);
+}
+
+@keyframes leftFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

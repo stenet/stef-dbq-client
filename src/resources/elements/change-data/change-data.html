@@ -1,0 +1,63 @@
+<template>
+  <require from="./change-data.css"></require>
+
+  <dx-widget name="dxPopup" options.bind="changeDataPopupOptions" class="changedata-popup">
+    <dx-template name="contentTemplate">
+      <div class="changedata-container">
+        <statement-editor view-model.ref="statementEditorViewModel" notification.bind="statementEditorNotification" table-data.bind="tableData">          
+        </statement-editor>
+        <code-editor view-model.ref="codeEditorViewModel" notification.bind="codeEditorNotification" table-data.bind="tableData">
+        </code-editor>
+
+        <div repeat.for="changeDataItem of tableData.changeData">
+          <div if.bind="changeDataItem.type == 'sql'" class="changedata-custom-settings">
+            <div>
+              SQL
+            </div>
+            <div>
+              <dx-widget name="dxButton" options.bind="sqlChangeDataOptions">
+              </dx-widget>
+            </div>
+          </div>
+          <div if.bind="changeDataItem.type == 'text'" class="changedata-custom-settings">
+            <div>
+              Text
+            </div>
+            <div>
+              <dx-widget name="dxTextBox" options.bind="textChangeDataOptions">
+              </dx-widget>
+            </div>
+          </div>
+          <div if.bind="changeDataItem.type == 'running'" class="changedata-custom-settings">
+            <div>
+              Laufende Nummer ab
+            </div>
+            <div>
+              <dx-widget name="dxNumberBox" options.bind="runningChangeDataOptions">
+              </dx-widget>
+            </div>
+          </div>
+          <div if.bind="changeDataItem.type == 'code'" class="changedata-custom-settings">
+            <div>
+              C#-Code
+            </div>
+            <div>
+              <dx-widget name="dxButton" options.bind="codeChangeDataOptions">
+              </dx-widget>
+            </div>
+          </div>
+          <div class="changedata-default-settings">
+            <div>
+              <dx-widget name="dxSelectBox" options.bind="columnChangeDataOptions">
+              </dx-widget>
+            </div>
+            <div>
+              <dx-widget name="dxButton" options.bind="deleteChangeDataOptions">
+              </dx-widget>
+            </div>
+          </div>
+        </div>
+      </div>
+    </dx-template>
+  </dx-widget>
+</template>

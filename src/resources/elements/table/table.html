@@ -1,0 +1,8 @@
+<template class="table">
+  <require from="./table.css"></require>
+
+  <dx-widget name="dxDataGrid" options.bind="tableOptions" view-model.ref="tableViewModel"></dx-widget>
+  <statement-editor view-model.ref="statementEditorViewModel" notification.bind="statementEditorNotification" table-data.bind="tableData" editor-data.bind="tableData"></statement-editor>
+  <change-data view-model.ref="changeDataViewModel" table-data.bind="tableData" notification.bind="changeDataNotification" data-source.bind="dataSource"></change-data>
+  <find-column view-model.ref="findColumnViewModel" table-data.bind="tableData" notification.bind="findColumnNotification"></find-column>
+</template>

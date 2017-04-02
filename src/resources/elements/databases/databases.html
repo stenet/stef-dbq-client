@@ -1,0 +1,47 @@
+<template>
+  <require from="./databases.css"></require>
+
+  <dx-widget name="dxPopup" options.bind="databasesPopupOptions" class="databases-popup">
+    <dx-template name="contentTemplate">
+      <div class="database-container">
+        <div class="databases-item" repeat.for="databaseItem of database.databases">
+          <div class="databases-header">
+            <div>
+              Name
+            </div>
+            <div>
+              <dx-widget name="dxTextBox" options.bind="nameTextOptions">
+              </dx-widget>
+            </div>
+            <div>
+              <dx-widget name="dxButton" options.bind="saveDatabaseButtonOptions">
+              </dx-widget>
+            </div>
+            <div>
+              <dx-widget name="dxButton" options.bind="deleteDatabaseButtonOptions">
+              </dx-widget>
+            </div>
+          </div>
+          <div class="databases-provider">
+            <div>
+              Provider
+            </div>
+            <div>
+              <dx-widget name="dxSelectBox" options.bind="providerSelectOptions">
+              </dx-widget>
+            </div>
+          </div>
+          <div class="databases-connectionstring">
+            <div>
+              Connection-String
+            </div>
+            <div>
+              <dx-widget name="dxTextBox" options.bind="connectionStringTextOptions">
+              </dx-widget>
+            </div>
+          </div>
+        </div>    
+      </div>
+    </dx-template>
+  </dx-widget>
+</template>

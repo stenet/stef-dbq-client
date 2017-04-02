@@ -1,0 +1,12 @@
+<template class="columnchooser">
+  <require from="./column-chooser.css"></require>
+
+  <div class="columnchooser-tables">
+    <dx-widget name="dxSelectBox" options.bind="tableSelectOptions" class="columnchooser-tables-select-box"></dx-widget>
+  </div>
+  <div class="columnchooser-columns">
+    <div>
+      <dx-widget name="dxDataGrid" options.bind="columnGridOptions"></dx-widget>
+    </div>
+  </div>
+</template>
