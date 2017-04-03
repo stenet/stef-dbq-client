@@ -1,5 +1,3973 @@
-define("app",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var n=function(){function e(){}return e}();t.App=n}),define("config",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default={apiUrl:"http://10.20.50.53/DBQ/api/"}}),define("environment",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default={debug:!1,testing:!1}}),define("main",["require","exports","./environment"],function(e,t,n){"use strict";function o(e){e.use.standardConfiguration().feature("framework/base").feature("framework/dx").feature("resources"),n.default.debug&&e.use.developmentLogging(),n.default.testing&&e.use.plugin("aurelia-testing"),requirejs.config({paths:{vs:"../node_modules/monaco-editor/min/vs"}}),requirejs(["vs/editor/editor.main"]),e.start().then(function(){DevExpress.localization.locale("de"),DevExpress.ui.dxContextMenu.defaultOptions({options:{animation:null}}),DevExpress.ui.dxPopup.defaultOptions({options:{animation:null}}),DevExpress.ui.dxPopover.defaultOptions({options:{animation:null}}),DevExpress.ui.dxSelectBox.defaultOptions({options:{searchEnabled:!0}}),e.setRoot()})}Object.defineProperty(t,"__esModule",{value:!0}),Promise.config({longStackTraces:n.default.debug,warnings:{wForgottenReturn:!1}}),t.configure=o}),define("resources/event-aggregator-constants",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.DATABASE_REMOVED="DATABASE_REMOVED"}),define("resources/index",["require","exports"],function(e,t){"use strict";function n(e){e.globalResources("./elements/table-selection/table-selection").globalResources("./elements/table/table").globalResources("./elements/editor/editor").globalResources("./elements/databases/databases").globalResources("./elements/find-column/find-column").globalResources("./elements/column-chooser/column-chooser").globalResources("./elements/change-data/change-data").globalResources("./elements/code-editor/code-editor").globalResources("./elements/statement-editor/statement-editor").globalResources("./elements/table-information/table-information").globalResources("./elements/container/container")}Object.defineProperty(t,"__esModule",{value:!0}),t.configure=n}),define("framework/base/event-args/custom-event-args",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})}),define("framework/base/services/object-info-service",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var n=function(){function e(){}return e.prototype.equal=function(e,t){var n=this;if(null===e||void 0===e||null===t||void 0===t)return e===t;if(e.constructor!==t.constructor)return!1;if(e instanceof Function)return e===t;if(e instanceof RegExp)return e===t;if(e===t||e.valueOf()===t.valueOf())return!0;if(Array.isArray(e)&&e.length!==t.length)return!1;if(e instanceof Date)return!1;if(!(e instanceof Object))return!1;if(!(t instanceof Object))return!1;var o=Object.keys(e);return Object.keys(t).every(function(e){return-1!==o.indexOf(e)})&&o.every(function(o){return n.equal(e[o],t[o])})},e}();t.ObjectInfoService=n});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},__awaiter=this&&this.__awaiter||function(e,t,n,o){return new(n||(n=Promise))(function(a,r){function i(e){try{s(o.next(e))}catch(e){r(e)}}function d(e){try{s(o.throw(e))}catch(e){r(e)}}function s(e){e.done?a(e.value):new n(function(t){t(e.value)}).then(i,d)}s((o=o.apply(e,t||[])).next())})},__generator=this&&this.__generator||function(e,t){function n(e){return function(t){return o([e,t])}}function o(n){if(a)throw new TypeError("Generator is already executing.");for(;d;)try{if(a=1,r&&(i=r[2&n[0]?"return":n[0]?"throw":"next"])&&!(i=i.call(r,n[1])).done)return i;switch(r=0,i&&(n=[0,i.value]),n[0]){case 0:case 1:i=n;break;case 4:return d.label++,{value:n[1],done:!1};case 5:d.label++,r=n[1],n=[0];continue;case 7:n=d.ops.pop(),d.trys.pop();continue;default:if(i=d.trys,!(i=i.length>0&&i[i.length-1])&&(6===n[0]||2===n[0])){d=0;continue}if(3===n[0]&&(!i||n[1]>i[0]&&n[1]<i[3])){d.label=n[1];break}if(6===n[0]&&d.label<i[1]){d.label=i[1],i=n;break}if(i&&d.label<i[2]){d.label=i[2],d.ops.push(n);break}i[2]&&d.ops.pop(),d.trys.pop();continue}n=t.call(e,d)}catch(e){n=[6,e],r=0}finally{a=i=0}if(5&n[0])throw n[1];return{value:n[0]?n[1]:void 0,done:!0}}var a,r,i,d={label:0,sent:function(){if(1&i[0])throw i[1];return i[1]},trys:[],ops:[]};return{next:n(0),throw:n(1),return:n(2)}};define("framework/base/classes/custom-event",["require","exports","aurelia-framework","../services/object-info-service"],function(e,t,n,o){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var a=function(){function e(e,t){this.objectInfo=e,this.taskQueue=t,this.delegates=[],this.argsQueue=[],this.waitTimeout=0}return e.prototype.register=function(e){var t=this;return this.delegates.push(e),function(){var n=t.delegates.indexOf(e);n<0||t.delegates.splice(n,1)}},e.prototype.fire=function(e){if(0===this.waitTimeout)return Promise.all(this.delegates.map(function(t){return t(e)}));this.timeoutCancel&&(clearTimeout(this.timeoutCancel),this.timeoutCancel=null);for(var t=0,n=this.argsQueue;t<n.length;t++){var o=n[t];if(this.objectInfo.equal(o,e))return}this.argsQueue.push(e),this.timeoutCancel=setTimeout(this.fireQueue.bind(this),this.waitTimeout)},e.prototype.fireQueue=function(){return __awaiter(this,void 0,void 0,function(){var e,t=this;return __generator(this,function(n){return e=this.argsQueue.slice(0),this.argsQueue.splice(0,this.argsQueue.length),e.forEach(function(e){t.taskQueue.queueTask(function(){return Promise.all(t.delegates.map(function(t){return t(e)}))})}),[2]})})},e}();a=__decorate([n.autoinject,n.transient(),__metadata("design:paramtypes",[o.ObjectInfoService,n.TaskQueue])],a),t.CustomEvent=a}),define("framework/base/classes/export",["require","exports","./custom-event"],function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.CustomEvent=n.CustomEvent}),define("framework/base/event-args/unauthorized",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})}),define("framework/base/event-args/location-go-to",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})}),define("framework/base/enumerations/shortcuts",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0});!function(e){e[e.save=0]="save",e[e.saveAndNew=1]="saveAndNew",e[e.delete=2]="delete",e[e.new=3]="new"}(t.Shortcuts||(t.Shortcuts={}))}),define("framework/base/enumerations/export",["require","exports","./shortcuts"],function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),function(e){for(var n in e)t.hasOwnProperty(n)||(t[n]=e[n])}(n)}),define("framework/base/event-args/shortcut-execute",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})}),define("framework/base/event-args/export",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})}),define("framework/base/interfaces/data-source-option-filter",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})}),define("framework/base/interfaces/data-source-options",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})}),define("framework/base/interfaces/expression-provider",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})}),define("framework/base/interfaces/rest-delete-options",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})}),define("framework/base/interfaces/rest-get-options",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})}),define("framework/base/interfaces/rest-post-options",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})}),define("framework/base/interfaces/style-property",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})}),define("framework/base/interfaces/style-class",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})}),define("framework/base/interfaces/export",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("framework/base/services/json-service",["require","exports","aurelia-framework"],function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var o=function(){function e(){this.regexDateISO=/(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d)/}return e.prototype.parse=function(e){var t=this;return e?("string"!=typeof e&&(e=JSON.stringify(e)),JSON.parse(e,function(e,n){if("string"==typeof n&&n.indexOf("{")<0){return t.regexDateISO.exec(n)?new Date(n):n}return n})):e},e.prototype.stringify=function(e){return JSON.stringify(e)},e}();o=__decorate([n.autoinject,__metadata("design:paramtypes",[])],o),t.JsonService=o});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("framework/base/services/rest-service",["require","exports","aurelia-framework","aurelia-fetch-client","../classes/custom-event","./json-service","../../../config"],function(e,t,n,o,a,r,i){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var d=function(){function e(e,t){this.json=e,this.onUnauthorizated=t,this.loadingCount=0}return Object.defineProperty(e.prototype,"isLoading",{get:function(){return this.loadingCount>0},enumerable:!0,configurable:!0}),e.prototype.delete=function(e){if(!e.id)throw new Error("Id is missing");return this.execute("DELETE",e.url+"/"+e.id,this.createHeaders(),e.increaseLoadingCount)},e.prototype.get=function(e){return this.execute("GET",e.url,this.createHeaders(e),e.increaseLoadingCount)},e.prototype.post=function(e){var t=null;return e.data&&(t="string"==typeof e.data?e.data:this.json.stringify(e.data)),this.execute("POST",e.url,this.createHeaders(e),e.increaseLoadingCount,t)},e.prototype.put=function(e){var t=null;return e.data&&(t="string"==typeof e.data?e.data:this.json.stringify(e.data)),this.execute("PUT",e.url,this.createHeaders(e),e.increaseLoadingCount,t)},e.prototype.getUrl=function(e){return i.default.baseUrl+"/"+e},e.prototype.getApiUrl=function(e){return i.default.apiUrl+"/"+e},e.prototype.getWebApiUrl=function(e){return i.default.webApiUrl+"/"+e},e.prototype.getAppUrl=function(e){return i.default.appUrl+"/"+e},e.prototype.createHeaders=function(e){var t={};return e&&e.getOptions&&(t["X-GET-OPTIONS"]=this.json.stringify(e.getOptions)),t["Content-Type"]="application/json",t.Accept="application/json",this.getAuthHeader&&Object.assign(t,this.getAuthHeader()),t},e.prototype.execute=function(e,t,n,a,r){var i=this,d=new o.HttpClient;return a&&this.loadingCount++,new Promise(function(o,s){d.fetch(t,{method:e,headers:n,body:r}).then(function(e){return e.ok?e.text():401==e.status?void i.onUnauthorizated.fire({url:t}):(DevExpress.ui.notify(e.statusText,"error",3e3),void s(e))}).then(function(e){return i.json.parse(e)}).then(function(e){return o(e)}).catch(function(e){s(e)}).then(function(){a&&i.loadingCount--})})},e}();__decorate([n.computedFrom("loadingCount"),__metadata("design:type",Boolean),__metadata("design:paramtypes",[])],d.prototype,"isLoading",null),d=__decorate([n.autoinject,__metadata("design:paramtypes",[r.JsonService,a.CustomEvent])],d),t.RestService=d});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("framework/base/services/authorization-service",["require","exports","aurelia-framework","./rest-service","../../../config"],function(e,t,n,o,a){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r=function(){function e(e,t,n){var o=this;this.rest=e,this.aurelia=t,this.bindingEngine=n,this.X_TIP_AUTH="X-TIP-AUTH",this.isLoggedIn=null,this.bindingEngine.expressionObserver(this,"isLoggedIn").subscribe(function(e,n){var o="/";e&&a.default.mainApp?o=a.default.mainApp:!e&&a.default.loginApp&&(o=a.default.loginApp),t.setRoot(o)}),this.rest.getAuthHeader=this.getAuthorizationHeaders.bind(this),this.rest.onUnauthorizated.register(function(){return o.isLoggedIn=!1,Promise.resolve()})}return e.prototype.openApp=function(){var e=this;if(!this.isLoggedIn)return localStorage.getItem(this.X_TIP_AUTH)?void this.rest.get({url:this.rest.getApiUrl("base/Authorization/IsLoggedIn"),increaseLoadingCount:!0}).then(function(t){e.isLoggedIn=t.IsValid}):void(this.isLoggedIn=!1)},e.prototype.login=function(e){var t=this;return this.rest.post({url:this.rest.getApiUrl("base/Authorization/Login"),data:e,increaseLoadingCount:!0}).then(function(e){return e.IsValid?(t.isLoggedIn=!0,localStorage.setItem(t.X_TIP_AUTH,e.AuthenticationToken),!0):(DevExpress.ui.notify("Benutzer oder Passwort ungültig","error",3e3),!1)})},e.prototype.logout=function(){var e=this;return this.rest.get({url:this.rest.getApiUrl("base/Authorization/Logout"),increaseLoadingCount:!0}).then(function(){e.isLoggedIn=!1,localStorage.removeItem(e.X_TIP_AUTH)})},e.prototype.getAuthorizationHeaders=function(){var e={},t=localStorage.getItem(this.X_TIP_AUTH);return t&&(e[this.X_TIP_AUTH]=t),e},e}();r=__decorate([n.autoinject,__metadata("design:paramtypes",[o.RestService,n.Aurelia,n.BindingEngine])],r),t.AuthorizationService=r});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("framework/base/services/data-source-service",["require","exports","aurelia-framework","./rest-service"],function(e,t,n,o){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var a=function(){function e(e){this.rest=e}return e.prototype.createDataSource=function(e,t,n){var o=this,a=new DevExpress.data.DataSource(new DevExpress.data.CustomStore({key:t.keyProperty,byKey:function(n){var a=o.createGetOptions(e,t);return o.rest.get({url:o.rest.getWebApiUrl(t.webApiAction+"/"+n),getOptions:a})},load:function(n){var a=o.createGetOptions(e,t);return null==a?n.requireTotalCount?Promise.resolve({data:[],totalCount:0}):Promise.resolve([]):(n.filter&&(a.where?a.where=[a.where,n.filter]:a.where=n.filter),a.skip=n.skip,a.take=n.take,a.requireTotalCount=n.requireTotalCount,n.sort&&(a.orderBy=n.sort.map(function(e){return{columnName:e.selector,sortOrder:!0===e.desc?1:0}})),o.rest.get({url:o.rest.getWebApiUrl(t.webApiAction),getOptions:a}).then(function(e){return n.requireTotalCount?{data:e.rows,totalCount:e.count}:e}))}})),r=null;return this.addObservers(e,t,function(){r&&(clearTimeout(r),r=null),r=setTimeout(function(){0===a.pageIndex()?a.reload():a.pageIndex(0),n&&n()},10)}),a},e.prototype.createGetOptions=function(e,t){var n={};if(n.columns=t.webApiColumns,n.expand=t.webApiExpand,n.orderBy=t.webApiOrderBy,t.webApiWhere){var o=[];if(!this.constructWhere(e,t.webApiWhere,o))return null;o.length>0&&(n.where=o)}if(t.filters){var a=[],o=[];if(!this.constructFilters(e,t,a,o))return null;a.length>0&&(n.customs=a),o.length>0&&(n.where?n.where=[n.where,o]:n.where=o)}return t.webApiMaxRecords>0&&(n.maxRecords=t.webApiMaxRecords),n},e.prototype.addObservers=function(e,t,n){if(this.addObserversWhere(e,t.webApiWhere,n),t.filters)for(var o=0,a=t.filters;o<a.length;o++){var r=a[o];this.addObserversDetail(e,r.if,n),this.addObserversDetail(e,r.webApiCustomValue,n),this.addObserversWhere(e,r.webApiWhere,n)}},e.prototype.addObserversDetail=function(e,t,n){void 0!=t&&e.createObserver(t,n)},e.prototype.addObserversWhere=function(e,t,n){var o=this;if(void 0!=t)if(Array.isArray(t))t.forEach(function(t){return o.addObserversWhere(e,t,n)});else if("object"==typeof t)if(!0===t.isBound&&void 0!=t.expression)this.addObserversDetail(e,t.expression,n);else for(var a in t)this.addObserversWhere(e,t[a],n)},e.prototype.constructWhere=function(e,t,n){var o=this;if(void 0==t)return!0;if(Array.isArray(t)){var a=[];n.push(a);var r=!1;if(t.forEach(function(t){o.constructWhere(e,t,a)||(r=!0)}),r)return!1}else if("object"==typeof t){if(!0===t.isBound&&void 0!=t.expression){var i=e.evaluateExpression(t.expression);if(void 0==i)return!1;n.push(i)}else for(var d in t)if(!this.constructWhere(e,t[d],n))return!1}else n.push(t);return!0},e.prototype.constructFilters=function(e,t,n,o){for(var a=0,r=t.filters;a<r.length;a++){var i=r[a];if(!i.if||e.evaluateExpression(i.if))if(i.webApiCustomKey&&i.webApiCustomValue)n.push({key:i.webApiCustomKey,value:e.evaluateExpression(i.webApiCustomValue)});else if(i.webApiWhere){var d=[];if(!this.constructWhere(e,i.webApiWhere,d))return!1;o.push(d)}}return!0},e}();a=__decorate([n.autoinject,__metadata("design:paramtypes",[o.RestService])],a),t.DataSourceService=a});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("framework/base/services/deep-observer-service",["require","exports","aurelia-framework"],function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var o=function(){function e(e){this.bindingEngine=e}return e.prototype.observe=function(e,t){var n=new a;return this.__observe(n,e,t),function(){n.dispose()}},e.prototype.__observe=function(e,t,n){null!=t&&(t instanceof Date||(Array.isArray(t)?this.__observeArray(e,t,n):"object"==typeof t&&this.__observeObject(e,t,n)))},e.prototype.__observeArray=function(e,t,n){for(var o=this,a=e.createChildSubscription(t),r=(this.bindingEngine.collectionObserver(t).subscribe(function(e){for(var r=0,i=e;r<i.length;r++){var d=i[r];if(d.addedCount>0)for(var s=d.index;s<d.addedCount;s++)o.__observe(a,t[s],n);if(d.removed.length>0)for(var c=0,l=d.removed;c<l.length;c++){var u=l[c];a.remove(u)}}n()}),0),i=t;r<i.length;r++){var d=i[r];this.__observe(a,d,n)}},e.prototype.__observeObject=function(e,t,n){var o=this,a=e.createChildSubscription(t);for(var r in t)if(t.hasOwnProperty(r)){var i=this.bindingEngine.propertyObserver(t,r).subscribe(function(e,t){a.remove(t),o.__observe(a,e,n),n()});a.addObserver(i),this.__observe(a,t[r],n)}},e}();o=__decorate([n.autoinject,__metadata("design:paramtypes",[n.BindingEngine])],o),t.DeepObserverService=o;var a=function(){function e(){this.observers=[],this.children=new Map}return e.prototype.createChildSubscription=function(t){var n=new e;return this.children.set(t,n),n},e.prototype.addObserver=function(e){this.observers.push(e)},e.prototype.remove=function(e){var t=this.children.get(e);t&&(t.dispose(),this.children.delete(e))},e.prototype.dispose=function(){this.observers.forEach(function(e){e.dispose()}),this.children.forEach(function(e){e.dispose()}),this.observers=[]},e}()}),define("framework/base/services/error-service",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var n=function(){function e(){}return e.prototype.showError=function(e){DevExpress.ui.dialog.alert(e,"Fehler")},e.prototype.logError=function(e){},e.prototype.showAndLogError=function(e){this.logError(e),this.showError(e)},e}();t.ErrorService=n});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("framework/base/services/globalization-service",["require","exports","moment","aurelia-framework"],function(e,t,n,o){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var a=function(){function e(){this.groupRegex=/\B(?=(\d{3})+(?!\d))/g,this.escapeRegex=/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g,this.current=new r,this.formatters={},this.parsers={}}return e.prototype.setProvider=function(e){this.current=e,this.formatters={},this.parsers={}},e.prototype.format=function(e,t){return this.getFormatter(t)(e)},e.prototype.getFormatter=function(e){var t=this,o=this.formatters[e];return void 0==o&&(o=function(o){if(void 0==o)return null;if(1===e.length)return n(o).locale(t.current.culture).format(e);var a=parseInt(e.substr(1)),r=e.substr(0,1);"p"===r&&(o*=100);var i=o%1,d=o-i;switch(i=Math.round(i*Math.pow(10,a)),1===i&&(d+=1,i=0),r){case"n":return""+t.addGroupSeparator(d)+t.addDecimalSeparator(i,a);case"f":return""+d+t.addDecimalSeparator(i,a);case"p":return""+t.addGroupSeparator(d)+t.addDecimalSeparator(i,a)+" %";default:throw new Error("Not implemented format "+e)}},this.formatters[e]=o),o},e.prototype.getParser=function(e){var t=this,o=this.parsers[e];return void 0==o&&(o=function(o){if(void 0==o)return null;if(1===e.length)return n(o,e,t.current.culture);var a=t.current.groupSeparator.replace(t.escapeRegex,"\\$&");o=o.replace(new RegExp(a,"g"),"").replace(new RegExp("%","g"),"").replace(new RegExp(" ","g"),"");var r=o.indexOf(t.current.commaSeparator),i=o,d="";r>=0&&(i=o.substr(0,r),d=o.substr(r+1));parseInt(e.substr(1));switch(e.substr(0,1)){case"f":case"n":return parseInt(i)+t.makeComma(d);case"p":return(parseInt(i)+t.makeComma(d))/100;default:throw new Error("Not implemented format "+e)}},this.parsers[e]=o),o},e.prototype.getFormatterParser=function(e){return{formatter:this.getFormatter(e),parser:this.getParser(e)}},e.prototype.addGroupSeparator=function(e){return e.toString().replace(this.groupRegex,this.current.groupSeparator)},e.prototype.addDecimalSeparator=function(e,t){var n="";if(t>0){n+=this.current.commaSeparator;for(var o=e.toString();o.length<t;)o+="0";n+=o}return n},e.prototype.makeComma=function(e){return parseInt(e)/Math.pow(10,e.length)},e}();a=__decorate([o.autoinject,__metadata("design:paramtypes",[])],a),t.GlobalizationService=a;var r=function(){function e(){this.culture="de",this.d="DD.MM.YYYY",this.D="dddd, DD. MMM YYYY",this.f="dddd, DD. MMM YYYY, HH:mm",this.F="dddd, DD. MMM yyyy, HH:mm:ss",this.g="DD.MM.YYYY HH:mm",this.G="DD.MM.YYYY HH:mm:ss",this.t="HH:mm",this.T="HH:mm:ss",this.commaSeparator=",",this.groupSeparator=" "}return e}();t.GermanGlobalizationProvider=r});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("framework/base/services/localization-service",["require","exports","aurelia-framework","./rest-service","text!../../../localization-neutral.json"],function(e,t,n,o,a){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r=function(){function e(e){this.rest=e,this.neutral=JSON.parse(a)}return e.prototype.translate=function(e,t,n){var o=this;if(!t)return null;var a=this.getItem(t);if(!a)throw new Error("No localization found for "+t);if(n){!Array.isArray(e)&&"object"==typeof a&&a.parameters.length>0&&a.parameters.forEach(function(t,r){e.createObserver(t,function(){n(o.translateItem(e,a))})});var r=this.translateItem(e,a);return n(r),r}return this.translateItem(e,a)},e.prototype.getItem=function(e){var t=e.split("."),n=this.neutral;return t.forEach(function(e){n&&(n=n[e])}),n},e.prototype.translateItem=function(e,t){if("string"==typeof t)return Array.isArray(e)&&e.forEach(function(e,n){t=t.replace(new RegExp("\\{"+n+"\\}","g"),e)}),t;if(!Array.isArray(e)&&"object"==typeof t){var n=t.text;return t.parameters.forEach(function(t,o){var a=e.evaluateExpression(t);void 0==a&&(a=""),n=n.replace(new RegExp("\\{"+o+"\\}","g"),a)}),n}throw new Error},e}();r=__decorate([n.autoinject,__metadata("design:paramtypes",[o.RestService])],r),t.LocalizationService=r});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("framework/base/services/location-service",["require","exports","aurelia-framework","../classes/custom-event"],function(e,t,n,o){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var a=function(){function e(e){this.onLocationGoTo=e}return e.prototype.goTo=function(e,t){var n={url:e,currentViewModel:t,isHandled:!1};this.onLocationGoTo.fire(n).then(function(){n.isHandled||location.assign(e)})},e}();a=__decorate([n.autoinject,__metadata("design:paramtypes",[o.CustomEvent])],a),t.LocationService=a});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i};define("framework/base/services/permission-service",["require","exports","aurelia-framework"],function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var o=function(){function e(){}return e.prototype.canWebApiNew=function(e){return!0},e.prototype.canWebApiModify=function(e){return!0},e.prototype.canWebApiDelete=function(e){return!0},e}();o=__decorate([n.autoinject],o),t.PermissionService=o});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("framework/base/services/shortcut-service",["require","exports","aurelia-framework","../classes/export","../enumerations/export","mousetrap"],function(e,t,n,o,a,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var i=function(){function e(e){this.onShortcutExecute=e,this.bind()}return e.prototype.bind=function(){var e=this;r.bindGlobal("f10",function(t){return e.fire(a.Shortcuts.save)}),r.bindGlobal("ctrl+f10",function(t){return e.fire(a.Shortcuts.saveAndNew)}),r.bindGlobal("f8",function(t){return e.fire(a.Shortcuts.delete)}),r.bindGlobal("f7",function(t){return e.fire(a.Shortcuts.new)})},e.prototype.fire=function(e){if(document.activeElement){var t=document.activeElement;t.blur&&t.blur()}this.onShortcutExecute.fire({shortcut:e})},e}();i=__decorate([n.autoinject,__metadata("design:paramtypes",[o.CustomEvent])],i),t.ShortcutService=i});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("framework/base/services/style-service",["require","exports","aurelia-framework"],function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var o=function(){function e(){}return e.prototype.addStyles=function(e,t){this.removeStyleTag(e);var n=document.createElement("style");n.type="text/css",n.id=e,n.appendChild(document.createTextNode(this.getCssClasses(t))),document.head.appendChild(n)},e.prototype.removeStyleTag=function(e){var t=document.getElementById(e);t&&t.remove()},e.prototype.getCssClasses=function(e){var t=this;return e.map(function(e){return"\n"+e.name+" {\n "+t.getCssClass(e.properties)+" }\n"}).join("")},e.prototype.getCssClass=function(e){return e.map(function(e){return e.propertyName+": "+e.value+";\n"}).join("")},e}();o=__decorate([n.autoinject,__metadata("design:paramtypes",[])],o),t.StyleService=o}),define("framework/base/services/export",["require","exports","./authorization-service","./data-source-service","./deep-observer-service","./error-service","./globalization-service","./localization-service","./location-service","./json-service","./object-info-service","./permission-service","./rest-service","./shortcut-service","./style-service"],function(e,t,n,o,a,r,i,d,s,c,l,u,p,b,f){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.AuthorizationService=n.AuthorizationService,t.DataSourceService=o.DataSourceService,t.DeepObserverService=a.DeepObserverService,t.ErrorService=r.ErrorService,t.GlobalizationService=i.GlobalizationService,
-t.LocalizationService=d.LocalizationService,t.LocationService=s.LocationService,t.JsonService=c.JsonService,t.ObjectInfoService=l.ObjectInfoService,t.PermissionService=u.PermissionService,t.RestService=p.RestService,t.ShortcutService=b.ShortcutService,t.StyleService=f.StyleService}),define("framework/base/export",["require","exports","./classes/export","./services/export"],function(e,t,n,o){"use strict";function a(e){for(var n in e)t.hasOwnProperty(n)||(t[n]=e[n])}Object.defineProperty(t,"__esModule",{value:!0}),a(n),a(o)}),define("framework/base/index",["require","exports"],function(e,t){"use strict";function n(e){e.globalResources("./attributes/icon/fa-icon-attribute").globalResources("./attributes/translation/translation-attribute").globalResources("./styles/styles.css")}Object.defineProperty(t,"__esModule",{value:!0}),t.configure=n}),define("framework/dx/index",["require","exports"],function(e,t){"use strict";function n(e){e.globalResources("devextreme").globalResources("./elements/dx-widget")}Object.defineProperty(t,"__esModule",{value:!0}),t.configure=n}),define("resources/models/column-info",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})}),define("resources/models/database-provider",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})}),define("resources/models/database-repository",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})}),define("resources/models/table",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})}),define("resources/models/table-data",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})}),define("resources/models/export",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("resources/services/database-service",["require","exports","aurelia-framework","aurelia-event-aggregator","../../framework/base/services/export","../event-aggregator-constants"],function(e,t,n,o,a,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var i=function(){function e(e,t){this.rest=e,this.eventAggregator=t,this.getDatabases(),this._tables={}}return e.prototype.getDatabases=function(){var e=this;return this.databases?Promise.resolve(this.databases):this.get("Database/Databases").then(function(t){return e.databases=t,t})},e.prototype.getTables=function(e){var t=this;return this._tables[e]?Promise.resolve(this._tables[e]):this.get("Database/Tables?databaseId="+e).then(function(n){return t._tables[e]=n,n})},e.prototype.deleteDatabase=function(e){var t=this.databases.indexOf(e);return t>=0&&this.databases.splice(t,1),e.id?(this.eventAggregator.publish(r.DATABASE_REMOVED,e.id),this.post("Database/DeleteDatabase",{id:e.id})):Promise.resolve()},e.prototype.postDatabase=function(e){return this.post("Database/Database",e).then(function(t){Object.assign(e,t)})},e.prototype.reload=function(){return this.databases=null,this.getDatabases()},e.prototype.getProviders=function(){return this.get("Database/Providers").then(function(e){return e})},e.prototype.get=function(e){return this.rest.get({url:this.rest.getApiUrl(e)})},e.prototype.post=function(e,t){return this.rest.post({url:this.rest.getApiUrl(e),data:t})},e}();i=__decorate([n.autoinject,__metadata("design:paramtypes",[a.RestService,o.EventAggregator])],i),t.DatabaseService=i}),define("resources/elements/table/table-notification",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("resources/elements/editor/editor",["require","exports","aurelia-framework","../../models/export"],function(e,t,n,o){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var a=function(){function e(e){this.element=e}return e.prototype.attached=function(){this.instance=monaco.editor.create(this.element,{language:this.language||"sql",automaticLayout:!0,wordWrap:!0})},e.prototype.insertText=function(e){var t=this.instance.getSelection();this.instance.executeEdits("text-placeholder",[{identifier:{major:1,minor:0},range:t,text:e,forceMoveMarkers:!0}]),this.instance.focus()},e.prototype.setScriptToData=function(){this.tableData.script=this.getValue()},e.prototype.refresh=function(){this.setValue(this.tableData.script)},e.prototype.getValue=function(){return this.instance.getValue()},e.prototype.setValue=function(e){this.instance.setValue(e||"")},e}();__decorate([n.bindable,__metadata("design:type",Object)],a.prototype,"tableData",void 0),__decorate([n.bindable,__metadata("design:type",String)],a.prototype,"language",void 0),a=__decorate([n.autoinject,__metadata("design:paramtypes",[Element])],a),t.Editor=a}),define("resources/elements/table-selection/table-selection-notification",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("resources/elements/table-information/table-information",["require","exports","aurelia-framework","../../services/export"],function(e,t,n,o){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var a=function(){function e(e){var t=this;this.sql=e,this.tableInfoPopupOptions={contentTemplate:"contentTemplate",showCloseButton:!1,toolbarItems:[{text:"Tabelleninformation",location:"center"},{widget:"dxButton",location:"after",options:{hint:"Schließen",icon:"fa fa-times",onClick:function(){t.tableInfoPopupVisible=!1}}}],onShown:function(e){},bindingOptions:{visible:"tableInfoPopupVisible"}},this.tableInfoGridOptions={columns:[{dataField:"columnName",caption:"Spalte"},{dataField:"typeName",caption:"Typ"},{dataField:"maxLength",caption:"Max. Länge",width:"100px"},{dataField:"isNullable",caption:"Null?",width:"100px"},{dataField:"relatedTableName",caption:"FK Tabelle"},{dataField:"relatedColumnName",caption:"FK Spalte"}],height:"100%",bindingOptions:{dataSource:"tableInfo.columns"}}}return e.prototype.show=function(e,t){var n=this;this.sql.tableInfo(e,t).then(function(e){n.tableInfo=e}),this.tableInfoPopupVisible=!0},e}();a=__decorate([n.autoinject,__metadata("design:paramtypes",[o.SqlService])],a),t.TableInformation=a});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("resources/elements/table-selection/table-selection",["require","exports","aurelia-framework","aurelia-event-aggregator","../table-information/table-information","../../services/export","../../event-aggregator-constants"],function(e,t,n,o,a,r,i){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var d=function(){function e(e,t,n){var o=this;this.database=e,this.sql=t,this.eventAggregator=n,this.databaseOptions={valueExpr:"id",displayExpr:"caption",bindingOptions:{value:"databaseId",dataSource:"database.databases",disabled:"databaseDisabled"}},this.tableOptions={searchPanel:{visible:!0},hoverStateEnabled:!0,scrolling:{mode:"virtual",preloadEnabled:!0},columns:[{dataField:"tableName",caption:"Tabelle"}],showColumnHeaders:!1,bindingOptions:{dataSource:"tables"},height:"100%",onContextMenuPreparing:function(e){"data"===e.row.rowType&&(e.items=[{text:"Tabelle erstellen",onItemClick:function(){o.notification&&o.notification.onTableClicked(o.databaseId,e.row.data.tableName)}},{text:"Tabelle mit Alias erstellen",onItemClick:function(){o.notification&&o.notification.onTableClicked(o.databaseId,e.row.data.tableName,"a")}},{text:"Tabelleninformation anzeigen",beginGroup:!0,onItemClick:function(){o.tableInformationViewModel.show(o.databaseId,e.row.data.tableName)}}])},onRowClick:function(e){o.notification&&o.notification.onTableClicked(o.databaseId,e.data.tableName)},onToolbarPreparing:function(e){e.component;e.toolbarOptions.items.unshift({location:"before",text:"Tabellen"})}}}return Object.defineProperty(e.prototype,"databaseDisabled",{get:function(){return!this.database||!this.database.databases},enumerable:!0,configurable:!0}),e.prototype.attached=function(){var e=this;this.databaseRemovedSubscription=this.eventAggregator.subscribe(i.DATABASE_REMOVED,function(t){e.databaseId==t&&(e.databaseId=null)})},e.prototype.detached=function(){this.databaseRemovedSubscription.dispose()},e.prototype.databaseIdChanged=function(e,t){var n=this;e?this.database.getTables(e).then(function(e){n.tables=e}):this.tables=[]},e}();__decorate([n.bindable,__metadata("design:type",Object)],d.prototype,"notification",void 0),__decorate([n.bindable,__metadata("design:type",a.TableInformation)],d.prototype,"tableInformationViewModel",void 0),__decorate([n.observable,__metadata("design:type",Number)],d.prototype,"databaseId",void 0),__decorate([n.computedFrom("database","database.databases"),__metadata("design:type",Object),__metadata("design:paramtypes",[])],d.prototype,"databaseDisabled",null),d=__decorate([n.autoinject,__metadata("design:paramtypes",[r.DatabaseService,r.SqlService,o.EventAggregator])],d),t.TableSelection=d}),define("resources/elements/column-chooser/column-chooser-notification",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("resources/elements/column-chooser/column-chooser",["require","exports","aurelia-framework","../../services/export"],function(e,t,n,o){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var a=function(){function e(e){var t=this;this.table=e,this.tableSelectOptions={displayExpr:"caption",valueExpr:"tableData.tableId",bindingOptions:{dataSource:"table.tables",value:"selectedTableId",disabled:"tableSelectDisabled"}},this.columnGridOptions={searchPanel:{visible:!0},hoverStateEnabled:!0,scrolling:{mode:"virtual",preloadEnabled:!0},columns:[{dataField:"caption",caption:"Spalte",sortIndex:0,sortOrder:"asc"}],showColumnHeaders:!1,height:"100%",onRowClick:function(e){t.notification&&t.notification.onColumnClicked(e.data.caption)},onToolbarPreparing:function(e){e.component;e.toolbarOptions.items.unshift({location:"before",text:"Spalten"})},bindingOptions:{dataSource:"columns"}}}return e.prototype.fixedTableIdChanged=function(e,t){this.tableSelectDisabled=!!e,this.selectedTableId=e||null},e.prototype.selectedTableIdChanged=function(e,t){this.columns=e?this.table.getTableDataByTableId(e).columns:[]},e}();__decorate([n.bindable,__metadata("design:type",Object)],a.prototype,"notification",void 0),__decorate([n.bindable,n.observable,__metadata("design:type",Number)],a.prototype,"fixedTableId",void 0),__decorate([n.bindable,n.observable,__metadata("design:type",Number)],a.prototype,"selectedTableId",void 0),a=__decorate([n.autoinject,__metadata("design:paramtypes",[o.TableService])],a),t.ColumnChooser=a}),define("resources/elements/statement-editor/statement-editor-notification",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("resources/elements/statement-editor/statement-editor",["require","exports","aurelia-framework","../editor/editor","../table-selection/table-selection","../column-chooser/column-chooser","../../models/export","../../services/export"],function(e,t,n,o,a,r,i,d){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var s=function(){function e(e,t){var n=this;this.sql=e,this.table=t,this.tableSelectionNotification={onTableClicked:this.onTableClicked.bind(this)},this.columnChooserNotification={onColumnClicked:this.onColumnChooserColumnClicked.bind(this)},this.statementPopupOptions={contentTemplate:"contentTemplate",showCloseButton:!1,toolbarItems:[{widget:"dxButton",location:"before",options:{hint:"Statement ausführen",icon:"fa fa-play",onClick:function(){n.editorViewModel.setScriptToData(),n.editorData.databaseId=n.tableSelectionViewModel.databaseId,n.editorData.rows=n.getMaxRows(),n.columnChooserViewModel.selectedTableId?n.tableData.referencedTableDataId=n.columnChooserViewModel.selectedTableId:n.tableData.referencedTableDataId=null,n.notification&&n.notification.onExecute(),n.statementPopupVisible=!1}}},{widget:"dxButton",location:"before",options:{hint:"Statement formatieren",icon:"fa fa-align-left",onClick:function(){n.sql.formatSql(n.editorViewModel.getValue()).then(function(e){n.editorViewModel.setValue(e.script)})}}},{text:"Statement editieren",location:"center"},{widget:"dxNumberBox",location:"after",options:{hint:"Anzahl zu lesende Datensätze",min:-1,showSpinButtons:!0,onInitialized:function(e){n.maxRowsNumberBox=e.component}}},{widget:"dxButton",location:"after",options:{hint:"Schließen",icon:"fa fa-times",onClick:function(){n.statementPopupVisible=!1}}}],onShown:function(e){n.setMaxRows(n.editorData.rows),n.tableSelectionViewModel.databaseId=n.editorData.databaseId,n.tableData.referencedTableData?n.columnChooserViewModel.selectedTableId=n.tableData.referencedTableData.tableId:n.columnChooserViewModel.selectedTableId=n.fixedTableId,n.editorViewModel.refresh()},bindingOptions:{visible:"statementPopupVisible"}}}return e.prototype.show=function(){this.tableData==this.editorData?this.fixedTableId=null:this.fixedTableId=this.tableData.tableId,this.statementPopupVisible=!0},e.prototype.getMaxRows=function(){return this.maxRowsNumberBox.option("value")},e.prototype.setMaxRows=function(e){this.maxRowsNumberBox.option("value",e)},e.prototype.onColumnChooserColumnClicked=function(e){this.editorViewModel.insertText("<#"+e+"#>")},e.prototype.onTableClicked=function(e,t,n){var o=this,a={databaseId:e,tableName:t,alias:n,tableId:(new Date).getTime()};this.sql.selectSql(a).then(function(e){o.editorViewModel.setValue(e.tableData.script)})},e}();__decorate([n.bindable,__metadata("design:type",Object)],s.prototype,"editorData",void 0),__decorate([n.bindable,__metadata("design:type",Object)],s.prototype,"tableData",void 0),__decorate([n.bindable,__metadata("design:type",Object)],s.prototype,"notification",void 0),__decorate([n.bindable,__metadata("design:type",a.TableSelection)],s.prototype,"tableSelectionViewModel",void 0),__decorate([n.bindable,__metadata("design:type",o.Editor)],s.prototype,"editorViewModel",void 0),__decorate([n.bindable,__metadata("design:type",r.ColumnChooser)],s.prototype,"columnChooserViewModel",void 0),s=__decorate([n.autoinject,__metadata("design:paramtypes",[d.SqlService,d.TableService])],s),t.StatementEditor=s}),define("resources/elements/find-column/find-column-notification",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("resources/elements/find-column/find-column",["require","exports","aurelia-framework","../../models/export"],function(e,t,n,o){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var a=function(){function e(){var e=this;this.findColumnPopupOptions={contentTemplate:"contentTemplate",showCloseButton:!1,width:"400px",height:"auto",toolbarItems:[{widget:"dxButton",location:"before",options:{hint:"Spalte markieren",icon:"fa fa-play",onClick:function(){e.notification&&(e.notification.onColumnSelected(e.selectedInternalFieldName),e.findColumnPopupVisible=!1)}}},{text:"Spalte suchen",location:"center"},{widget:"dxButton",location:"after",options:{hint:"Schließen",icon:"fa fa-times",onClick:function(){e.findColumnPopupVisible=!1}}}],onShown:function(e){},bindingOptions:{visible:"findColumnPopupVisible"}},this.columnSelectDataOptions={displayExpr:"caption",valueExpr:"internalFieldName",width:"100%",bindingOptions:{dataSource:"tableData.columns",value:"selectedInternalFieldName"}}}return e.prototype.show=function(){this.findColumnPopupVisible=!0},e}();__decorate([n.bindable,__metadata("design:type",Object)],a.prototype,"notification",void 0),__decorate([n.bindable,__metadata("design:type",Object)],a.prototype,"tableData",void 0),a=__decorate([n.autoinject,__metadata("design:paramtypes",[])],a),t.FindColumn=a}),define("resources/elements/change-data/change-data-notification",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})}),define("resources/elements/code-editor/code-editor-notification",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0})});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("resources/elements/code-editor/code-editor",["require","exports","aurelia-framework","../editor/editor","../column-chooser/column-chooser","../../models/export","../../services/export"],function(e,t,n,o,a,r,i){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var d=function(){function e(e){var t=this;this.table=e,this.columnChooserNotification={onColumnClicked:this.onColumnChooserColumnClicked.bind(this)},this.codePopupOptions={contentTemplate:"contentTemplate",showCloseButton:!1,toolbarItems:[{widget:"dxButton",location:"before",options:{hint:"Code ausführen",icon:"fa fa-play",onClick:function(){t.editorViewModel.setScriptToData(),t.columnChooserViewModel.selectedTableId?t.tableData.referencedTableDataId=t.columnChooserViewModel.selectedTableId:t.tableData.referencedTableDataId=null,t.notification&&t.notification.onExecute(),t.codePopupVisible=!1}}},{text:"Code editieren",location:"center"},{widget:"dxButton",location:"after",options:{hint:"Schließen",icon:"fa fa-times",onClick:function(){t.codePopupVisible=!1}}}],onShown:function(e){t.tableData.referencedTableData?t.columnChooserViewModel.selectedTableId=t.tableData.referencedTableData.tableId:t.columnChooserViewModel.selectedTableId=t.fixedTableId,t.editorViewModel.refresh()},bindingOptions:{visible:"codePopupVisible"}}}return e.prototype.show=function(){this.tableData==this.editorData?this.fixedTableId=null:this.fixedTableId=this.tableData.tableId,this.codePopupVisible=!0},e.prototype.onColumnChooserColumnClicked=function(e){this.editorViewModel.insertText("eval.GetValue('"+e+"')")},e}();__decorate([n.bindable,__metadata("design:type",Object)],d.prototype,"tableData",void 0),__decorate([n.bindable,__metadata("design:type",Object)],d.prototype,"editorData",void 0),__decorate([n.bindable,__metadata("design:type",Object)],d.prototype,"notification",void 0),__decorate([n.bindable,__metadata("design:type",o.Editor)],d.prototype,"editorViewModel",void 0),__decorate([n.bindable,__metadata("design:type",a.ColumnChooser)],d.prototype,"columnChooserViewModel",void 0),d=__decorate([n.autoinject,__metadata("design:paramtypes",[i.TableService])],d),t.CodeEditor=d});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("resources/elements/change-data/change-data",["require","exports","aurelia-framework","../statement-editor/statement-editor","../code-editor/code-editor","../../models/export","../../services/export"],function(e,t,n,o,a,r,i){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var d=function(){function e(e){var t=this;this.sql=e,this.statementEditorNotification={onExecute:this.onStatementEditorExecute.bind(this)},this.codeEditorNotification={onExecute:this.onCodeEditorExecute.bind(this)},this.changeDataPopupOptions={contentTemplate:"contentTemplate",showCloseButton:!1,width:"800px",toolbarItems:[{widget:"dxButton",location:"before",options:{hint:"Änderungen ausführen",icon:"fa fa-play",onClick:function(){t.sql.executeChanges(t.tableData).then(function(e){t.notification&&t.notification.onDataChanged(e.data),t.changeDataPopupVisible=!1})}}},{widget:"dxButton",location:"before",options:{hint:"SQL",icon:"fa fa-database",onClick:function(){t.tableData.changeData.push({type:"sql",databaseId:t.tableData.databaseId})}}},{widget:"dxButton",location:"before",options:{hint:"Text",icon:"fa fa-font",onClick:function(){t.tableData.changeData.push({type:"text"})}}},{widget:"dxButton",location:"before",options:{hint:"Laufende Nummer",icon:"fa fa-list-ol",onClick:function(){t.tableData.changeData.push({type:"running"})}}},{widget:"dxButton",location:"before",options:{hint:"Skript",icon:"fa fa-code",onClick:function(){t.tableData.changeData.push({type:"code"})}}},{text:"Änderungen",location:"center"},{widget:"dxButton",location:"after",options:{hint:"Schließen",icon:"fa fa-times",onClick:function(){t.changeDataPopupVisible=!1}}}],onShown:function(e){},bindingOptions:{visible:"changeDataPopupVisible"}},this.columnChangeDataOptions={displayExpr:"caption",valueExpr:"internalFieldName",width:"300px",bindingOptions:{dataSource:"tableData.columns",value:"changeDataItem.internalFieldName"}},this.sqlChangeDataOptions={text:"SQL editieren",width:"150px",onClick:function(e){t.statementEditorViewModel.editorData=e.model.changeDataItem,t.statementEditorViewModel.show()}},this.textChangeDataOptions={width:"150px",bindingOptions:{value:"changeDataItem.text"}},this.runningChangeDataOptions={width:"150px",bindingOptions:{value:"changeDataItem.running"}},this.codeChangeDataOptions={width:"150px",text:"Code editieren",onClick:function(e){t.codeEditorViewModel.editorData=e.model.changeDataItem,t.codeEditorViewModel.show()}},this.deleteChangeDataOptions={text:"Entfernen",icon:"fa fa-trash-o",onClick:function(e){var n=t.tableData.changeData.indexOf(e.model.changeDataItem);n<0||t.tableData.changeData.splice(n,1)}}}return e.prototype.show=function(){this.changeDataPopupVisible=!0},e.prototype.onStatementEditorExecute=function(){},e.prototype.onCodeEditorExecute=function(){},e}();__decorate([n.bindable,__metadata("design:type",Object)],d.prototype,"notification",void 0),__decorate([n.bindable,__metadata("design:type",Object)],d.prototype,"tableData",void 0),__decorate([n.bindable,__metadata("design:type",Array)],d.prototype,"dataSource",void 0),__decorate([n.bindable,__metadata("design:type",o.StatementEditor)],d.prototype,"statementEditorViewModel",void 0),__decorate([n.bindable,__metadata("design:type",a.CodeEditor)],d.prototype,"codeEditorViewModel",void 0),d=__decorate([n.autoinject,__metadata("design:paramtypes",[i.SqlService])],d),t.ChangeData=d});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("resources/elements/table/table",["require","exports","aurelia-framework","../statement-editor/statement-editor","../find-column/find-column","../change-data/change-data","../../models/export","../../services/export"],function(e,t,n,o,a,r,i,d){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var s=function(){function e(e,t,n){var o=this;this.sql=e,this.table=t,this.taskQueue=n,this._isTableInNewMode=!1,this.statementEditorNotification={onExecute:this.loadData.bind(this)},this.changeDataNotification={onDataChanged:this.setGridData.bind(this)},this.findColumnNotification={onColumnSelected:this.onColumnSelected.bind(this)},this.tableOptions={allowColumnReordering:!0,allowColumnResizing:!0,editing:{allowUpdating:!0,mode:"cell"},pager:{allowedPageSizes:[30,100,1e3],showInfo:!0,showNavigationButtons:!0,showPageSizeSelector:!0,visible:!0},paging:{enabled:!0,pageSize:30},searchPanel:{visible:!0},selection:{allowSelectAll:!0,mode:"multiple",selectAllMode:"allPages",showCheckBoxesMode:"always"},sorting:{mode:"multiple"},height:"100%",onContextMenuPreparing:function(e){if("data"===e.row.rowType){var t=e.column,n=e.row.data,a=o.tableData.columns.find(function(e){return e.internalFieldName==t.dataField});if(!a||!a.relatedTableName||!a.relatedColumnName)return;if(void 0==n[t.dataField])return;e.items=[{text:"Verknüpften Datensatz öffnen",onItemClick:function(){o.notification&&o.notification.onRelationClicked(o.tableData.databaseId,a.relatedTableName,a.relatedColumnName,n[t.dataField])}}]}},onRowPrepared:function(e){if(e.data&&e.data._state)switch(e.data._state){case 1:e.rowElement.addClass("row-modified");break;case 2:e.rowElement.addClass("row-inserted");break;case 3:e.rowElement.addClass("row-deleted")}},onRowInserted:function(e){e.key._state=2,o._isTableInNewMode=!1,o.hasChanges=!0;var t=o.tableViewModel.instance;t.option("editing.mode","cell"),t.repaint()},onRowUpdated:function(e){if(void 0===e.key._state||0===e.key._state){e.key._state=1,e.key._changed||(e.key._changed={});for(var t in e.data)e.key._changed[t]=!0}o.hasChanges=!0,o.tableViewModel.instance.repaint()},onRowRemoved:function(e){var t=o.tableViewModel.instance;t.option("editing.mode","cell"),t.repaint()},onSelectionChanged:function(e){o.hasSelection=e.selectedRowKeys.length>0,o.tableViewModel.instance.repaint()},onToolbarPreparing:function(e){e.component;e.toolbarOptions.items.push({location:"center",text:o.caption||"Tabelle"},{widget:"dxButton",location:"before",visible:!o._isTableInNewMode,options:{hint:"Statement editieren",icon:"fa fa-pencil",onClick:function(){o.statementEditorViewModel.show()}}},{widget:"dxButton",location:"before",visible:!o._isTableInNewMode,options:{hint:"Daten neu aus Datenbank laden",icon:"fa fa-refresh",onClick:function(){o.loadData()}}},{widget:"dxButton",location:"before",visible:!o._isTableInNewMode,options:{hint:"Daten ändern",icon:"fa fa-chain",onClick:function(){o.changeDataViewModel.show()}}},{widget:"dxButton",location:"before",visible:!o._isTableInNewMode,options:{hint:"Neue Zeile erstellen",icon:"fa fa-plus",onClick:function(){o._isTableInNewMode=!0;var e=o.tableViewModel.instance;e.option("editing.mode","row"),e.addRow()}}},{widget:"dxButton",location:"before",visible:!o._isTableInNewMode&&o.hasChanges,options:{hint:"Geänderte Daten speichern",icon:"fa fa-floppy-o",onClick:function(){o.saveData()}}},{widget:"dxButton",location:"before",visible:o._isTableInNewMode,options:{hint:"Änderungen übernehmen",icon:"fa fa-check",onClick:function(){o._isTableInNewMode=!1,o.hasChanges=!0;var e=o.tableViewModel.instance;e.saveEditData(),e.option("editing.mode","cell"),e.repaint()}}},{widget:"dxButton",location:"before",visible:o._isTableInNewMode,options:{hint:"Änderungen verwerfen",icon:"fa fa-undo",onClick:function(){o._isTableInNewMode=!1;var e=o.tableViewModel.instance;e.cancelEditData(),e.option("editing.mode","cell")}}},{widget:"dxButton",location:"before",visible:!o._isTableInNewMode&&o.hasSelection,options:{hint:"Markierte Zeilen löschen",icon:"fa fa-trash-o",onClick:function(){var e=o.tableViewModel.instance,t=e.getSelectedRowsData();0===t.length?DevExpress.ui.dialog.alert("Bitte markieren Sie zuerst die zu löschenden Zeilen","Information"):DevExpress.ui.dialog.confirm("Sind Sie sicher, dass Sie die markierte(n) "+t.length+" Zeile(n) löschen wollen?","Frage").then(function(t){t&&(e.getSelectedRowsData().forEach(function(e){e._state=3}),e.clearSelection(),e.repaint())})}}},{widget:"dxButton",location:"before",options:{hint:"Spalte suchen",icon:"fa fa-search",onClick:function(){o.findColumnViewModel.show()}}},{widget:"dxButton",location:"before",visible:!o._isTableInNewMode,options:{hint:"Daten nach Excel exportieren",icon:"fa fa-file-excel-o",onClick:function(){var e=o.tableViewModel.instance;e.exportToExcel(e.getSelectedRowKeys().length>0)}}},{location:"after",html:"<i class='fa fa-exclamation table-no-all-rows-loaded' title='Es wurden nicht alle Daten geladen'></i>",visible:!o._isTableInNewMode&&o.hasMoreRows},{widget:"dxButton",location:"after",options:{hint:"Tabellen schließen",icon:"fa fa-times",onClick:function(){o.notification.onDispose(o)}}})}}}return e.prototype.bind=function(){this.loadData()},e.prototype.attached=function(){this.table.registerTable(this)},e.prototype.detached=function(){this.table.deregisterTable(this)},e.prototype.calcTextWidth=function(e){
-var t=this._canvas||(this._canvas=document.createElement("canvas")),n=t.getContext("2d");n.font="12pt arial";var o=n.measureText(e);return Math.ceil(o.width)},e.prototype.calcColumnWidth=function(e,t,n){for(var o=Math.min(e.length,15),a=this.calcTextWidth(n),r=0;r<o;r++){var i=e[r][t];if(void 0!=i){var d=this.calcTextWidth(i);a<d&&(a=d)}}return a>250?a=250:a<30&&(a=30),a+5+"px"},e.prototype.loadData=function(){var e=this;this.sql.execute(this.tableData).then(function(t){if(t&&!t.tableId){e.tableData=t.tableData,e.caption=e.tableData.tables+" ["+e.tableData.tableId+"]",e.hasChanges=!1,e.hasSelection=!1;var n=e.tableViewModel.instance,o=e.tableData.columns.map(function(n){return{caption:n.caption,dataField:n.internalFieldName,width:e.calcColumnWidth(t.result.data,n.internalFieldName,n.caption),cssClass:t.columnsSave.find(function(e){return e.internalFieldName===n.internalFieldName})?null:"column-disabled"}});e.tableData.changeData||(e.tableData.changeData=[]);var a="Seite {0} von {1}";e.hasMoreRows=t.result.hasMoreRows,t.result.hasMoreRows?a+=" (es wurden nicht alle Daten geladen)":a+=" ({2} Datensätze)",n.option("pager.infoText",a),n.option("columns",o),e.setGridData(t.result.data)}})},e.prototype.saveData=function(){var e=this,t=Object.assign({},this.tableData);t.data=this.dataSource.filter(function(e){return!!e._state}),this.sql.save(t).then(function(t){t&&t.ok&&e.loadData()})},e.prototype.setGridData=function(e){var t=this.tableViewModel.instance;t.option("dataSource",e),this.dataSource=e,this.hasChanges=e.some(function(e){return e._state&&0!=e._state}),t.repaint()},e.prototype.onColumnSelected=function(e){if(e){var t=this.tableViewModel.instance,n=(t.option("columns"),t.getCellElement(0,e));n&&t.focus(n)}},e}();__decorate([n.bindable,__metadata("design:type",Object)],s.prototype,"tableData",void 0),__decorate([n.bindable,__metadata("design:type",Object)],s.prototype,"notification",void 0),__decorate([n.bindable,__metadata("design:type",r.ChangeData)],s.prototype,"changeDataViewModel",void 0),__decorate([n.bindable,__metadata("design:type",o.StatementEditor)],s.prototype,"statementEditorViewModel",void 0),__decorate([n.bindable,__metadata("design:type",a.FindColumn)],s.prototype,"findColumnViewModel",void 0),__decorate([n.observable,__metadata("design:type",Object)],s.prototype,"tableViewModel",void 0),s=__decorate([n.autoinject,__metadata("design:paramtypes",[d.SqlService,d.TableService,n.TaskQueue])],s),t.Table=s});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("resources/services/table-service",["require","exports","aurelia-framework"],function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var o=function(){function e(){this.tables=[]}return e.prototype.getTableDataByTableId=function(e){var t=this.tables.find(function(t){return t.tableData.tableId==e});return t?t.tableData:null},e.prototype.registerTable=function(e){this.tables.push(e)},e.prototype.deregisterTable=function(e){var t=this.tables.indexOf(e);t<0||this.tables.splice(t,1)},e}();o=__decorate([n.autoinject,__metadata("design:paramtypes",[])],o),t.TableService=o});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("resources/services/sql-service",["require","exports","aurelia-framework","../../framework/base/services/export","./table-service"],function(e,t,n,o,a){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r=function(){function e(e,t){this.rest=e,this.table=t}return e.prototype.execute=function(e){var t=this;return this.checkReferencedTableData(e),new Promise(function(n,o){t.post("Sql/Execute",e).then(function(e){t.checkResult(n,o,e)}).catch(function(e){o(e)})})},e.prototype.executeChanges=function(e){var t=this;return this.checkReferencedTableData(e),new Promise(function(n,o){t.post("Sql/ExecuteChanges",e).then(function(e){t.checkResult(n,o,e)}).catch(function(e){o(e)})})},e.prototype.formatSql=function(e){return this.post("Sql/FormatSql",{script:e})},e.prototype.save=function(e){var t=this;return new Promise(function(n,o){t.post("Sql/Save",e).then(function(e){t.checkResult(n,o,e)}).catch(function(e){o(e)})})},e.prototype.selectSql=function(e){return this.post("Sql/SelectSql",e)},e.prototype.tableInfo=function(e,t){return this.post("Sql/TableInfo",{databaseId:e,tableName:t})},e.prototype.checkReferencedTableData=function(e){if(e.referencedTableDataId){var t=this.table.tables.find(function(t){return t.tableData.tableId==e.referencedTableDataId});t?(e.referencedTableData={tableId:e.referencedTableDataId,databaseId:e.databaseId,columns:e.columns},e.data=t.dataSource):(e.referencedTableData=null,e.data=null)}else e.referencedTableData=null,e.data=null},e.prototype.checkResult=function(e,t,n){var o=this;n.exception?(DevExpress.ui.dialog.alert(n.exception,"Fehler"),t()):void 0!=n.transactionId?DevExpress.ui.dialog.confirm(n.changedRows+" Datensätze wurden geändert. Speichern?","Frage").then(function(a){a?o.commit(e,t,n):o.rollback(e,t,n)}):e(n)},e.prototype.commit=function(e,t,n){this.post("Sql/Commit",{transactionId:n.transactionId}).then(function(t){e(t),t.ok||DevExpress.ui.dialog.alert("Fehler beim Commit","Information")}).catch(function(e){t(e)})},e.prototype.rollback=function(e,t,n){this.post("Sql/Rollback",{transactionId:n.transactionId}).then(function(t){e(t),t.ok||DevExpress.ui.dialog.alert("Fehler beim Rollback","Information")}).catch(function(e){t(e)})},e.prototype.post=function(e,t){return this.rest.post({url:this.rest.getApiUrl(e),data:t})},e}();r=__decorate([n.autoinject,__metadata("design:paramtypes",[o.RestService,a.TableService])],r),t.SqlService=r}),define("resources/services/export",["require","exports","./database-service","./sql-service","./table-service"],function(e,t,n,o,a){"use strict";function r(e){for(var n in e)t.hasOwnProperty(n)||(t[n]=e[n])}Object.defineProperty(t,"__esModule",{value:!0}),r(n),r(o),r(a)});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("framework/dx/services/dx-template-service",["require","exports","aurelia-framework"],function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var o=function(){function e(e){this.templatingEngine=e,this.templates={}}return e.prototype.registerTemplate=function(e,t){this.templates[e]=t},e.prototype.getTemplates=function(e,t,n){var o=this,a={};for(var r in this.templates)!function(r){a[r]={render:function(a){return o.render(o.templates[r],a.container,n,e,t,a.model)}}}(r);return a},e.prototype.render=function(e,t,o,a,r,i){var d;"string"==typeof e?(d=document.createElement("div"),d.innerHTML=e):d=e.cloneNode(!0);var s,c,l=$(d).appendTo(t);return i?(s={data:i},c=n.createOverrideContext(a,r)):(s=a,c=r),this.templatingEngine.enhance({element:l.get(0),bindingContext:s,overrideContext:c,resources:o}).attached(),$(l)},e}();o=__decorate([n.autoinject,__metadata("design:paramtypes",[n.TemplatingEngine])],o),t.DxTemplateService=o});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("framework/dx/elements/dx-widget",["require","exports","aurelia-framework","../services/dx-template-service","../../base/export","jquery"],function(e,t,n,o,a,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var i=d=function(){function e(e,t,n,o,a){this.element=e,this.templatingEngine=t,this.bindingEngine=n,this.deepObserver=o,this.dxTemplate=a,this.templates={}}return e.prototype.created=function(e,t){this.owningView=e,this.extractTemplates()},e.prototype.bind=function(e,t){this.bindingContext=e,this.overrideContext=t,this.checkBindings()},e.prototype.attached=function(){this.renderInline(),this.options=this.options||{},this.options.onOptionChanged=this.onOptionChanged.bind(this),this.options.modelByElement=d.modelByElement,this.options.integrationOptions={templates:this.templates};var e=r(this.element);if(!e[this.name])throw new Error("Widget "+this.name+" does not exist");e=e[this.name](this.options),this.validator?e.dxValidator(this.validator):this.options.validators&&e.dxValidator({validationRules:this.options.validators}),this.instance=e[this.name]("instance"),this.registerBindings()},e.prototype.detached=function(){if(this.instance&&(this.instance._dispose(),this.instance=null),this.options&&this.options.bindingOptions)for(var e=0,t=this.options.bindingOptions;e<t.length;e++){var n=t[e];n.deepObserver&&(n.deepObserver(),n.deepObserver=null)}},e.prototype.resetValidation=function(){!1===this.instance.option("isValid")&&this.setOptionValue("isValid",!0)},e.modelByElement=function(e){return e.jquery&&(e=e.get(0)),e.au&&e.au.controller&&e.au.controller.viewModel?e.au.controller.viewModel.bindingContext:null},e.prototype.extractTemplates=function(){var e=this;r(this.element).children("dx-template").each(function(t,n){var o=r(n),a=o.attr("name");o.attr("alias");e.templates[a]={render:function(t){return e.dxTemplate.render(n,t.container,e.owningView.resources,e.bindingContext,e.overrideContext,t.model)}},r(n).remove()}),Object.assign(this.templates,this.dxTemplate.getTemplates(this.bindingContext,this.overrideContext,this.owningView.resources))},e.prototype.registerBindings=function(){var e=this;if(this.options.bindingOptions){var t=this;for(var n in this.options.bindingOptions)!function(n){var o=t.options.bindingOptions[n];t.bindingEngine.expressionObserver(t.getContext(o),o.expression).subscribe(function(t,r){e.setOptionValue(n,t),e.registerDeepObserver(o,n,a)});var a=o.parsed.evaluate({bindingContext:t.bindingContext,overrideContext:t.overrideContext});t.setOptionValue(n,a),t.registerDeepObserver(o,n,a)}(n)}},e.prototype.checkBindings=function(){if(!this.options)throw new Error("Invalid or no options for "+this.name);if(this.options.bindingOptions)for(var e in this.options.bindingOptions)var t=this.checkBinding(e)},e.prototype.checkBinding=function(e){var t=this.options.bindingOptions;"string"==typeof t[e]&&(t[e]={expression:t[e]});var n=t[e];n.parsed=this.bindingEngine.parseExpression(n.expression)},e.prototype.getContext=function(e){for(var t=e.parsed,n=t;n.object;)n=n.object;if(n.name in this.bindingContext)return this.bindingContext;for(var o=this.overrideContext;o;){if(n.name in o.bindingContext)return o.bindingContext;o=o.parentOverrideContext}return this.bindingContext||this.overrideContext},e.prototype.registerDeepObserver=function(e,t,n){var o=this;e.deepObserver&&(e.deepObserver(),e.deepObserver=null),e.deep&&(e.deepObserver=this.deepObserver.observe(n,function(){o.setOptionValue(t,n)}))},e.prototype.onOptionChanged=function(e){if(this.options.bindingOptions){var t=this.options.bindingOptions[e.name];if(t&&t.parsed.isAssignable){t.parsed.evaluate({bindingContext:this.bindingContext,overrideContext:this.overrideContext})!==e.value&&t.parsed.assign({bindingContext:this.bindingContext,overrideContext:this.overrideContext},e.value)}}},e.prototype.renderInline=function(){var e=this;r(this.element).children().each(function(t,n){e.templatingEngine.enhance({element:n,bindingContext:e.bindingContext,overrideContext:e.overrideContext}).attached()})},e.prototype.setOptionValue=function(e,t){void 0!=t||"items"!==e&&"dataSource"!==e||(t=[]),this.instance.option(e,t)},e}();__decorate([n.bindable,__metadata("design:type",String)],i.prototype,"name",void 0),__decorate([n.bindable,__metadata("design:type",Object)],i.prototype,"options",void 0),__decorate([n.bindable,__metadata("design:type",Object)],i.prototype,"validator",void 0),i=d=__decorate([n.autoinject,n.processContent(!1),__metadata("design:paramtypes",[Element,n.TemplatingEngine,n.BindingEngine,a.DeepObserverService,o.DxTemplateService])],i),t.DxWidget=i;var d}),define("framework/dx/services/export",["require","exports","./dx-template-service"],function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.DxTemplateService=n.DxTemplateService});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("resources/elements/databases/databases",["require","exports","aurelia-framework","../../services/export"],function(e,t,n,o){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var a=function(){function e(e){var t=this;this.database=e,this.databasesPopupOptions={contentTemplate:"contentTemplate",showCloseButton:!1,toolbarItems:[{widget:"dxButton",location:"before",options:{hint:"Datenbank hinzufügen",icon:"fa fa-plus",onClick:function(){t.database.databases.push({})}}},{text:"Datenbanken konfigurieren",location:"center"},{widget:"dxButton",location:"after",options:{hint:"Schließen",icon:"fa fa-times",onClick:function(){t.databasesPopupVisible=!1}}}],onHiding:function(){t.database.reload()},onShown:function(e){},bindingOptions:{visible:"databasesPopupVisible"}},this.providerSelectOptions={displayExpr:"name",valueExpr:"fullName",width:"300px",bindingOptions:{dataSource:"providers",value:"databaseItem.providerName"}},this.nameTextOptions={width:"300px",bindingOptions:{value:"databaseItem.caption"}},this.connectionStringTextOptions={width:"100%",bindingOptions:{value:"databaseItem.connectionString"}},this.saveDatabaseButtonOptions={text:"Speichern",icon:"fa fa-floppy-o",onClick:function(e){t.database.postDatabase(e.model.databaseItem)}},this.deleteDatabaseButtonOptions={text:"Entfernen",icon:"fa fa-trash-o",onClick:function(e){t.database.deleteDatabase(e.model.databaseItem)}},e.getProviders().then(function(e){t.providers=e})}return e.prototype.show=function(){this.databasesPopupVisible=!0},e}();a=__decorate([n.autoinject,__metadata("design:paramtypes",[o.DatabaseService])],a),t.Databases=a});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("resources/elements/container/container",["require","exports","aurelia-framework","../databases/databases","../../services/export"],function(e,t,n,o,a){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r=function(){function e(e,t,n){var o=this;this.table=e,this.database=t,this.taskQueue=n,this.tableSelectionNotification={onTableClicked:this.onTableClicked.bind(this)},this.tableNotification={onRelationClicked:this.onRelationClicked.bind(this),onDispose:this.onTableDispose.bind(this)},this.settingButtonOptions={icon:"fa fa-cog",onClick:function(){o.containerContextMenuViewModel.instance.show()}},this.containerContextMenuOptions={target:"#settings-button",position:{my:"left bottom",at:"top"},items:[{text:"Alle Tabellen schließen",onClick:function(){o.table.tables.slice().forEach(function(e){return e.notification.onDispose(e)})}},{text:"Struktur laden",beginGroup:!0,onClick:function(){}},{text:"Struktur speichern",onClick:function(){}},{text:"Datenbanken verwalten",beginGroup:!0,onClick:function(){o.databasesViewModel.show()}}],bindingOptions:{"items[3].disabled":"databaseDisabled"}},this.tableData=[]}return Object.defineProperty(e.prototype,"databaseDisabled",{get:function(){return!this.database||!this.database.databases},enumerable:!0,configurable:!0}),e.prototype.onRelationClicked=function(e,t,n,o){var a={tableId:(new Date).getTime(),databaseId:e,tableName:t,columnName:n,value:o,rows:100};this.tableData.push(a),this.queueRefreshTablesLayout()},e.prototype.onTableClicked=function(e,t,n){var o={tableId:(new Date).getTime(),databaseId:e,tableName:t,alias:n,rows:100};this.tableData.push(o),this.queueRefreshTablesLayout()},e.prototype.onTableDispose=function(e){var t=this.tableData.findIndex(function(t){return t.tableId==e.tableData.tableId});t>=0&&this.tableData.splice(t,1),this.queueRefreshTablesLayout()},e.prototype.queueRefreshTablesLayout=function(){var e=this;this.tableData.length<=1?this.tableHeight="100%":2==this.tableData.length?this.tableHeight="50%":this.tableHeight="33%",this.taskQueue.queueMicroTask(function(){e.table.tables.forEach(function(e){if(e.tableViewModel&&e.tableViewModel.instance){e.tableViewModel.instance.updateDimensions()}})})},e}();__decorate([n.bindable,__metadata("design:type",Object)],r.prototype,"containerContextMenuViewModel",void 0),__decorate([n.bindable,__metadata("design:type",o.Databases)],r.prototype,"databasesViewModel",void 0),__decorate([n.computedFrom("database","database.databases"),__metadata("design:type",Object),__metadata("design:paramtypes",[])],r.prototype,"databaseDisabled",null),r=__decorate([n.autoinject,__metadata("design:paramtypes",[a.TableService,a.DatabaseService,n.TaskQueue])],r),t.Container=r});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("framework/base/attributes/icon/fa-icon-attribute",["require","exports","aurelia-framework"],function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var o=function(){function e(e){this.element=e}return e.prototype.bind=function(e){this.setClass()},e.prototype.iconChanged=function(e,t){this.setClass()},e.prototype.setClass=function(){var e=$(this.element);this.currentIcon&&(e.removeClass(this.currentIcon),this.currentIcon=null),this.icon&&(this.currentIcon="fa fa-"+this.icon,e.addClass(this.currentIcon))},e}();__decorate([n.bindable,__metadata("design:type",String)],o.prototype,"icon",void 0),o=__decorate([n.autoinject,n.customAttribute("fa-icon"),__metadata("design:paramtypes",[Element])],o),t.FaIconAttribute=o});var __decorate=this&&this.__decorate||function(e,t,n,o){var a,r=arguments.length,i=r<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(e,t,n,o);else for(var d=e.length-1;d>=0;d--)(a=e[d])&&(i=(r<3?a(i):r>3?a(t,n,i):a(t,n))||i);return r>3&&i&&Object.defineProperty(t,n,i),i},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("framework/base/attributes/translation/translation-attribute",["require","exports","aurelia-framework","../../services/localization-service"],function(e,t,n,o){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var a=function(){function e(e,t){this.element=e,this.localization=t}return e.prototype.bind=function(e){this.expressionProvider=e.expressions,this.setInnerHtml()},e.prototype.keyChanged=function(e,t){this.setInnerHtml()},e.prototype.setInnerHtml=function(){var e=this;this.localization.translate(this.expressionProvider,this.key,function(t){e.element.innerHTML=t})},e}();__decorate([n.bindable,__metadata("design:type",String)],a.prototype,"mode",void 0),__decorate([n.bindable,__metadata("design:type",String)],a.prototype,"key",void 0),__decorate([n.bindable,__metadata("design:type",Boolean)],a.prototype,"markdown",void 0),a=__decorate([n.autoinject,n.customAttribute("tr"),__metadata("design:paramtypes",[Element,o.LocalizationService])],a),t.TrCustomAttribute=a}),define("text!app.html",["module"],function(e){e.exports='<template>\r\n  <require from="./app.css"></require>\r\n\r\n  <container></container>\r\n</template>\r\n'}),define("text!app.css",["module"],function(e){e.exports='html,\nbody {\n  margin: 0;\n  padding: 0;\n  height: 100vh;\n  width: 100vw;\n  font-family: "Helvetica Neue", "Segoe UI", Helvetica, Verdana, sans-serif;\n  font-size: 12px;\n}\n.dx-datagrid-header-panel .dx-toolbar {\n  padding: 5px;\n  margin: 0;\n}\n.dx-datagrid-header-panel .dx-toolbar .dx-toolbar-label {\n  font-size: 12px;\n}\n.dx-popup-content .dx-button {\n  margin: 0 !important;\n}\n.row-modified {\n  background-color: rgba(135, 211, 124, 0.2);\n}\n.row-inserted {\n  background-color: rgba(135, 211, 124, 0.2);\n}\n.row-deleted {\n  background-color: rgba(236, 100, 75, 0.2);\n}\n.column-disabled {\n  background-color: rgba(236, 100, 75, 0.2);\n}\n'}),define("text!resources/import.css",["module"],function(e){e.exports=""}),define("text!framework/dx/elements/dx-widget.html",["module"],function(e){e.exports='<template class="dx-widget">\r\n</template>'}),define("text!resources/elements/change-data/change-data.html",["module"],function(e){e.exports='<template>\r\n  <require from="./change-data.css"></require>\r\n\r\n  <dx-widget name="dxPopup" options.bind="changeDataPopupOptions" class="changedata-popup">\r\n    <dx-template name="contentTemplate">\r\n      <div class="changedata-container">\r\n        <statement-editor view-model.ref="statementEditorViewModel" notification.bind="statementEditorNotification" table-data.bind="tableData">          \r\n        </statement-editor>\r\n        <code-editor view-model.ref="codeEditorViewModel" notification.bind="codeEditorNotification" table-data.bind="tableData">\r\n        </code-editor>\r\n\r\n        <div repeat.for="changeDataItem of tableData.changeData">\r\n          <div if.bind="changeDataItem.type == \'sql\'" class="changedata-custom-settings">\r\n            <div>\r\n              SQL\r\n            </div>\r\n            <div>\r\n              <dx-widget name="dxButton" options.bind="sqlChangeDataOptions">\r\n              </dx-widget>\r\n            </div>\r\n          </div>\r\n          <div if.bind="changeDataItem.type == \'text\'" class="changedata-custom-settings">\r\n            <div>\r\n              Text\r\n            </div>\r\n            <div>\r\n              <dx-widget name="dxTextBox" options.bind="textChangeDataOptions">\r\n              </dx-widget>\r\n            </div>\r\n          </div>\r\n          <div if.bind="changeDataItem.type == \'running\'" class="changedata-custom-settings">\r\n            <div>\r\n              Laufende Nummer ab\r\n            </div>\r\n            <div>\r\n              <dx-widget name="dxNumberBox" options.bind="runningChangeDataOptions">\r\n              </dx-widget>\r\n            </div>\r\n          </div>\r\n          <div if.bind="changeDataItem.type == \'code\'" class="changedata-custom-settings">\r\n            <div>\r\n              C#-Code\r\n            </div>\r\n            <div>\r\n              <dx-widget name="dxButton" options.bind="codeChangeDataOptions">\r\n              </dx-widget>\r\n            </div>\r\n          </div>\r\n          <div class="changedata-default-settings">\r\n            <div>\r\n              <dx-widget name="dxSelectBox" options.bind="columnChangeDataOptions">\r\n              </dx-widget>\r\n            </div>\r\n            <div>\r\n              <dx-widget name="dxButton" options.bind="deleteChangeDataOptions">\r\n              </dx-widget>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </dx-template>\r\n  </dx-widget>\r\n</template>'}),define("text!resources/elements/code-editor/code-editor.html",["module"],function(e){e.exports='<template>\r\n  <require from="./code-editor.css"></require>\r\n\r\n  <dx-widget name="dxPopup" options.bind="codePopupOptions" class="codeeditor-popup">\r\n    <dx-template name="contentTemplate">\r\n      <div class="codeeditor-container">\r\n        <editor class="codeeditor" view-model.ref="editorViewModel" table-data.bind="editorData" language="csharp"></editor>\r\n        <column-chooser class="codeditor-columnchooser" view-model.ref="columnChooserViewModel" fixed-table-id.bind="fixedTableId" notification.bind="columnChooserNotification"></column-chooser>\r\n      </div>\r\n    </dx-template>\r\n  </dx-widget>\r\n</template>'}),define("text!framework/base/styles/styles.css",["module"],function(e){e.exports='@keyframes leftFadeIn {\n  from {\n    opacity: 0;\n    transform: translateX(-10px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\nbody {\n  margin: 0;\n  padding: 0;\n  font-family: "Helvetica Neue", "Segoe UI", Helvetica, Verdana, sans-serif;\n  font-size: 12px;\n}\n.t--margin-top {\n  margin-top: 12px;\n}\n.t--editor-caption {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.t--cursor-pointer {\n  cursor: pointer;\n}\n.t--invisible-submit {\n  height: 0;\n  width: 0;\n  margin: 0;\n  padding: 0;\n  border: 0;\n}\n'}),define("text!resources/elements/column-chooser/column-chooser.html",["module"],function(e){e.exports='<template class="columnchooser">\r\n  <require from="./column-chooser.css"></require>\r\n\r\n  <div class="columnchooser-tables">\r\n    <dx-widget name="dxSelectBox" options.bind="tableSelectOptions" class="columnchooser-tables-select-box"></dx-widget>\r\n  </div>\r\n  <div class="columnchooser-columns">\r\n    <div>\r\n      <dx-widget name="dxDataGrid" options.bind="columnGridOptions"></dx-widget>\r\n    </div>\r\n  </div>\r\n</template>'}),define("text!framework/base/styles/variables.css",["module"],function(e){e.exports="@keyframes leftFadeIn {\n  from {\n    opacity: 0;\n    transform: translateX(-10px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\n"}),define("text!resources/elements/container/container.html",["module"],function(e){e.exports='<template class="container">\r\n  <require from="./container.css"></require>\r\n\r\n  <div class="container-sidebar">\r\n    <div class="container-table-selection">\r\n      <div>\r\n        <table-selection notification.bind="tableSelectionNotification"></table-selection>\r\n      </div>\r\n    </div>\r\n    <div class="container-buttons">\r\n      <dx-widget id="settings-button" name="dxButton" options.bind="settingButtonOptions"></dx-widget>\r\n    </div>\r\n  </div>\r\n\r\n  <div class="tables">\r\n    <table repeat.for="data of tableData" css.bind="{height: tableHeight}" table-data.bind="data" notification.bind="tableNotification"></table>\r\n  </div>\r\n\r\n  <databases view-model.ref="databasesViewModel"></databases>\r\n  <dx-widget name="dxContextMenu" view-model.ref="containerContextMenuViewModel" options.bind="containerContextMenuOptions"></dx-widget>\r\n</template>'}),define("text!resources/elements/databases/databases.html",["module"],function(e){e.exports='<template>\r\n  <require from="./databases.css"></require>\r\n\r\n  <dx-widget name="dxPopup" options.bind="databasesPopupOptions" class="databases-popup">\r\n    <dx-template name="contentTemplate">\r\n      <div class="database-container">\r\n        <div class="databases-item" repeat.for="databaseItem of database.databases">\r\n          <div class="databases-header">\r\n            <div>\r\n              Name\r\n            </div>\r\n            <div>\r\n              <dx-widget name="dxTextBox" options.bind="nameTextOptions">\r\n              </dx-widget>\r\n            </div>\r\n            <div>\r\n              <dx-widget name="dxButton" options.bind="saveDatabaseButtonOptions">\r\n              </dx-widget>\r\n            </div>\r\n            <div>\r\n              <dx-widget name="dxButton" options.bind="deleteDatabaseButtonOptions">\r\n              </dx-widget>\r\n            </div>\r\n          </div>\r\n          <div class="databases-provider">\r\n            <div>\r\n              Provider\r\n            </div>\r\n            <div>\r\n              <dx-widget name="dxSelectBox" options.bind="providerSelectOptions">\r\n              </dx-widget>\r\n            </div>\r\n          </div>\r\n          <div class="databases-connectionstring">\r\n            <div>\r\n              Connection-String\r\n            </div>\r\n            <div>\r\n              <dx-widget name="dxTextBox" options.bind="connectionStringTextOptions">\r\n              </dx-widget>\r\n            </div>\r\n          </div>\r\n        </div>    \r\n      </div>\r\n    </dx-template>\r\n  </dx-widget>\r\n</template>'}),define("text!resources/elements/editor/editor.html",["module"],function(e){e.exports='<template class="editor">  \r\n  <require from="./editor.css"></require>\r\n</template>'}),define("text!resources/elements/change-data/change-data.css",["module"],function(e){
-e.exports=".changedata-popup .dx-popup-normal {\n  border-radius: 0;\n  border: 0;\n}\n.changedata-popup .dx-popup-normal.dx-state-focused.dx-overlay-content {\n  border: 0;\n}\n.changedata-popup .dx-popup-normal .dx-popup-content {\n  padding: 0;\n}\n.changedata-popup .dx-toolbar {\n  height: 50px;\n  margin: 0;\n  padding: 0 0;\n  background-color: #2C3E50;\n  box-sizing: border-box;\n  border-bottom: none;\n}\n.changedata-popup .dx-toolbar .dx-toolbar-items-container {\n  height: 50px;\n}\n.changedata-popup .dx-toolbar .dx-toolbar-items-container > div {\n  -webkit-border-horizontal-spacing: 0;\n  -webkit-border-vertical-spacing: 0;\n}\n.changedata-popup .dx-toolbar .dx-toolbar-label {\n  color: white;\n}\n.changedata-popup .dx-toolbar .dx-button {\n  border: 0;\n  background-color: transparent;\n  width: 50px;\n  height: 50px;\n  display: flex;\n  justify-content: center;\n}\n.changedata-popup .dx-toolbar .dx-button:hover {\n  background-color: #698aac;\n}\n.changedata-popup .dx-toolbar .dx-button .dx-button-content {\n  display: flex;\n  align-items: center;\n}\n.changedata-popup .dx-toolbar .dx-button .dx-button-content i {\n  color: white;\n}\n.changedata-popup .dx-toolbar .dx-texteditor {\n  border: none;\n}\n.changedata-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button {\n  background-color: #507192;\n  padding: 0;\n}\n.changedata-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-up-icon,\n.changedata-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-down-icon {\n  background-color: #698aac;\n}\n.changedata-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-up-icon,\n.changedata-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-down-icon {\n  color: white;\n}\n.changedata-popup .dx-toolbar .dx-texteditor input {\n  background-color: #476481;\n  color: white;\n}\n.changedata-container {\n  padding: 12px 5px;\n  height: 100%;\n  overflow-y: auto;\n}\n.changedata-container > div {\n  display: flex;\n  padding-bottom: 5px;\n}\n.changedata-container .changedata-custom-settings {\n  display: flex;\n  align-items: center;\n}\n.changedata-container .changedata-custom-settings > div:first-child {\n  width: 150px;\n}\n.changedata-container .changedata-default-settings {\n  display: flex;\n  flex-grow: 1;\n  justify-content: flex-end;\n  margin-left: 30px;\n}\n.changedata-container .changedata-default-settings > div:first-child {\n  margin-right: 5px;\n}\n"}),define("text!resources/elements/find-column/find-column.html",["module"],function(e){e.exports='<template>\r\n  <require from="./find-column.css"></require>\r\n\r\n  <dx-widget name="dxPopup" options.bind="findColumnPopupOptions" class="findcolumn-popup">\r\n    <dx-template name="contentTemplate">\r\n      <div class="findcolumn-container">\r\n        <dx-widget name="dxSelectBox" options.bind="columnSelectDataOptions">\r\n        </dx-widget>\r\n      </div>\r\n    </dx-template>\r\n  </dx-widget>\r\n</template>'}),define("text!resources/elements/statement-editor/statement-editor.html",["module"],function(e){e.exports='<template>\r\n  <require from="./statement-editor.css"></require>\r\n\r\n  <dx-widget name="dxPopup" options.bind="statementPopupOptions" class="statementeditor-popup">\r\n    <dx-template name="contentTemplate">\r\n      <div class="statementeditor-container">\r\n        <table-selection class="statementeditor-table-selection" view-model.ref="tableSelectionViewModel" notification.bind="tableSelectionNotification"></table-selection>\r\n        <editor class="statementeditor" view-model.ref="editorViewModel" table-data.bind="editorData"></editor>\r\n        <column-chooser class="statementeditor-columnchooser" view-model.ref="columnChooserViewModel" fixed-table-id.bind="fixedTableId" notification.bind="columnChooserNotification"></column-chooser>\r\n      </div>\r\n    </dx-template>\r\n  </dx-widget>\r\n</template>'}),define("text!resources/elements/code-editor/code-editor.css",["module"],function(e){e.exports=".codeeditor-popup .dx-popup-normal {\n  border-radius: 0;\n  border: 0;\n}\n.codeeditor-popup .dx-popup-normal.dx-state-focused.dx-overlay-content {\n  border: 0;\n}\n.codeeditor-popup .dx-popup-normal .dx-popup-content {\n  padding: 0;\n}\n.codeeditor-popup .dx-toolbar {\n  height: 50px;\n  margin: 0;\n  padding: 0 0;\n  background-color: #2C3E50;\n  box-sizing: border-box;\n  border-bottom: none;\n}\n.codeeditor-popup .dx-toolbar .dx-toolbar-items-container {\n  height: 50px;\n}\n.codeeditor-popup .dx-toolbar .dx-toolbar-items-container > div {\n  -webkit-border-horizontal-spacing: 0;\n  -webkit-border-vertical-spacing: 0;\n}\n.codeeditor-popup .dx-toolbar .dx-toolbar-label {\n  color: white;\n}\n.codeeditor-popup .dx-toolbar .dx-button {\n  border: 0;\n  background-color: transparent;\n  width: 50px;\n  height: 50px;\n  display: flex;\n  justify-content: center;\n}\n.codeeditor-popup .dx-toolbar .dx-button:hover {\n  background-color: #698aac;\n}\n.codeeditor-popup .dx-toolbar .dx-button .dx-button-content {\n  display: flex;\n  align-items: center;\n}\n.codeeditor-popup .dx-toolbar .dx-button .dx-button-content i {\n  color: white;\n}\n.codeeditor-popup .dx-toolbar .dx-texteditor {\n  border: none;\n}\n.codeeditor-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button {\n  background-color: #507192;\n  padding: 0;\n}\n.codeeditor-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-up-icon,\n.codeeditor-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-down-icon {\n  background-color: #698aac;\n}\n.codeeditor-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-up-icon,\n.codeeditor-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-down-icon {\n  color: white;\n}\n.codeeditor-popup .dx-toolbar .dx-texteditor input {\n  background-color: #476481;\n  color: white;\n}\n.codeeditor-container {\n  display: flex;\n  height: 100%;\n}\n.codeeditor-container > .codeeditor {\n  height: 100%;\n  width: 100%;\n}\n.codeeditor-container > .codeditor-columnchooser {\n  flex: 300px 0 0;\n  position: relative;\n}\n"}),define("text!resources/elements/table/table.html",["module"],function(e){e.exports='<template class="table">\r\n  <require from="./table.css"></require>\r\n\r\n  <dx-widget name="dxDataGrid" options.bind="tableOptions" view-model.ref="tableViewModel"></dx-widget>\r\n  <statement-editor view-model.ref="statementEditorViewModel" notification.bind="statementEditorNotification" table-data.bind="tableData" editor-data.bind="tableData"></statement-editor>\r\n  <change-data view-model.ref="changeDataViewModel" table-data.bind="tableData" notification.bind="changeDataNotification" data-source.bind="dataSource"></change-data>\r\n  <find-column view-model.ref="findColumnViewModel" table-data.bind="tableData" notification.bind="findColumnNotification"></find-column>\r\n</template>'}),define("text!resources/elements/table-selection/table-selection.html",["module"],function(e){e.exports='<template class="table-selection">  \r\n  <require from="./table-selection.css"></require>\r\n\r\n  <div class="databases">\r\n    <dx-widget name="dxSelectBox" options.bind="databaseOptions" class="database-select-box"></dx-widget>\r\n  </div>\r\n  <div class="tables">\r\n    <div class="tables-container">\r\n      <dx-widget name="dxDataGrid" options.bind="tableOptions"></dx-widget>\r\n    </div>\r\n  </div>\r\n  \r\n  <table-information view-model.ref="tableInformationViewModel"></table-information>\r\n</template>'}),define("text!resources/elements/column-chooser/column-chooser.css",["module"],function(e){e.exports=".columnchooser {\n  display: flex;\n  flex-direction: column;\n}\n.columnchooser > .columnchooser-tables {\n  background-color: #34495E;\n  padding: 5px;\n}\n.columnchooser > .columnchooser-tables .dx-selectbox {\n  border: none;\n}\n.columnchooser > .columnchooser-tables .dx-selectbox .dx-texteditor-container input {\n  color: lightgray;\n  background-color: #4f6f8f;\n}\n.columnchooser > .columnchooser-tables .dx-selectbox .dx-texteditor-container .dx-button-normal .dx-dropdowneditor-icon {\n  color: lightgray;\n}\n.columnchooser > .columnchooser-tables .dx-selectbox .dx-texteditor-container .dx-placeholder {\n  color: lightgray;\n}\n.columnchooser > .columnchooser-tables .dx-selectbox.dx-dropdowneditor.dx-state-hover .dx-dropdowneditor-icon {\n  background-color: #7795b4;\n}\n.columnchooser > .columnchooser-tables .dx-selectbox.dx-dropdowneditor.dx-dropdowneditor-active .dx-dropdowneditor-icon {\n  background-color: #587ca0;\n}\n.columnchooser > .columnchooser-columns {\n  flex-grow: 1;\n  position: relative;\n}\n.columnchooser > .columnchooser-columns > div {\n  position: absolute;\n  height: 100%;\n  width: 100%;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid {\n  background-color: #EEEEEE;\n  color: gray;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-rowsview {\n  border-top: none;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel {\n  border-bottom: none;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-datagrid-search-panel {\n  border: none;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-datagrid-search-panel .dx-icon {\n  color: lightgray;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-datagrid-search-panel .dx-placeholder {\n  color: lightgray;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-datagrid-search-panel input {\n  color: lightgray;\n  background-color: #4f6f8f;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar {\n  height: 40px;\n  margin: 0;\n  padding: 0 5px;\n  background-color: #34495E;\n  box-sizing: border-box;\n  border-bottom: none;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-toolbar-items-container {\n  height: 40px;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-toolbar-items-container > div {\n  -webkit-border-horizontal-spacing: 0;\n  -webkit-border-vertical-spacing: 0;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-toolbar-label {\n  color: lightgray;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-button {\n  border: 0;\n  background-color: transparent;\n  width: 40px;\n  height: 40px;\n  display: flex;\n  justify-content: center;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-button:hover {\n  background-color: #7795b4;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-button .dx-button-content {\n  display: flex;\n  align-items: center;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-button .dx-button-content i {\n  color: lightgray;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-texteditor {\n  border: none;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button {\n  background-color: #587ca0;\n  padding: 0;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-up-icon,\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-down-icon {\n  background-color: #7795b4;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-up-icon,\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-down-icon {\n  color: lightgray;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-texteditor input {\n  background-color: #4f6f8f;\n  color: lightgray;\n}\n"}),define("text!resources/elements/table-information/table-information.html",["module"],function(e){e.exports='<template>\r\n  <dx-widget name="dxPopup" options.bind="tableInfoPopupOptions" class="tableinfo-popup">\r\n    <dx-template name="contentTemplate">\r\n      <div class="tableinfo-container">\r\n        <div>\r\n          <div if.bind="!tableInfo.table.isView">Tabelle: ${tableInfo.table.tableName}</div>\r\n          <div if.bind="tableInfo.table.isView">View: ${tableInfo.table.tableName}</div>\r\n          <div if.bind="tableInfo.table.primaryKeyColumn">Primärschlüssel: ${tableInfo.table.primaryKeyColumn}</div>\r\n        </div>\r\n        <div>\r\n          <div>\r\n            <dx-widget name="dxDataGrid" options.bind="tableInfoGridOptions"></dx-widget>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </dx-template>\r\n  </dx-widget>\r\n</template>'}),define("text!resources/elements/container/container.css",["module"],function(e){e.exports=".container {\n  display: flex;\n  height: 100%;\n}\n.container > .container-sidebar {\n  flex: 300px 0 0;\n  display: flex;\n  flex-direction: column;\n}\n.container > .container-sidebar > .container-table-selection {\n  position: relative;\n  flex-grow: 1;\n  overflow-y: hidden;\n}\n.container > .container-sidebar > .container-table-selection > div {\n  position: absolute;\n  height: 100%;\n  width: 100%;\n}\n.container .container-buttons {\n  background-color: #34495E;\n}\n.container > .tables {\n  height: 100%;\n  width: 100%;\n  box-sizing: border-box;\n  overflow-y: scroll;\n  background-color: gray;\n}\n"}),define("text!resources/elements/databases/databases.css",["module"],function(e){e.exports=".databases-popup .dx-popup-normal {\n  border-radius: 0;\n  border: 0;\n}\n.databases-popup .dx-popup-normal.dx-state-focused.dx-overlay-content {\n  border: 0;\n}\n.databases-popup .dx-popup-normal .dx-popup-content {\n  padding: 0;\n}\n.databases-popup .dx-toolbar {\n  height: 50px;\n  margin: 0;\n  padding: 0 0;\n  background-color: #2C3E50;\n  box-sizing: border-box;\n  border-bottom: none;\n}\n.databases-popup .dx-toolbar .dx-toolbar-items-container {\n  height: 50px;\n}\n.databases-popup .dx-toolbar .dx-toolbar-items-container > div {\n  -webkit-border-horizontal-spacing: 0;\n  -webkit-border-vertical-spacing: 0;\n}\n.databases-popup .dx-toolbar .dx-toolbar-label {\n  color: white;\n}\n.databases-popup .dx-toolbar .dx-button {\n  border: 0;\n  background-color: transparent;\n  width: 50px;\n  height: 50px;\n  display: flex;\n  justify-content: center;\n}\n.databases-popup .dx-toolbar .dx-button:hover {\n  background-color: #698aac;\n}\n.databases-popup .dx-toolbar .dx-button .dx-button-content {\n  display: flex;\n  align-items: center;\n}\n.databases-popup .dx-toolbar .dx-button .dx-button-content i {\n  color: white;\n}\n.databases-popup .dx-toolbar .dx-texteditor {\n  border: none;\n}\n.databases-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button {\n  background-color: #507192;\n  padding: 0;\n}\n.databases-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-up-icon,\n.databases-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-down-icon {\n  background-color: #698aac;\n}\n.databases-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-up-icon,\n.databases-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-down-icon {\n  color: white;\n}\n.databases-popup .dx-toolbar .dx-texteditor input {\n  background-color: #476481;\n  color: white;\n}\n.database-container {\n  height: 100%;\n  overflow-y: auto;\n}\n.database-container .databases-item {\n  padding: 5px 7px 5px 12px;\n}\n.database-container .databases-item > div {\n  display: flex;\n  align-items: center;\n  padding: 5px 0 5px 0;\n}\n.database-container .databases-item > div > div:first-child {\n  width: 145px;\n}\n.database-container .databases-item > div > div:nth-child(2) {\n  flex-grow: 1;\n}\n.database-container .databases-item > div > div {\n  margin-right: 5px;\n}\n"}),define("text!resources/elements/editor/editor.css",["module"],function(e){e.exports=".editor {\n  display: block;\n  height: 100%;\n  width: 100%;\n}\n"}),define("text!resources/elements/find-column/find-column.css",["module"],function(e){e.exports=".findcolumn-popup .dx-popup-normal {\n  border-radius: 0;\n  border: 0;\n}\n.findcolumn-popup .dx-popup-normal.dx-state-focused.dx-overlay-content {\n  border: 0;\n}\n.findcolumn-popup .dx-popup-normal .dx-popup-content {\n  padding: 0;\n}\n.findcolumn-popup .dx-toolbar {\n  height: 50px;\n  margin: 0;\n  padding: 0 0;\n  background-color: #2C3E50;\n  box-sizing: border-box;\n  border-bottom: none;\n}\n.findcolumn-popup .dx-toolbar .dx-toolbar-items-container {\n  height: 50px;\n}\n.findcolumn-popup .dx-toolbar .dx-toolbar-items-container > div {\n  -webkit-border-horizontal-spacing: 0;\n  -webkit-border-vertical-spacing: 0;\n}\n.findcolumn-popup .dx-toolbar .dx-toolbar-label {\n  color: white;\n}\n.findcolumn-popup .dx-toolbar .dx-button {\n  border: 0;\n  background-color: transparent;\n  width: 50px;\n  height: 50px;\n  display: flex;\n  justify-content: center;\n}\n.findcolumn-popup .dx-toolbar .dx-button:hover {\n  background-color: #698aac;\n}\n.findcolumn-popup .dx-toolbar .dx-button .dx-button-content {\n  display: flex;\n  align-items: center;\n}\n.findcolumn-popup .dx-toolbar .dx-button .dx-button-content i {\n  color: white;\n}\n.findcolumn-popup .dx-toolbar .dx-texteditor {\n  border: none;\n}\n.findcolumn-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button {\n  background-color: #507192;\n  padding: 0;\n}\n.findcolumn-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-up-icon,\n.findcolumn-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-down-icon {\n  background-color: #698aac;\n}\n.findcolumn-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-up-icon,\n.findcolumn-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-down-icon {\n  color: white;\n}\n.findcolumn-popup .dx-toolbar .dx-texteditor input {\n  background-color: #476481;\n  color: white;\n}\n.findcolumn-container {\n  padding: 12px 5px;\n}\n"}),define("text!resources/elements/statement-editor/statement-editor.css",["module"],function(e){e.exports=".statementeditor-popup .dx-popup-normal {\n  border-radius: 0;\n  border: 0;\n}\n.statementeditor-popup .dx-popup-normal.dx-state-focused.dx-overlay-content {\n  border: 0;\n}\n.statementeditor-popup .dx-popup-normal .dx-popup-content {\n  padding: 0;\n}\n.statementeditor-popup .dx-toolbar {\n  height: 50px;\n  margin: 0;\n  padding: 0 0;\n  background-color: #2C3E50;\n  box-sizing: border-box;\n  border-bottom: none;\n}\n.statementeditor-popup .dx-toolbar .dx-toolbar-items-container {\n  height: 50px;\n}\n.statementeditor-popup .dx-toolbar .dx-toolbar-items-container > div {\n  -webkit-border-horizontal-spacing: 0;\n  -webkit-border-vertical-spacing: 0;\n}\n.statementeditor-popup .dx-toolbar .dx-toolbar-label {\n  color: white;\n}\n.statementeditor-popup .dx-toolbar .dx-button {\n  border: 0;\n  background-color: transparent;\n  width: 50px;\n  height: 50px;\n  display: flex;\n  justify-content: center;\n}\n.statementeditor-popup .dx-toolbar .dx-button:hover {\n  background-color: #698aac;\n}\n.statementeditor-popup .dx-toolbar .dx-button .dx-button-content {\n  display: flex;\n  align-items: center;\n}\n.statementeditor-popup .dx-toolbar .dx-button .dx-button-content i {\n  color: white;\n}\n.statementeditor-popup .dx-toolbar .dx-texteditor {\n  border: none;\n}\n.statementeditor-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button {\n  background-color: #507192;\n  padding: 0;\n}\n.statementeditor-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-up-icon,\n.statementeditor-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-down-icon {\n  background-color: #698aac;\n}\n.statementeditor-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-up-icon,\n.statementeditor-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-down-icon {\n  color: white;\n}\n.statementeditor-popup .dx-toolbar .dx-texteditor input {\n  background-color: #476481;\n  color: white;\n}\n.statementeditor-container {\n  display: flex;\n  height: 100%;\n}\n.statementeditor-container > .statementeditor-table-selection {\n  flex: 300px 0 0;\n}\n.statementeditor-container > .statementeditor {\n  height: 100%;\n  width: 100%;\n}\n.statementeditor-container > .statementeditor-columnchooser {\n  flex: 300px 0 0;\n  position: relative;\n}\n"}),define("text!resources/elements/table/table.css",["module"],function(e){e.exports=".table {\n  display: block;\n  padding: 0 5px;\n  box-sizing: border-box;\n}\n.table > * {\n  max-width: 100% !important;\n}\n.table > * > .dx-datagrid {\n  box-sizing: border-box;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel {\n  border: none;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-datagrid-search-panel {\n  border: none;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-datagrid-search-panel .dx-icon {\n  color: lightgray;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-datagrid-search-panel .dx-placeholder {\n  color: lightgray;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-datagrid-search-panel input {\n  color: lightgray;\n  background-color: #4f6f8f;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar {\n  height: 40px;\n  margin: 0;\n  padding: 0 0;\n  background-color: #2C3E50;\n  box-sizing: border-box;\n  border-bottom: none;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-toolbar-items-container {\n  height: 40px;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-toolbar-items-container > div {\n  -webkit-border-horizontal-spacing: 0;\n  -webkit-border-vertical-spacing: 0;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-toolbar-label {\n  color: white;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-button {\n  border: 0;\n  background-color: transparent;\n  width: 40px;\n  height: 40px;\n  display: flex;\n  justify-content: center;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-button:hover {\n  background-color: #698aac;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-button .dx-button-content {\n  display: flex;\n  align-items: center;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-button .dx-button-content i {\n  color: white;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-texteditor {\n  border: none;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button {\n  background-color: #507192;\n  padding: 0;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-up-icon,\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-down-icon {\n  background-color: #698aac;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-up-icon,\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-down-icon {\n  color: white;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-texteditor input {\n  background-color: #476481;\n  color: white;\n}\n.table .table-no-all-rows-loaded {\n  color: white;\n  background-color: red;\n  height: 30px;\n  width: 30px;\n  line-height: 30px;\n  border-radius: 30px;\n  margin: 5px;\n  text-align: center;\n  font-size: 14px;\n}\n"}),define("text!resources/elements/table-selection/table-selection.css",["module"],function(e){
-e.exports=".table-selection {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  box-sizing: border-box;\n  background-color: gray;\n}\n.table-selection > .databases {\n  background-color: #34495E;\n  padding: 5px;\n}\n.table-selection > .databases .dx-selectbox {\n  border: none;\n}\n.table-selection > .databases .dx-selectbox .dx-texteditor-container input {\n  color: lightgray;\n  background-color: #4f6f8f;\n}\n.table-selection > .databases .dx-selectbox .dx-texteditor-container .dx-button-normal .dx-dropdowneditor-icon {\n  color: lightgray;\n}\n.table-selection > .databases .dx-selectbox .dx-texteditor-container .dx-placeholder {\n  color: lightgray;\n}\n.table-selection > .databases .dx-selectbox.dx-dropdowneditor.dx-state-hover .dx-dropdowneditor-icon {\n  background-color: #7795b4;\n}\n.table-selection > .databases .dx-selectbox.dx-dropdowneditor.dx-dropdowneditor-active .dx-dropdowneditor-icon {\n  background-color: #587ca0;\n}\n.table-selection > .tables {\n  box-sizing: border-box;\n  flex-grow: 1;\n  position: relative;\n}\n.table-selection > .tables .tables-container {\n  position: absolute;\n  height: 100%;\n  width: 100%;\n}\n.table-selection > .tables .dx-datagrid {\n  background-color: #EEEEEE;\n  color: gray;\n}\n.table-selection > .tables .dx-datagrid-rowsview {\n  border-top: none;\n}\n.table-selection > .tables .dx-datagrid-header-panel {\n  border-bottom: none;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-datagrid-search-panel {\n  border: none;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-datagrid-search-panel .dx-icon {\n  color: lightgray;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-datagrid-search-panel .dx-placeholder {\n  color: lightgray;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-datagrid-search-panel input {\n  color: lightgray;\n  background-color: #4f6f8f;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar {\n  height: 40px;\n  margin: 0;\n  padding: 0 5px;\n  background-color: #34495E;\n  box-sizing: border-box;\n  border-bottom: none;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-toolbar-items-container {\n  height: 40px;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-toolbar-items-container > div {\n  -webkit-border-horizontal-spacing: 0;\n  -webkit-border-vertical-spacing: 0;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-toolbar-label {\n  color: lightgray;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-button {\n  border: 0;\n  background-color: transparent;\n  width: 40px;\n  height: 40px;\n  display: flex;\n  justify-content: center;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-button:hover {\n  background-color: #7795b4;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-button .dx-button-content {\n  display: flex;\n  align-items: center;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-button .dx-button-content i {\n  color: lightgray;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-texteditor {\n  border: none;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button {\n  background-color: #587ca0;\n  padding: 0;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-up-icon,\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-down-icon {\n  background-color: #7795b4;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-up-icon,\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-down-icon {\n  color: lightgray;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-texteditor input {\n  background-color: #4f6f8f;\n  color: lightgray;\n}\n.tableinfo-popup .dx-popup-normal {\n  border-radius: 0;\n  border: 0;\n}\n.tableinfo-popup .dx-popup-normal.dx-state-focused.dx-overlay-content {\n  border: 0;\n}\n.tableinfo-popup .dx-popup-normal .dx-popup-content {\n  padding: 0;\n}\n.tableinfo-popup .dx-toolbar {\n  height: 50px;\n  margin: 0;\n  padding: 0 0;\n  background-color: #2C3E50;\n  box-sizing: border-box;\n  border-bottom: none;\n}\n.tableinfo-popup .dx-toolbar .dx-toolbar-items-container {\n  height: 50px;\n}\n.tableinfo-popup .dx-toolbar .dx-toolbar-items-container > div {\n  -webkit-border-horizontal-spacing: 0;\n  -webkit-border-vertical-spacing: 0;\n}\n.tableinfo-popup .dx-toolbar .dx-toolbar-label {\n  color: white;\n}\n.tableinfo-popup .dx-toolbar .dx-button {\n  border: 0;\n  background-color: transparent;\n  width: 50px;\n  height: 50px;\n  display: flex;\n  justify-content: center;\n}\n.tableinfo-popup .dx-toolbar .dx-button:hover {\n  background-color: #698aac;\n}\n.tableinfo-popup .dx-toolbar .dx-button .dx-button-content {\n  display: flex;\n  align-items: center;\n}\n.tableinfo-popup .dx-toolbar .dx-button .dx-button-content i {\n  color: white;\n}\n.tableinfo-popup .dx-toolbar .dx-texteditor {\n  border: none;\n}\n.tableinfo-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button {\n  background-color: #507192;\n  padding: 0;\n}\n.tableinfo-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-up-icon,\n.tableinfo-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-down-icon {\n  background-color: #698aac;\n}\n.tableinfo-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-up-icon,\n.tableinfo-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-down-icon {\n  color: white;\n}\n.tableinfo-popup .dx-toolbar .dx-texteditor input {\n  background-color: #476481;\n  color: white;\n}\n.tableinfo-container {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n}\n.tableinfo-container > div:first-child {\n  padding: 12px 5px;\n  font-weight: bold;\n}\n.tableinfo-container > div:last-child {\n  position: relative;\n  flex-grow: 1;\n}\n.tableinfo-container > div:last-child > div {\n  position: absolute;\n  height: 100%;\n  width: 100%;\n}\n"});
+define('app',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var App = (function () {
+        function App() {
+        }
+        return App;
+    }());
+    exports.App = App;
+});
+
+define('config',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = {
+        apiUrl: "http://10.20.50.53/DBQ/api/"
+    };
+});
+
+define('environment',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = {
+        debug: true,
+        testing: true
+    };
+});
+
+define('main',["require", "exports", "./environment"], function (require, exports, environment_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    Promise.config({
+        longStackTraces: environment_1.default.debug,
+        warnings: {
+            wForgottenReturn: false
+        }
+    });
+    function configure(aurelia) {
+        aurelia.use
+            .standardConfiguration()
+            .feature("framework/base")
+            .feature("framework/dx")
+            .feature('resources');
+        if (environment_1.default.debug) {
+            aurelia.use.developmentLogging();
+        }
+        if (environment_1.default.testing) {
+            aurelia.use.plugin('aurelia-testing');
+        }
+        requirejs.config({ paths: { 'vs': '../node_modules/monaco-editor/min/vs' } });
+        requirejs(["vs/editor/editor.main"]);
+        aurelia.start().then(function () {
+            DevExpress.localization.locale("de");
+            DevExpress.ui.dxContextMenu.defaultOptions({
+                options: {
+                    animation: null
+                }
+            });
+            DevExpress.ui.dxPopup.defaultOptions({
+                options: {
+                    animation: null
+                }
+            });
+            DevExpress.ui.dxPopover.defaultOptions({
+                options: {
+                    animation: null
+                }
+            });
+            DevExpress.ui.dxSelectBox.defaultOptions({
+                options: {
+                    searchEnabled: true
+                }
+            });
+            aurelia.setRoot();
+        });
+    }
+    exports.configure = configure;
+});
+
+define('resources/event-aggregator-constants',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.DATABASE_REMOVED = "DATABASE_REMOVED";
+});
+
+define('resources/index',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    function configure(config) {
+        config
+            .globalResources("./elements/table-selection/table-selection")
+            .globalResources("./elements/table/table")
+            .globalResources("./elements/editor/editor")
+            .globalResources("./elements/databases/databases")
+            .globalResources("./elements/find-column/find-column")
+            .globalResources("./elements/column-chooser/column-chooser")
+            .globalResources("./elements/change-data/change-data")
+            .globalResources("./elements/code-editor/code-editor")
+            .globalResources("./elements/statement-editor/statement-editor")
+            .globalResources("./elements/table-information/table-information")
+            .globalResources("./elements/container/container");
+    }
+    exports.configure = configure;
+});
+
+define('framework/dx/index',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    function configure(config) {
+        config
+            .globalResources("devextreme")
+            .globalResources("./elements/dx-widget");
+    }
+    exports.configure = configure;
+});
+
+define('framework/base/event-args/custom-event-args',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+define('framework/base/services/object-info-service',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ObjectInfoService = (function () {
+        function ObjectInfoService() {
+        }
+        ObjectInfoService.prototype.equal = function (x, y) {
+            var _this = this;
+            if (x === null || x === undefined || y === null || y === undefined) {
+                return x === y;
+            }
+            if (x.constructor !== y.constructor) {
+                return false;
+            }
+            if (x instanceof Function) {
+                return x === y;
+            }
+            if (x instanceof RegExp) {
+                return x === y;
+            }
+            if (x === y || x.valueOf() === y.valueOf()) {
+                return true;
+            }
+            if (Array.isArray(x) && x.length !== y.length) {
+                return false;
+            }
+            if (x instanceof Date) {
+                return false;
+            }
+            if (!(x instanceof Object)) {
+                return false;
+            }
+            if (!(y instanceof Object)) {
+                return false;
+            }
+            var p = Object.keys(x);
+            return Object.keys(y).every(function (i) {
+                return p.indexOf(i) !== -1;
+            }) && p.every(function (i) {
+                return _this.equal(x[i], y[i]);
+            });
+        };
+        return ObjectInfoService;
+    }());
+    exports.ObjectInfoService = ObjectInfoService;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t;
+    return { next: verb(0), "throw": verb(1), "return": verb(2) };
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+define('framework/base/classes/custom-event',["require", "exports", "aurelia-framework", "../services/object-info-service"], function (require, exports, aurelia_framework_1, object_info_service_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var CustomEvent = (function () {
+        function CustomEvent(objectInfo, taskQueue) {
+            this.objectInfo = objectInfo;
+            this.taskQueue = taskQueue;
+            this.delegates = [];
+            this.argsQueue = [];
+            this.waitTimeout = 0;
+        }
+        CustomEvent.prototype.register = function (action) {
+            var _this = this;
+            this.delegates.push(action);
+            return function () {
+                var indexOf = _this.delegates.indexOf(action);
+                if (indexOf < 0) {
+                    return;
+                }
+                _this.delegates.splice(indexOf, 1);
+            };
+        };
+        CustomEvent.prototype.fire = function (args) {
+            if (this.waitTimeout === 0) {
+                return Promise.all(this.delegates.map(function (item) { return item(args); }));
+            }
+            else {
+                if (this.timeoutCancel) {
+                    clearTimeout(this.timeoutCancel);
+                    this.timeoutCancel = null;
+                }
+                for (var _i = 0, _a = this.argsQueue; _i < _a.length; _i++) {
+                    var item = _a[_i];
+                    if (this.objectInfo.equal(item, args)) {
+                        return;
+                    }
+                }
+                this.argsQueue.push(args);
+                this.timeoutCancel = setTimeout(this.fireQueue.bind(this), this.waitTimeout);
+            }
+        };
+        CustomEvent.prototype.fireQueue = function () {
+            return __awaiter(this, void 0, void 0, function () {
+                var _this = this;
+                var argsQueue;
+                return __generator(this, function (_a) {
+                    argsQueue = this.argsQueue.slice(0);
+                    this.argsQueue.splice(0, this.argsQueue.length);
+                    argsQueue.forEach(function (args) {
+                        _this.taskQueue.queueTask(function () {
+                            return Promise.all(_this.delegates.map(function (item) { return item(args); }));
+                        });
+                    });
+                    return [2 /*return*/];
+                });
+            });
+        };
+        return CustomEvent;
+    }());
+    CustomEvent = __decorate([
+        aurelia_framework_1.autoinject,
+        aurelia_framework_1.transient(),
+        __metadata("design:paramtypes", [object_info_service_1.ObjectInfoService,
+            aurelia_framework_1.TaskQueue])
+    ], CustomEvent);
+    exports.CustomEvent = CustomEvent;
+});
+
+define('framework/base/classes/export',["require", "exports", "./custom-event"], function (require, exports, custom_event_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.CustomEvent = custom_event_1.CustomEvent;
+});
+
+define('framework/base/event-args/unauthorized',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+define('framework/base/event-args/location-go-to',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+define('framework/base/enumerations/shortcuts',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Shortcuts;
+    (function (Shortcuts) {
+        Shortcuts[Shortcuts["save"] = 0] = "save";
+        Shortcuts[Shortcuts["saveAndNew"] = 1] = "saveAndNew";
+        Shortcuts[Shortcuts["delete"] = 2] = "delete";
+        Shortcuts[Shortcuts["new"] = 3] = "new";
+    })(Shortcuts = exports.Shortcuts || (exports.Shortcuts = {}));
+});
+
+define('framework/base/enumerations/export',["require", "exports", "./shortcuts"], function (require, exports, shortcuts_1) {
+    "use strict";
+    function __export(m) {
+        for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    __export(shortcuts_1);
+});
+
+define('framework/base/event-args/shortcut-execute',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+define('framework/base/event-args/export',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+define('framework/base/interfaces/data-source-option-filter',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+define('framework/base/interfaces/data-source-options',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+define('framework/base/interfaces/scope',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+define('framework/base/interfaces/expression-provider',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+define('framework/base/interfaces/rest-delete-options',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+define('framework/base/interfaces/rest-get-options',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+define('framework/base/interfaces/rest-post-options',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+define('framework/base/interfaces/style-property',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+define('framework/base/interfaces/style-class',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+define('framework/base/interfaces/export',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('framework/base/services/json-service',["require", "exports", "aurelia-framework"], function (require, exports, aurelia_framework_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var JsonService = (function () {
+        function JsonService() {
+            this.regexDateISO = /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d)/;
+        }
+        JsonService.prototype.parse = function (json) {
+            var _this = this;
+            if (!json) {
+                return json;
+            }
+            if (!(typeof json === "string")) {
+                json = JSON.stringify(json);
+            }
+            return JSON.parse(json, function (key, value) {
+                if (typeof value === "string" && value.indexOf("{") < 0) {
+                    var a = _this.regexDateISO.exec(value);
+                    if (a) {
+                        return new Date(value);
+                    }
+                    return value;
+                }
+                return value;
+            });
+        };
+        JsonService.prototype.stringify = function (obj) {
+            return JSON.stringify(obj);
+        };
+        return JsonService;
+    }());
+    JsonService = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [])
+    ], JsonService);
+    exports.JsonService = JsonService;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('framework/base/services/rest-service',["require", "exports", "aurelia-framework", "aurelia-fetch-client", "../classes/custom-event", "./json-service", "../../../config"], function (require, exports, aurelia_framework_1, aurelia_fetch_client_1, custom_event_1, json_service_1, config_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var RestService = (function () {
+        function RestService(json, onUnauthorizated) {
+            this.json = json;
+            this.onUnauthorizated = onUnauthorizated;
+            this.loadingCount = 0;
+        }
+        Object.defineProperty(RestService.prototype, "isLoading", {
+            get: function () {
+                return this.loadingCount > 0;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        RestService.prototype.delete = function (options) {
+            if (!options.id) {
+                throw new Error("Id is missing");
+            }
+            return this.execute("DELETE", options.url + "/" + options.id, this.createHeaders(), options.increaseLoadingCount);
+        };
+        RestService.prototype.get = function (options) {
+            return this.execute("GET", options.url, this.createHeaders(options), options.increaseLoadingCount);
+        };
+        RestService.prototype.post = function (options) {
+            var body = null;
+            if (options.data) {
+                if (typeof options.data === "string") {
+                    body = options.data;
+                }
+                else {
+                    body = this.json.stringify(options.data);
+                }
+            }
+            return this.execute("POST", options.url, this.createHeaders(options), options.increaseLoadingCount, body);
+        };
+        RestService.prototype.put = function (options) {
+            var body = null;
+            if (options.data) {
+                if (typeof options.data === "string") {
+                    body = options.data;
+                }
+                else {
+                    body = this.json.stringify(options.data);
+                }
+            }
+            return this.execute("PUT", options.url, this.createHeaders(options), options.increaseLoadingCount, body);
+        };
+        RestService.prototype.getUrl = function (suffix) {
+            return config_1.default["baseUrl"] + "/" + suffix;
+        };
+        RestService.prototype.getApiUrl = function (suffix) {
+            return config_1.default["apiUrl"] + "/" + suffix;
+        };
+        RestService.prototype.getWebApiUrl = function (suffix) {
+            return config_1.default["webApiUrl"] + "/" + suffix;
+        };
+        RestService.prototype.getAppUrl = function (suffix) {
+            return config_1.default["appUrl"] + "/" + suffix;
+        };
+        RestService.prototype.createHeaders = function (options) {
+            var headers = {};
+            if (options && options.getOptions) {
+                headers["X-GET-OPTIONS"] = this.json.stringify(options.getOptions);
+            }
+            headers["Content-Type"] = "application/json";
+            headers["Accept"] = "application/json";
+            if (this.getAuthHeader) {
+                Object.assign(headers, this.getAuthHeader());
+            }
+            return headers;
+        };
+        RestService.prototype.execute = function (method, url, headers, changeLoadingCount, body) {
+            var _this = this;
+            var client = new aurelia_fetch_client_1.HttpClient();
+            if (changeLoadingCount) {
+                this.loadingCount++;
+            }
+            return new Promise(function (success, error) {
+                client
+                    .fetch(url, {
+                    method: method,
+                    headers: headers,
+                    body: body
+                })
+                    .then(function (r) {
+                    if (r.ok) {
+                        return r.text();
+                    }
+                    if (r.status == 401) {
+                        _this.onUnauthorizated.fire({
+                            url: url
+                        });
+                        return;
+                    }
+                    DevExpress.ui.notify(r.statusText, "error", 3000);
+                    error(r);
+                })
+                    .then(function (r) { return _this.json.parse(r); })
+                    .then(function (r) { return success(r); })
+                    .catch(function (r) {
+                    error(r);
+                })
+                    .then(function () {
+                    if (changeLoadingCount) {
+                        _this.loadingCount--;
+                    }
+                });
+            });
+        };
+        return RestService;
+    }());
+    __decorate([
+        aurelia_framework_1.computedFrom("loadingCount"),
+        __metadata("design:type", Boolean),
+        __metadata("design:paramtypes", [])
+    ], RestService.prototype, "isLoading", null);
+    RestService = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [json_service_1.JsonService,
+            custom_event_1.CustomEvent])
+    ], RestService);
+    exports.RestService = RestService;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('framework/base/services/authorization-service',["require", "exports", "aurelia-framework", "./rest-service", "../../../config"], function (require, exports, aurelia_framework_1, rest_service_1, config_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var AuthorizationService = (function () {
+        function AuthorizationService(rest, aurelia, bindingEngine) {
+            var _this = this;
+            this.rest = rest;
+            this.aurelia = aurelia;
+            this.bindingEngine = bindingEngine;
+            this.X_TIP_AUTH = "X-TIP-AUTH";
+            this.isLoggedIn = null;
+            this.bindingEngine
+                .expressionObserver(this, "isLoggedIn")
+                .subscribe(function (newValue, oldValue) {
+                var app = "/";
+                if (newValue && config_1.default["mainApp"]) {
+                    app = config_1.default["mainApp"];
+                }
+                else if (!newValue && config_1.default["loginApp"]) {
+                    app = config_1.default["loginApp"];
+                }
+                aurelia.setRoot(app);
+            });
+            this.rest.getAuthHeader = this.getAuthorizationHeaders.bind(this);
+            this.rest.onUnauthorizated.register(function () {
+                _this.isLoggedIn = false;
+                return Promise.resolve();
+            });
+        }
+        AuthorizationService.prototype.openApp = function () {
+            var _this = this;
+            if (this.isLoggedIn) {
+                return;
+            }
+            if (!localStorage.getItem(this.X_TIP_AUTH)) {
+                this.isLoggedIn = false;
+                return;
+            }
+            this.rest.get({
+                url: this.rest.getApiUrl("base/Authorization/IsLoggedIn"),
+                increaseLoadingCount: true
+            }).then(function (r) {
+                _this.isLoggedIn = r.IsValid;
+            });
+        };
+        AuthorizationService.prototype.login = function (data) {
+            var _this = this;
+            return this.rest.post({
+                url: this.rest.getApiUrl("base/Authorization/Login"),
+                data: data,
+                increaseLoadingCount: true
+            }).then(function (r) {
+                if (r.IsValid) {
+                    _this.isLoggedIn = true;
+                    localStorage.setItem(_this.X_TIP_AUTH, r.AuthenticationToken);
+                    return true;
+                }
+                DevExpress.ui.notify("Benutzer oder Passwort ungültig", "error", 3000);
+                return false;
+            });
+        };
+        AuthorizationService.prototype.logout = function () {
+            var _this = this;
+            return this.rest.get({
+                url: this.rest.getApiUrl("base/Authorization/Logout"),
+                increaseLoadingCount: true
+            }).then(function () {
+                _this.isLoggedIn = false;
+                localStorage.removeItem(_this.X_TIP_AUTH);
+            });
+        };
+        AuthorizationService.prototype.getAuthorizationHeaders = function () {
+            var headers = {};
+            var auth = localStorage.getItem(this.X_TIP_AUTH);
+            if (auth) {
+                headers[this.X_TIP_AUTH] = auth;
+            }
+            return headers;
+        };
+        return AuthorizationService;
+    }());
+    AuthorizationService = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [rest_service_1.RestService,
+            aurelia_framework_1.Aurelia,
+            aurelia_framework_1.BindingEngine])
+    ], AuthorizationService);
+    exports.AuthorizationService = AuthorizationService;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('framework/base/services/binding-service',["require", "exports", "aurelia-framework"], function (require, exports, aurelia_framework_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var BindingService = (function () {
+        function BindingService() {
+        }
+        BindingService.prototype.getBindingContext = function (expression, scope) {
+            var obj = expression;
+            while (obj.object) {
+                obj = obj.object;
+            }
+            if (obj.name in scope.bindingContext) {
+                return scope.bindingContext;
+            }
+            else {
+                var ov = scope.overrideContext;
+                while (ov) {
+                    if (obj.name in ov.bindingContext) {
+                        return ov.bindingContext;
+                    }
+                    ov = ov.parentOverrideContext;
+                }
+            }
+            return scope.bindingContext || scope.overrideContext;
+        };
+        return BindingService;
+    }());
+    BindingService = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [])
+    ], BindingService);
+    exports.BindingService = BindingService;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('framework/base/services/data-source-service',["require", "exports", "aurelia-framework", "./rest-service"], function (require, exports, aurelia_framework_1, rest_service_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var DataSourceService = (function () {
+        function DataSourceService(rest) {
+            this.rest = rest;
+        }
+        DataSourceService.prototype.createDataSource = function (expressionProvider, options, loadRequiredAction) {
+            var _this = this;
+            var dataSource = new DevExpress.data.DataSource(new DevExpress.data.CustomStore({
+                key: options.keyProperty,
+                byKey: function (key) {
+                    var getOptions = _this.createGetOptions(expressionProvider, options);
+                    return _this.rest.get({
+                        url: _this.rest.getWebApiUrl(options.webApiAction + "/" + key),
+                        getOptions: getOptions
+                    });
+                },
+                load: function (loadOptions) {
+                    var getOptions = _this.createGetOptions(expressionProvider, options);
+                    if (getOptions == null) {
+                        if (loadOptions.requireTotalCount) {
+                            return Promise.resolve({
+                                data: [],
+                                totalCount: 0
+                            });
+                        }
+                        else {
+                            return Promise.resolve([]);
+                        }
+                    }
+                    if (loadOptions.filter) {
+                        if (getOptions.where) {
+                            getOptions.where = [getOptions.where, loadOptions.filter];
+                        }
+                        else {
+                            getOptions.where = loadOptions.filter;
+                        }
+                    }
+                    getOptions.skip = loadOptions.skip;
+                    getOptions.take = loadOptions.take;
+                    getOptions.requireTotalCount = loadOptions.requireTotalCount;
+                    if (loadOptions.sort) {
+                        getOptions.orderBy = loadOptions.sort.map(function (data) {
+                            return {
+                                columnName: data.selector,
+                                sortOrder: (data.desc === true ? 1 : 0)
+                            };
+                        });
+                    }
+                    return _this.rest.get({
+                        url: _this.rest.getWebApiUrl(options.webApiAction),
+                        getOptions: getOptions
+                    }).then(function (r) {
+                        if (loadOptions.requireTotalCount) {
+                            return {
+                                data: r.rows,
+                                totalCount: r.count
+                            };
+                        }
+                        else {
+                            return r;
+                        }
+                    });
+                }
+            }));
+            var timeout = null;
+            this.addObservers(expressionProvider, options, function () {
+                if (timeout) {
+                    clearTimeout(timeout);
+                    timeout = null;
+                }
+                timeout = setTimeout(function () {
+                    if (dataSource.pageIndex() === 0) {
+                        dataSource.reload();
+                    }
+                    else {
+                        dataSource.pageIndex(0);
+                    }
+                    if (loadRequiredAction) {
+                        loadRequiredAction();
+                    }
+                }, 10);
+            });
+            return dataSource;
+        };
+        DataSourceService.prototype.createGetOptions = function (expressionProvider, options) {
+            var getOptions = {};
+            getOptions.columns = options.webApiColumns;
+            getOptions.expand = options.webApiExpand;
+            getOptions.orderBy = options.webApiOrderBy;
+            if (options.webApiWhere) {
+                var where = [];
+                if (!this.constructWhere(expressionProvider, options.webApiWhere, where)) {
+                    return null;
+                }
+                if (where.length > 0) {
+                    getOptions.where = where;
+                }
+            }
+            if (options.filters) {
+                var customs = [];
+                var where = [];
+                if (!this.constructFilters(expressionProvider, options, customs, where)) {
+                    return null;
+                }
+                if (customs.length > 0) {
+                    getOptions.customs = customs;
+                }
+                if (where.length > 0) {
+                    if (getOptions.where) {
+                        getOptions.where = [getOptions.where, where];
+                    }
+                    else {
+                        getOptions.where = where;
+                    }
+                }
+            }
+            if (options.webApiMaxRecords > 0) {
+                getOptions.maxRecords = options.webApiMaxRecords;
+            }
+            return getOptions;
+        };
+        DataSourceService.prototype.addObservers = function (expressionProvider, options, action) {
+            this.addObserversWhere(expressionProvider, options.webApiWhere, action);
+            if (options.filters) {
+                for (var _i = 0, _a = options.filters; _i < _a.length; _i++) {
+                    var item = _a[_i];
+                    this.addObserversDetail(expressionProvider, item.if, action);
+                    this.addObserversDetail(expressionProvider, item.webApiCustomValue, action);
+                    this.addObserversWhere(expressionProvider, item.webApiWhere, action);
+                }
+            }
+        };
+        DataSourceService.prototype.addObserversDetail = function (expressionProvider, expression, action) {
+            if (expression == void (0)) {
+                return;
+            }
+            expressionProvider.createObserver(expression, action);
+        };
+        DataSourceService.prototype.addObserversWhere = function (expressionProvider, data, action) {
+            var _this = this;
+            if (data == void (0)) {
+                return;
+            }
+            if (Array.isArray(data)) {
+                data.forEach(function (item) { return _this.addObserversWhere(expressionProvider, item, action); });
+            }
+            else if (typeof data === "object") {
+                if (data.isBound === true && data.expression != void (0)) {
+                    this.addObserversDetail(expressionProvider, data.expression, action);
+                }
+                else {
+                    for (var property in data) {
+                        this.addObserversWhere(expressionProvider, data[property], action);
+                    }
+                }
+            }
+        };
+        DataSourceService.prototype.constructWhere = function (expressionProvider, data, where) {
+            var _this = this;
+            if (data == void (0)) {
+                return true;
+            }
+            if (Array.isArray(data)) {
+                var newArr_1 = [];
+                where.push(newArr_1);
+                var cancel_1 = false;
+                data.forEach(function (item) {
+                    if (!_this.constructWhere(expressionProvider, item, newArr_1)) {
+                        cancel_1 = true;
+                    }
+                });
+                if (cancel_1) {
+                    return false;
+                }
+            }
+            else if (typeof data === "object") {
+                if (data.isBound === true && data.expression != void (0)) {
+                    var val = expressionProvider.evaluateExpression(data.expression);
+                    if (val == void (0)) {
+                        return false;
+                    }
+                    where.push(val);
+                }
+                else {
+                    for (var property in data) {
+                        if (!this.constructWhere(expressionProvider, data[property], where)) {
+                            return false;
+                        }
+                    }
+                }
+            }
+            else {
+                where.push(data);
+            }
+            return true;
+        };
+        DataSourceService.prototype.constructFilters = function (expressionProvider, options, customs, where) {
+            for (var _i = 0, _a = options.filters; _i < _a.length; _i++) {
+                var item = _a[_i];
+                if (item.if) {
+                    if (!expressionProvider.evaluateExpression(item.if)) {
+                        continue;
+                    }
+                }
+                if (item.webApiCustomKey && item.webApiCustomValue) {
+                    customs.push({
+                        key: item.webApiCustomKey,
+                        value: expressionProvider.evaluateExpression(item.webApiCustomValue)
+                    });
+                }
+                else if (item.webApiWhere) {
+                    var w = [];
+                    if (!this.constructWhere(expressionProvider, item.webApiWhere, w)) {
+                        return false;
+                    }
+                    where.push(w);
+                }
+            }
+            return true;
+        };
+        return DataSourceService;
+    }());
+    DataSourceService = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [rest_service_1.RestService])
+    ], DataSourceService);
+    exports.DataSourceService = DataSourceService;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('framework/base/services/deep-observer-service',["require", "exports", "aurelia-framework"], function (require, exports, aurelia_framework_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var DeepObserverService = (function () {
+        function DeepObserverService(bindingEngine) {
+            this.bindingEngine = bindingEngine;
+        }
+        DeepObserverService.prototype.observe = function (target, callback) {
+            var subscription = new Subscription();
+            this.__observe(subscription, target, callback);
+            return function () {
+                subscription.dispose();
+            };
+        };
+        DeepObserverService.prototype.__observe = function (subscription, target, callback) {
+            if (target == null) {
+                return;
+            }
+            else if (target instanceof Date) {
+                return;
+            }
+            else if (Array.isArray(target)) {
+                this.__observeArray(subscription, target, callback);
+            }
+            else if (typeof target === "object") {
+                this.__observeObject(subscription, target, callback);
+            }
+        };
+        DeepObserverService.prototype.__observeArray = function (subscription, target, callback) {
+            var _this = this;
+            var newSubscription = subscription.createChildSubscription(target);
+            var observer = this.bindingEngine.collectionObserver(target).subscribe(function (e) {
+                for (var _i = 0, e_1 = e; _i < e_1.length; _i++) {
+                    var change = e_1[_i];
+                    if (change.addedCount > 0) {
+                        for (var i = change.index; i < change.addedCount; i++) {
+                            _this.__observe(newSubscription, target[i], callback);
+                        }
+                    }
+                    if (change.removed.length > 0) {
+                        for (var _a = 0, _b = change.removed; _a < _b.length; _a++) {
+                            var item = _b[_a];
+                            newSubscription.remove(item);
+                        }
+                    }
+                }
+                callback();
+            });
+            for (var _i = 0, target_1 = target; _i < target_1.length; _i++) {
+                var item = target_1[_i];
+                this.__observe(newSubscription, item, callback);
+            }
+        };
+        DeepObserverService.prototype.__observeObject = function (subscription, target, callback) {
+            var _this = this;
+            var newSubscription = subscription.createChildSubscription(target);
+            for (var property in target) {
+                if (target.hasOwnProperty(property)) {
+                    var observer = this.bindingEngine.propertyObserver(target, property).subscribe(function (newValue, oldValue) {
+                        newSubscription.remove(oldValue);
+                        _this.__observe(newSubscription, newValue, callback);
+                        callback();
+                    });
+                    newSubscription.addObserver(observer);
+                    this.__observe(newSubscription, target[property], callback);
+                }
+            }
+        };
+        return DeepObserverService;
+    }());
+    DeepObserverService = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [aurelia_framework_1.BindingEngine])
+    ], DeepObserverService);
+    exports.DeepObserverService = DeepObserverService;
+    var Subscription = (function () {
+        function Subscription() {
+            this.observers = [];
+            this.children = new Map();
+        }
+        Subscription.prototype.createChildSubscription = function (child) {
+            var newSubscription = new Subscription();
+            this.children.set(child, newSubscription);
+            return newSubscription;
+        };
+        Subscription.prototype.addObserver = function (observer) {
+            this.observers.push(observer);
+        };
+        Subscription.prototype.remove = function (child) {
+            var subscription = this.children.get(child);
+            if (!subscription) {
+                return;
+            }
+            subscription.dispose();
+            this.children.delete(child);
+        };
+        Subscription.prototype.dispose = function () {
+            this.observers.forEach(function (item) {
+                item.dispose();
+            });
+            this.children.forEach(function (item) {
+                item.dispose();
+            });
+            this.observers = [];
+        };
+        return Subscription;
+    }());
+});
+
+define('framework/base/services/error-service',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ErrorService = (function () {
+        function ErrorService() {
+        }
+        ErrorService.prototype.showError = function (error) {
+            DevExpress.ui.dialog.alert(error, "Fehler");
+        };
+        ErrorService.prototype.logError = function (error) {
+        };
+        ErrorService.prototype.showAndLogError = function (error) {
+            this.logError(error);
+            this.showError(error);
+        };
+        return ErrorService;
+    }());
+    exports.ErrorService = ErrorService;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('framework/base/services/globalization-service',["require", "exports", "moment", "aurelia-framework"], function (require, exports, moment, aurelia_framework_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var GlobalizationService = (function () {
+        function GlobalizationService() {
+            this.groupRegex = /\B(?=(\d{3})+(?!\d))/g;
+            this.escapeRegex = /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g;
+            this.current = new GermanGlobalizationProvider();
+            this.formatters = {};
+            this.parsers = {};
+        }
+        GlobalizationService.prototype.setProvider = function (provider) {
+            this.current = provider;
+            this.formatters = {};
+            this.parsers = {};
+        };
+        GlobalizationService.prototype.format = function (value, format) {
+            return this.getFormatter(format)(value);
+        };
+        GlobalizationService.prototype.getFormatter = function (format) {
+            var _this = this;
+            var formatter = this.formatters[format];
+            if (formatter == void (0)) {
+                formatter = function (value) {
+                    if (value == void (0)) {
+                        return null;
+                    }
+                    if (format.length === 1) {
+                        return moment(value).locale(_this.current.culture).format(format);
+                    }
+                    else {
+                        var count = parseInt(format.substr(1));
+                        var formatClass = format.substr(0, 1);
+                        if (formatClass === "p") {
+                            value = value * 100;
+                        }
+                        var a = value % 1;
+                        var b = value - a;
+                        a = Math.round(a * Math.pow(10, count));
+                        if (a === 1) {
+                            b += 1;
+                            a = 0;
+                        }
+                        switch (formatClass) {
+                            case "n": {
+                                return "" + _this.addGroupSeparator(b) + _this.addDecimalSeparator(a, count);
+                            }
+                            case "f": {
+                                return "" + b + _this.addDecimalSeparator(a, count);
+                            }
+                            case "p": {
+                                return "" + _this.addGroupSeparator(b) + _this.addDecimalSeparator(a, count) + " %";
+                            }
+                            default: {
+                                throw new Error("Not implemented format " + format);
+                            }
+                        }
+                    }
+                };
+                this.formatters[format] = formatter;
+            }
+            return formatter;
+        };
+        GlobalizationService.prototype.getParser = function (format) {
+            var _this = this;
+            var parser = this.parsers[format];
+            if (parser == void (0)) {
+                parser = function (value) {
+                    if (value == void (0)) {
+                        return null;
+                    }
+                    if (format.length === 1) {
+                        return moment(value, format, _this.current.culture);
+                    }
+                    else {
+                        var groupFinder = _this.current.groupSeparator.replace(_this.escapeRegex, "\\$&");
+                        value = value
+                            .replace(new RegExp(groupFinder, "g"), "")
+                            .replace(new RegExp("%", "g"), "")
+                            .replace(new RegExp(" ", "g"), "");
+                        var indexOf = value.indexOf(_this.current.commaSeparator);
+                        var b = value;
+                        var a = "";
+                        if (indexOf >= 0) {
+                            b = value.substr(0, indexOf);
+                            a = value.substr(indexOf + 1);
+                        }
+                        var count = parseInt(format.substr(1));
+                        var formatClass = format.substr(0, 1);
+                        switch (formatClass) {
+                            case "f":
+                            case "n": {
+                                return parseInt(b) + _this.makeComma(a);
+                            }
+                            case "p": {
+                                return (parseInt(b) + _this.makeComma(a)) / 100;
+                            }
+                            default: {
+                                throw new Error("Not implemented format " + format);
+                            }
+                        }
+                    }
+                };
+                this.parsers[format] = parser;
+            }
+            return parser;
+        };
+        GlobalizationService.prototype.getFormatterParser = function (format) {
+            return {
+                formatter: this.getFormatter(format),
+                parser: this.getParser(format)
+            };
+        };
+        GlobalizationService.prototype.addGroupSeparator = function (value) {
+            return value.toString().replace(this.groupRegex, this.current.groupSeparator);
+        };
+        GlobalizationService.prototype.addDecimalSeparator = function (value, count) {
+            var r = "";
+            if (count > 0) {
+                r += this.current.commaSeparator;
+                var c = value.toString();
+                while (c.length < count) {
+                    c += "0";
+                }
+                r += c;
+            }
+            return r;
+        };
+        GlobalizationService.prototype.makeComma = function (value) {
+            return parseInt(value) / Math.pow(10, value.length);
+        };
+        return GlobalizationService;
+    }());
+    GlobalizationService = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [])
+    ], GlobalizationService);
+    exports.GlobalizationService = GlobalizationService;
+    var GermanGlobalizationProvider = (function () {
+        function GermanGlobalizationProvider() {
+            this.culture = "de";
+            this.d = "DD.MM.YYYY";
+            this.D = "dddd, DD. MMM YYYY";
+            this.f = "dddd, DD. MMM YYYY, HH:mm";
+            this.F = "dddd, DD. MMM yyyy, HH:mm:ss";
+            this.g = "DD.MM.YYYY HH:mm";
+            this.G = "DD.MM.YYYY HH:mm:ss";
+            this.t = "HH:mm";
+            this.T = "HH:mm:ss";
+            this.commaSeparator = ",";
+            this.groupSeparator = " ";
+        }
+        return GermanGlobalizationProvider;
+    }());
+    exports.GermanGlobalizationProvider = GermanGlobalizationProvider;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('framework/base/services/localization-service',["require", "exports", "aurelia-framework", "./rest-service", "text!../../../localization-neutral.json"], function (require, exports, aurelia_framework_1, rest_service_1, localizationNeutral) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var LocalizationService = (function () {
+        function LocalizationService(rest) {
+            this.rest = rest;
+            this.neutral = JSON.parse(localizationNeutral);
+        }
+        LocalizationService.prototype.translate = function (expressionProvider, key, callback) {
+            var _this = this;
+            if (!key) {
+                return null;
+            }
+            var item = this.getItem(key);
+            if (!item) {
+                throw new Error("No localization found for " + key);
+            }
+            if (callback) {
+                if (!Array.isArray(expressionProvider) && typeof item === "object" && item.parameters.length > 0) {
+                    item.parameters.forEach(function (expr, index) {
+                        expressionProvider.createObserver(expr, function () {
+                            callback(_this.translateItem(expressionProvider, item));
+                        });
+                    });
+                }
+                var result = this.translateItem(expressionProvider, item);
+                callback(result);
+                return result;
+            }
+            else {
+                return this.translateItem(expressionProvider, item);
+            }
+        };
+        LocalizationService.prototype.getItem = function (key) {
+            var items = key.split(".");
+            var item = this.neutral;
+            items.forEach(function (i) {
+                if (!item) {
+                    return;
+                }
+                item = item[i];
+            });
+            return item;
+        };
+        LocalizationService.prototype.translateItem = function (expressionProvider, item) {
+            if (typeof item === "string") {
+                if (Array.isArray(expressionProvider)) {
+                    expressionProvider.forEach(function (val, index) {
+                        item = item.replace(new RegExp("\\{" + index + "\\}", "g"), val);
+                    });
+                }
+                return item;
+            }
+            else if (!Array.isArray(expressionProvider) && typeof item === "object") {
+                var text_1 = item.text;
+                item.parameters.forEach(function (expr, index) {
+                    var val = expressionProvider.evaluateExpression(expr);
+                    if (val == void (0)) {
+                        val = "";
+                    }
+                    text_1 = text_1.replace(new RegExp("\\{" + index + "\\}", "g"), val);
+                });
+                return text_1;
+            }
+            throw new Error();
+        };
+        return LocalizationService;
+    }());
+    LocalizationService = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [rest_service_1.RestService])
+    ], LocalizationService);
+    exports.LocalizationService = LocalizationService;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('framework/base/services/location-service',["require", "exports", "aurelia-framework", "../classes/custom-event"], function (require, exports, aurelia_framework_1, custom_event_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var LocationService = (function () {
+        function LocationService(onLocationGoTo) {
+            this.onLocationGoTo = onLocationGoTo;
+        }
+        LocationService.prototype.goTo = function (url, currentViewModel) {
+            var args = {
+                url: url,
+                currentViewModel: currentViewModel,
+                isHandled: false
+            };
+            this.onLocationGoTo
+                .fire(args)
+                .then(function () {
+                if (!args.isHandled) {
+                    location.assign(url);
+                }
+            });
+        };
+        return LocationService;
+    }());
+    LocationService = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [custom_event_1.CustomEvent])
+    ], LocationService);
+    exports.LocationService = LocationService;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+define('framework/base/services/permission-service',["require", "exports", "aurelia-framework"], function (require, exports, aurelia_framework_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var PermissionService = (function () {
+        function PermissionService() {
+        }
+        PermissionService.prototype.canWebApiNew = function (webApiAction) {
+            return true;
+        };
+        PermissionService.prototype.canWebApiModify = function (webApiAction) {
+            return true;
+        };
+        PermissionService.prototype.canWebApiDelete = function (webApiAction) {
+            return true;
+        };
+        return PermissionService;
+    }());
+    PermissionService = __decorate([
+        aurelia_framework_1.autoinject
+    ], PermissionService);
+    exports.PermissionService = PermissionService;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('framework/base/services/shortcut-service',["require", "exports", "aurelia-framework", "../classes/export", "../enumerations/export", "mousetrap"], function (require, exports, aurelia_framework_1, export_1, export_2, mousetrap) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ShortcutService = (function () {
+        function ShortcutService(onShortcutExecute) {
+            this.onShortcutExecute = onShortcutExecute;
+            this.bind();
+        }
+        ShortcutService.prototype.bind = function () {
+            var _this = this;
+            mousetrap.bindGlobal("f10", function (e) { return _this.fire(export_2.Shortcuts.save); });
+            mousetrap.bindGlobal("ctrl+f10", function (e) { return _this.fire(export_2.Shortcuts.saveAndNew); });
+            mousetrap.bindGlobal("f8", function (e) { return _this.fire(export_2.Shortcuts.delete); });
+            mousetrap.bindGlobal("f7", function (e) { return _this.fire(export_2.Shortcuts.new); });
+        };
+        ShortcutService.prototype.fire = function (shortcut) {
+            if (document.activeElement) {
+                var activeElement = document.activeElement;
+                if (activeElement.blur) {
+                    activeElement.blur();
+                }
+            }
+            this.onShortcutExecute.fire({
+                shortcut: shortcut
+            });
+        };
+        return ShortcutService;
+    }());
+    ShortcutService = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [export_1.CustomEvent])
+    ], ShortcutService);
+    exports.ShortcutService = ShortcutService;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('framework/base/services/style-service',["require", "exports", "aurelia-framework"], function (require, exports, aurelia_framework_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var StyleService = (function () {
+        function StyleService() {
+        }
+        StyleService.prototype.addStyles = function (key, styleClasses) {
+            this.removeStyleTag(key);
+            var styleTag = document.createElement('style');
+            styleTag.type = "text/css";
+            styleTag.id = key;
+            styleTag.appendChild(document.createTextNode(this.getCssClasses(styleClasses)));
+            document.head.appendChild(styleTag);
+        };
+        StyleService.prototype.removeStyleTag = function (key) {
+            var styleTag = document.getElementById(key);
+            if (styleTag) {
+                styleTag.remove();
+            }
+        };
+        StyleService.prototype.getCssClasses = function (styleClasses) {
+            var _this = this;
+            return styleClasses
+                .map(function (c) { return "\n" + c.name + " {\n " + _this.getCssClass(c.properties) + " }\n"; })
+                .join("");
+        };
+        StyleService.prototype.getCssClass = function (properties) {
+            return properties
+                .map(function (c) { return c.propertyName + ": " + c.value + ";\n"; })
+                .join("");
+        };
+        return StyleService;
+    }());
+    StyleService = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [])
+    ], StyleService);
+    exports.StyleService = StyleService;
+});
+
+define('framework/base/services/export',["require", "exports", "./authorization-service", "./binding-service", "./data-source-service", "./deep-observer-service", "./error-service", "./globalization-service", "./localization-service", "./location-service", "./json-service", "./object-info-service", "./permission-service", "./rest-service", "./shortcut-service", "./style-service"], function (require, exports, authorization_service_1, binding_service_1, data_source_service_1, deep_observer_service_1, error_service_1, globalization_service_1, localization_service_1, location_service_1, json_service_1, object_info_service_1, permission_service_1, rest_service_1, shortcut_service_1, style_service_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.AuthorizationService = authorization_service_1.AuthorizationService;
+    exports.BindingService = binding_service_1.BindingService;
+    exports.DataSourceService = data_source_service_1.DataSourceService;
+    exports.DeepObserverService = deep_observer_service_1.DeepObserverService;
+    exports.ErrorService = error_service_1.ErrorService;
+    exports.GlobalizationService = globalization_service_1.GlobalizationService;
+    exports.LocalizationService = localization_service_1.LocalizationService;
+    exports.LocationService = location_service_1.LocationService;
+    exports.JsonService = json_service_1.JsonService;
+    exports.ObjectInfoService = object_info_service_1.ObjectInfoService;
+    exports.PermissionService = permission_service_1.PermissionService;
+    exports.RestService = rest_service_1.RestService;
+    exports.ShortcutService = shortcut_service_1.ShortcutService;
+    exports.StyleService = style_service_1.StyleService;
+});
+
+define('framework/base/export',["require", "exports", "./classes/export", "./services/export"], function (require, exports, export_1, export_2) {
+    "use strict";
+    function __export(m) {
+        for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    __export(export_1);
+    __export(export_2);
+});
+
+define('framework/base/index',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    function configure(config) {
+        config
+            .globalResources("./attributes/icon/fa-icon-attribute")
+            .globalResources("./attributes/translation/translation-attribute")
+            .globalResources("./styles/styles.css");
+    }
+    exports.configure = configure;
+});
+
+define('resources/models/column-info',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+define('resources/models/database-provider',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+define('resources/models/database-repository',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+define('resources/models/table',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+define('resources/models/table-data',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+define('resources/models/export',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('resources/services/database-service',["require", "exports", "aurelia-framework", "aurelia-event-aggregator", "../../framework/base/services/export", "../event-aggregator-constants"], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, export_1, EAConstants) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var DatabaseService = (function () {
+        function DatabaseService(rest, eventAggregator) {
+            this.rest = rest;
+            this.eventAggregator = eventAggregator;
+            this.getDatabases();
+            this._tables = {};
+        }
+        DatabaseService.prototype.getDatabases = function () {
+            var _this = this;
+            if (this.databases) {
+                return Promise.resolve(this.databases);
+            }
+            return this
+                .get("Database/Databases")
+                .then(function (r) {
+                _this.databases = r;
+                return r;
+            });
+        };
+        DatabaseService.prototype.getTables = function (databaseId) {
+            var _this = this;
+            if (this._tables[databaseId]) {
+                return Promise.resolve(this._tables[databaseId]);
+            }
+            return this
+                .get("Database/Tables?databaseId=" + databaseId)
+                .then(function (r) {
+                _this._tables[databaseId] = r;
+                return r;
+            });
+        };
+        DatabaseService.prototype.deleteDatabase = function (database) {
+            var index = this.databases.indexOf(database);
+            if (index >= 0) {
+                this.databases.splice(index, 1);
+            }
+            if (!database.id) {
+                return Promise.resolve();
+            }
+            this.eventAggregator.publish(EAConstants.DATABASE_REMOVED, database.id);
+            return this.post("Database/DeleteDatabase", {
+                id: database.id
+            });
+        };
+        DatabaseService.prototype.postDatabase = function (database) {
+            return this.post("Database/Database", database)
+                .then(function (r) {
+                Object.assign(database, r);
+            });
+        };
+        DatabaseService.prototype.reload = function () {
+            this.databases = null;
+            return this.getDatabases();
+        };
+        DatabaseService.prototype.getProviders = function () {
+            return this
+                .get("Database/Providers")
+                .then(function (r) {
+                return r;
+            });
+        };
+        DatabaseService.prototype.get = function (url) {
+            return this.rest
+                .get({
+                url: this.rest.getApiUrl(url)
+            });
+        };
+        DatabaseService.prototype.post = function (url, data) {
+            return this.rest
+                .post({
+                url: this.rest.getApiUrl(url),
+                data: data
+            });
+        };
+        return DatabaseService;
+    }());
+    DatabaseService = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [export_1.RestService,
+            aurelia_event_aggregator_1.EventAggregator])
+    ], DatabaseService);
+    exports.DatabaseService = DatabaseService;
+});
+
+define('resources/elements/table/table-notification',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('resources/elements/editor/editor',["require", "exports", "aurelia-framework", "../../models/export"], function (require, exports, aurelia_framework_1, Models) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Editor = (function () {
+        function Editor(element) {
+            this.element = element;
+        }
+        Editor.prototype.attached = function () {
+            this.instance = monaco.editor.create(this.element, {
+                language: this.language || "sql",
+                automaticLayout: true,
+                wordWrap: true
+            });
+        };
+        Editor.prototype.insertText = function (text) {
+            var sel = this.instance.getSelection();
+            this.instance.executeEdits("text-placeholder", [{
+                    identifier: { major: 1, minor: 0 },
+                    range: sel,
+                    text: text,
+                    forceMoveMarkers: true
+                }]);
+            this.instance.focus();
+        };
+        Editor.prototype.setScriptToData = function () {
+            this.tableData.script = this.getValue();
+        };
+        Editor.prototype.refresh = function () {
+            this.setValue(this.tableData.script);
+        };
+        Editor.prototype.getValue = function () {
+            return this.instance.getValue();
+        };
+        Editor.prototype.setValue = function (value) {
+            this.instance.setValue(value || "");
+        };
+        return Editor;
+    }());
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], Editor.prototype, "tableData", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", String)
+    ], Editor.prototype, "language", void 0);
+    Editor = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [Element])
+    ], Editor);
+    exports.Editor = Editor;
+});
+
+define('resources/elements/table-selection/table-selection-notification',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('resources/elements/table-information/table-information',["require", "exports", "aurelia-framework", "../../services/export"], function (require, exports, aurelia_framework_1, Services) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var TableInformation = (function () {
+        function TableInformation(sql) {
+            var _this = this;
+            this.sql = sql;
+            this.tableInfoPopupOptions = {
+                contentTemplate: "contentTemplate",
+                showCloseButton: false,
+                toolbarItems: [{
+                        text: "Tabelleninformation",
+                        location: "center"
+                    }, {
+                        widget: "dxButton",
+                        location: "after",
+                        options: {
+                            hint: "Schließen",
+                            icon: "fa fa-times",
+                            onClick: function () {
+                                _this.tableInfoPopupVisible = false;
+                            }
+                        }
+                    }],
+                onShown: function (e) {
+                },
+                bindingOptions: {
+                    "visible": "tableInfoPopupVisible"
+                }
+            };
+            this.tableInfoGridOptions = {
+                columns: [{
+                        dataField: "columnName",
+                        caption: "Spalte"
+                    }, {
+                        dataField: "typeName",
+                        caption: "Typ"
+                    }, {
+                        dataField: "maxLength",
+                        caption: "Max. Länge",
+                        width: "100px"
+                    }, {
+                        dataField: "isNullable",
+                        caption: "Null?",
+                        width: "100px"
+                    }, {
+                        dataField: "relatedTableName",
+                        caption: "FK Tabelle"
+                    }, {
+                        dataField: "relatedColumnName",
+                        caption: "FK Spalte"
+                    }],
+                height: "100%",
+                bindingOptions: {
+                    "dataSource": "tableInfo.columns"
+                }
+            };
+        }
+        TableInformation.prototype.show = function (databaseId, tableName) {
+            var _this = this;
+            this.sql
+                .tableInfo(databaseId, tableName)
+                .then(function (r) {
+                _this.tableInfo = r;
+            });
+            this.tableInfoPopupVisible = true;
+        };
+        return TableInformation;
+    }());
+    TableInformation = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [Services.SqlService])
+    ], TableInformation);
+    exports.TableInformation = TableInformation;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('resources/elements/table-selection/table-selection',["require", "exports", "aurelia-framework", "aurelia-event-aggregator", "../table-information/table-information", "../../services/export", "../../event-aggregator-constants"], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, table_information_1, Services, EAConstants) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var TableSelection = (function () {
+        function TableSelection(database, sql, eventAggregator) {
+            var _this = this;
+            this.database = database;
+            this.sql = sql;
+            this.eventAggregator = eventAggregator;
+            this.databaseOptions = {
+                valueExpr: "id",
+                displayExpr: "caption",
+                bindingOptions: {
+                    value: "databaseId",
+                    dataSource: "database.databases",
+                    disabled: "databaseDisabled"
+                }
+            };
+            this.tableOptions = {
+                searchPanel: {
+                    visible: true
+                },
+                hoverStateEnabled: true,
+                scrolling: {
+                    mode: "virtual",
+                    preloadEnabled: true
+                },
+                columns: [{
+                        dataField: "tableName",
+                        caption: "Tabelle"
+                    }],
+                showColumnHeaders: false,
+                bindingOptions: {
+                    dataSource: "tables"
+                },
+                height: "100%",
+                onContextMenuPreparing: function (e) {
+                    if (e.row.rowType === "data") {
+                        e.items = [{
+                                text: "Tabelle erstellen",
+                                onItemClick: function () {
+                                    if (!_this.notification) {
+                                        return;
+                                    }
+                                    _this.notification.onTableClicked(_this.databaseId, e.row.data.tableName);
+                                }
+                            },
+                            {
+                                text: "Tabelle mit Alias erstellen",
+                                onItemClick: function () {
+                                    if (!_this.notification) {
+                                        return;
+                                    }
+                                    _this.notification.onTableClicked(_this.databaseId, e.row.data.tableName, "a");
+                                }
+                            },
+                            {
+                                text: "Tabelleninformation anzeigen",
+                                beginGroup: true,
+                                onItemClick: function () {
+                                    _this.tableInformationViewModel.show(_this.databaseId, e.row.data.tableName);
+                                }
+                            }];
+                    }
+                },
+                onRowClick: function (e) {
+                    if (!_this.notification) {
+                        return;
+                    }
+                    _this.notification.onTableClicked(_this.databaseId, e.data.tableName);
+                },
+                onToolbarPreparing: function (e) {
+                    var dataGrid = e.component;
+                    e.toolbarOptions.items.unshift({
+                        location: "before",
+                        text: "Tabellen"
+                    });
+                }
+            };
+        }
+        Object.defineProperty(TableSelection.prototype, "databaseDisabled", {
+            get: function () {
+                return !this.database
+                    || !this.database.databases;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        TableSelection.prototype.attached = function () {
+            var _this = this;
+            this.databaseRemovedSubscription = this.eventAggregator.subscribe(EAConstants.DATABASE_REMOVED, function (e) {
+                if (_this.databaseId == e) {
+                    _this.databaseId = null;
+                }
+            });
+        };
+        TableSelection.prototype.detached = function () {
+            this.databaseRemovedSubscription.dispose();
+        };
+        TableSelection.prototype.databaseIdChanged = function (newValue, oldValue) {
+            var _this = this;
+            if (newValue) {
+                this.database.getTables(newValue).then(function (r) {
+                    _this.tables = r;
+                });
+            }
+            else {
+                this.tables = [];
+            }
+        };
+        return TableSelection;
+    }());
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], TableSelection.prototype, "notification", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", table_information_1.TableInformation)
+    ], TableSelection.prototype, "tableInformationViewModel", void 0);
+    __decorate([
+        aurelia_framework_1.observable,
+        __metadata("design:type", Number)
+    ], TableSelection.prototype, "databaseId", void 0);
+    __decorate([
+        aurelia_framework_1.computedFrom("database", "database.databases"),
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [])
+    ], TableSelection.prototype, "databaseDisabled", null);
+    TableSelection = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [Services.DatabaseService, Services.SqlService, aurelia_event_aggregator_1.EventAggregator])
+    ], TableSelection);
+    exports.TableSelection = TableSelection;
+});
+
+define('resources/elements/column-chooser/column-chooser-notification',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('resources/elements/column-chooser/column-chooser',["require", "exports", "aurelia-framework", "../../services/export"], function (require, exports, aurelia_framework_1, Services) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ColumnChooser = (function () {
+        function ColumnChooser(table) {
+            var _this = this;
+            this.table = table;
+            this.tableSelectOptions = {
+                displayExpr: "caption",
+                valueExpr: "tableData.tableId",
+                bindingOptions: {
+                    "dataSource": "table.tables",
+                    "value": "selectedTableId",
+                    "disabled": "tableSelectDisabled"
+                }
+            };
+            this.columnGridOptions = {
+                searchPanel: {
+                    visible: true
+                },
+                hoverStateEnabled: true,
+                scrolling: {
+                    mode: "virtual",
+                    preloadEnabled: true
+                },
+                columns: [{
+                        dataField: "caption",
+                        caption: "Spalte",
+                        sortIndex: 0,
+                        sortOrder: "asc"
+                    }],
+                showColumnHeaders: false,
+                height: "100%",
+                onRowClick: function (e) {
+                    if (!_this.notification) {
+                        return;
+                    }
+                    _this.notification.onColumnClicked(e.data.caption);
+                },
+                onToolbarPreparing: function (e) {
+                    var dataGrid = e.component;
+                    e.toolbarOptions.items.unshift({
+                        location: "before",
+                        text: "Spalten"
+                    });
+                },
+                bindingOptions: {
+                    dataSource: "columns"
+                }
+            };
+        }
+        ColumnChooser.prototype.fixedTableIdChanged = function (newValue, oldValue) {
+            this.tableSelectDisabled = !!newValue;
+            if (newValue) {
+                this.selectedTableId = newValue;
+            }
+            else {
+                this.selectedTableId = null;
+            }
+        };
+        ColumnChooser.prototype.selectedTableIdChanged = function (newValue, oldValue) {
+            if (newValue) {
+                this.columns = this.table.getTableDataByTableId(newValue).columns;
+            }
+            else {
+                this.columns = [];
+            }
+        };
+        return ColumnChooser;
+    }());
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], ColumnChooser.prototype, "notification", void 0);
+    __decorate([
+        aurelia_framework_1.bindable, aurelia_framework_1.observable,
+        __metadata("design:type", Number)
+    ], ColumnChooser.prototype, "fixedTableId", void 0);
+    __decorate([
+        aurelia_framework_1.bindable, aurelia_framework_1.observable,
+        __metadata("design:type", Number)
+    ], ColumnChooser.prototype, "selectedTableId", void 0);
+    ColumnChooser = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [Services.TableService])
+    ], ColumnChooser);
+    exports.ColumnChooser = ColumnChooser;
+});
+
+define('resources/elements/statement-editor/statement-editor-notification',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('resources/elements/statement-editor/statement-editor',["require", "exports", "aurelia-framework", "../editor/editor", "../table-selection/table-selection", "../column-chooser/column-chooser", "../../models/export", "../../services/export"], function (require, exports, aurelia_framework_1, editor_1, table_selection_1, column_chooser_1, Models, Services) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var StatementEditor = (function () {
+        function StatementEditor(sql, table) {
+            var _this = this;
+            this.sql = sql;
+            this.table = table;
+            this.tableSelectionNotification = {
+                onTableClicked: this.onTableClicked.bind(this)
+            };
+            this.columnChooserNotification = {
+                onColumnClicked: this.onColumnChooserColumnClicked.bind(this)
+            };
+            this.statementPopupOptions = {
+                contentTemplate: "contentTemplate",
+                showCloseButton: false,
+                toolbarItems: [{
+                        widget: "dxButton",
+                        location: "before",
+                        options: {
+                            hint: "Statement ausführen",
+                            icon: "fa fa-play",
+                            onClick: function () {
+                                _this.editorViewModel.setScriptToData();
+                                _this.editorData.databaseId = _this.tableSelectionViewModel.databaseId;
+                                _this.editorData.rows = _this.getMaxRows();
+                                if (_this.columnChooserViewModel.selectedTableId) {
+                                    _this.tableData.referencedTableDataId = _this.columnChooserViewModel.selectedTableId;
+                                }
+                                else {
+                                    _this.tableData.referencedTableDataId = null;
+                                }
+                                if (_this.notification) {
+                                    _this.notification.onExecute();
+                                }
+                                _this.statementPopupVisible = false;
+                            }
+                        },
+                    }, {
+                        widget: "dxButton",
+                        location: "before",
+                        options: {
+                            hint: "Statement formatieren",
+                            icon: "fa fa-align-left",
+                            onClick: function () {
+                                _this.sql.formatSql(_this.editorViewModel.getValue())
+                                    .then(function (r) {
+                                    _this.editorViewModel.setValue(r.script);
+                                });
+                            }
+                        },
+                    }, {
+                        text: "Statement editieren",
+                        location: "center"
+                    }, {
+                        widget: "dxNumberBox",
+                        location: "after",
+                        options: {
+                            hint: "Anzahl zu lesende Datensätze",
+                            min: -1,
+                            showSpinButtons: true,
+                            onInitialized: function (e) {
+                                _this.maxRowsNumberBox = e.component;
+                            }
+                        },
+                    }, {
+                        widget: "dxButton",
+                        location: "after",
+                        options: {
+                            hint: "Schließen",
+                            icon: "fa fa-times",
+                            onClick: function () {
+                                _this.statementPopupVisible = false;
+                            }
+                        }
+                    }],
+                onShown: function (e) {
+                    _this.setMaxRows(_this.editorData.rows);
+                    _this.tableSelectionViewModel.databaseId = _this.editorData.databaseId;
+                    if (_this.tableData.referencedTableData) {
+                        _this.columnChooserViewModel.selectedTableId = _this.tableData.referencedTableData.tableId;
+                    }
+                    else {
+                        _this.columnChooserViewModel.selectedTableId = _this.fixedTableId;
+                    }
+                    _this.editorViewModel.refresh();
+                },
+                bindingOptions: {
+                    "visible": "statementPopupVisible"
+                }
+            };
+        }
+        StatementEditor.prototype.show = function () {
+            if (this.tableData == this.editorData) {
+                this.fixedTableId = null;
+            }
+            else {
+                this.fixedTableId = this.tableData.tableId;
+            }
+            this.statementPopupVisible = true;
+        };
+        StatementEditor.prototype.getMaxRows = function () {
+            return this.maxRowsNumberBox.option("value");
+        };
+        StatementEditor.prototype.setMaxRows = function (value) {
+            this.maxRowsNumberBox.option("value", value);
+        };
+        StatementEditor.prototype.onColumnChooserColumnClicked = function (columnName) {
+            this.editorViewModel.insertText("<#" + columnName + "#>");
+        };
+        StatementEditor.prototype.onTableClicked = function (databaseId, tableName, alias) {
+            var _this = this;
+            var tableData = {
+                databaseId: databaseId,
+                tableName: tableName,
+                alias: alias,
+                tableId: new Date().getTime()
+            };
+            this.sql
+                .selectSql(tableData)
+                .then(function (r) {
+                _this.editorViewModel.setValue(r.tableData.script);
+            });
+        };
+        return StatementEditor;
+    }());
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], StatementEditor.prototype, "editorData", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], StatementEditor.prototype, "tableData", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], StatementEditor.prototype, "notification", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", table_selection_1.TableSelection)
+    ], StatementEditor.prototype, "tableSelectionViewModel", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", editor_1.Editor)
+    ], StatementEditor.prototype, "editorViewModel", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", column_chooser_1.ColumnChooser)
+    ], StatementEditor.prototype, "columnChooserViewModel", void 0);
+    StatementEditor = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [Services.SqlService, Services.TableService])
+    ], StatementEditor);
+    exports.StatementEditor = StatementEditor;
+});
+
+define('resources/elements/find-column/find-column-notification',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('resources/elements/find-column/find-column',["require", "exports", "aurelia-framework", "../../models/export"], function (require, exports, aurelia_framework_1, Models) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var FindColumn = (function () {
+        function FindColumn() {
+            var _this = this;
+            this.findColumnPopupOptions = {
+                contentTemplate: "contentTemplate",
+                showCloseButton: false,
+                width: "400px",
+                height: "auto",
+                toolbarItems: [{
+                        widget: "dxButton",
+                        location: "before",
+                        options: {
+                            hint: "Spalte markieren",
+                            icon: "fa fa-play",
+                            onClick: function () {
+                                if (!_this.notification) {
+                                    return;
+                                }
+                                _this.notification.onColumnSelected(_this.selectedInternalFieldName);
+                                _this.findColumnPopupVisible = false;
+                            }
+                        },
+                    }, {
+                        text: "Spalte suchen",
+                        location: "center"
+                    }, {
+                        widget: "dxButton",
+                        location: "after",
+                        options: {
+                            hint: "Schließen",
+                            icon: "fa fa-times",
+                            onClick: function () {
+                                _this.findColumnPopupVisible = false;
+                            }
+                        }
+                    }],
+                onShown: function (e) {
+                },
+                bindingOptions: {
+                    "visible": "findColumnPopupVisible"
+                }
+            };
+            this.columnSelectDataOptions = {
+                displayExpr: "caption",
+                valueExpr: "internalFieldName",
+                width: "100%",
+                bindingOptions: {
+                    "dataSource": "tableData.columns",
+                    "value": "selectedInternalFieldName"
+                }
+            };
+        }
+        FindColumn.prototype.show = function () {
+            this.findColumnPopupVisible = true;
+        };
+        return FindColumn;
+    }());
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], FindColumn.prototype, "notification", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], FindColumn.prototype, "tableData", void 0);
+    FindColumn = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [])
+    ], FindColumn);
+    exports.FindColumn = FindColumn;
+});
+
+define('resources/elements/change-data/change-data-notification',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+define('resources/elements/code-editor/code-editor-notification',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('resources/elements/code-editor/code-editor',["require", "exports", "aurelia-framework", "../editor/editor", "../column-chooser/column-chooser", "../../models/export", "../../services/export"], function (require, exports, aurelia_framework_1, editor_1, column_chooser_1, Models, Services) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var CodeEditor = (function () {
+        function CodeEditor(table) {
+            var _this = this;
+            this.table = table;
+            this.columnChooserNotification = {
+                onColumnClicked: this.onColumnChooserColumnClicked.bind(this)
+            };
+            this.codePopupOptions = {
+                contentTemplate: "contentTemplate",
+                showCloseButton: false,
+                toolbarItems: [{
+                        widget: "dxButton",
+                        location: "before",
+                        options: {
+                            hint: "Code ausführen",
+                            icon: "fa fa-play",
+                            onClick: function () {
+                                _this.editorViewModel.setScriptToData();
+                                if (_this.columnChooserViewModel.selectedTableId) {
+                                    _this.tableData.referencedTableDataId = _this.columnChooserViewModel.selectedTableId;
+                                }
+                                else {
+                                    _this.tableData.referencedTableDataId = null;
+                                }
+                                if (_this.notification) {
+                                    _this.notification.onExecute();
+                                }
+                                _this.codePopupVisible = false;
+                            }
+                        },
+                    }, {
+                        text: "Code editieren",
+                        location: "center"
+                    }, {
+                        widget: "dxButton",
+                        location: "after",
+                        options: {
+                            hint: "Schließen",
+                            icon: "fa fa-times",
+                            onClick: function () {
+                                _this.codePopupVisible = false;
+                            }
+                        }
+                    }],
+                onShown: function (e) {
+                    if (_this.tableData.referencedTableData) {
+                        _this.columnChooserViewModel.selectedTableId = _this.tableData.referencedTableData.tableId;
+                    }
+                    else {
+                        _this.columnChooserViewModel.selectedTableId = _this.fixedTableId;
+                    }
+                    _this.editorViewModel.refresh();
+                },
+                bindingOptions: {
+                    "visible": "codePopupVisible"
+                }
+            };
+        }
+        CodeEditor.prototype.show = function () {
+            if (this.tableData == this.editorData) {
+                this.fixedTableId = null;
+            }
+            else {
+                this.fixedTableId = this.tableData.tableId;
+            }
+            this.codePopupVisible = true;
+        };
+        CodeEditor.prototype.onColumnChooserColumnClicked = function (columnName) {
+            this.editorViewModel.insertText("eval.GetValue('" + columnName + "')");
+        };
+        return CodeEditor;
+    }());
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], CodeEditor.prototype, "tableData", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], CodeEditor.prototype, "editorData", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], CodeEditor.prototype, "notification", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", editor_1.Editor)
+    ], CodeEditor.prototype, "editorViewModel", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", column_chooser_1.ColumnChooser)
+    ], CodeEditor.prototype, "columnChooserViewModel", void 0);
+    CodeEditor = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [Services.TableService])
+    ], CodeEditor);
+    exports.CodeEditor = CodeEditor;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('resources/elements/change-data/change-data',["require", "exports", "aurelia-framework", "../statement-editor/statement-editor", "../code-editor/code-editor", "../../models/export", "../../services/export"], function (require, exports, aurelia_framework_1, statement_editor_1, code_editor_1, Models, Services) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ChangeData = (function () {
+        function ChangeData(sql) {
+            var _this = this;
+            this.sql = sql;
+            this.statementEditorNotification = {
+                onExecute: this.onStatementEditorExecute.bind(this)
+            };
+            this.codeEditorNotification = {
+                onExecute: this.onCodeEditorExecute.bind(this)
+            };
+            this.changeDataPopupOptions = {
+                contentTemplate: "contentTemplate",
+                showCloseButton: false,
+                width: "800px",
+                toolbarItems: [{
+                        widget: "dxButton",
+                        location: "before",
+                        options: {
+                            hint: "Änderungen ausführen",
+                            icon: "fa fa-play",
+                            onClick: function () {
+                                _this.sql
+                                    .executeChanges(_this.tableData)
+                                    .then(function (r) {
+                                    if (_this.notification) {
+                                        _this.notification.onDataChanged(r.data);
+                                    }
+                                    _this.changeDataPopupVisible = false;
+                                });
+                            }
+                        },
+                    }, {
+                        widget: "dxButton",
+                        location: "before",
+                        options: {
+                            hint: "SQL",
+                            icon: "fa fa-database",
+                            onClick: function () {
+                                _this.tableData.changeData.push({
+                                    type: "sql",
+                                    databaseId: _this.tableData.databaseId
+                                });
+                            }
+                        },
+                    }, {
+                        widget: "dxButton",
+                        location: "before",
+                        options: {
+                            hint: "Text",
+                            icon: "fa fa-font",
+                            onClick: function () {
+                                _this.tableData.changeData.push({
+                                    type: "text"
+                                });
+                            }
+                        },
+                    }, {
+                        widget: "dxButton",
+                        location: "before",
+                        options: {
+                            hint: "Laufende Nummer",
+                            icon: "fa fa-list-ol",
+                            onClick: function () {
+                                _this.tableData.changeData.push({
+                                    type: "running"
+                                });
+                            }
+                        },
+                    }, {
+                        widget: "dxButton",
+                        location: "before",
+                        options: {
+                            hint: "Skript",
+                            icon: "fa fa-code",
+                            onClick: function () {
+                                _this.tableData.changeData.push({
+                                    type: "code"
+                                });
+                            }
+                        },
+                    }, {
+                        text: "Änderungen",
+                        location: "center"
+                    }, {
+                        widget: "dxButton",
+                        location: "after",
+                        options: {
+                            hint: "Schließen",
+                            icon: "fa fa-times",
+                            onClick: function () {
+                                _this.changeDataPopupVisible = false;
+                            }
+                        }
+                    }],
+                onShown: function (e) {
+                },
+                bindingOptions: {
+                    "visible": "changeDataPopupVisible"
+                }
+            };
+            this.columnChangeDataOptions = {
+                displayExpr: "caption",
+                valueExpr: "internalFieldName",
+                width: "300px",
+                bindingOptions: {
+                    "dataSource": "tableData.columns",
+                    "value": "changeDataItem.internalFieldName"
+                }
+            };
+            this.sqlChangeDataOptions = {
+                text: "SQL editieren",
+                width: "150px",
+                onClick: function (e) {
+                    _this.statementEditorViewModel.editorData = e.model.changeDataItem;
+                    _this.statementEditorViewModel.show();
+                }
+            };
+            this.textChangeDataOptions = {
+                width: "150px",
+                bindingOptions: {
+                    "value": "changeDataItem.text"
+                }
+            };
+            this.runningChangeDataOptions = {
+                width: "150px",
+                bindingOptions: {
+                    "value": "changeDataItem.running"
+                }
+            };
+            this.codeChangeDataOptions = {
+                width: "150px",
+                text: "Code editieren",
+                onClick: function (e) {
+                    _this.codeEditorViewModel.editorData = e.model.changeDataItem;
+                    _this.codeEditorViewModel.show();
+                }
+            };
+            this.deleteChangeDataOptions = {
+                text: "Entfernen",
+                icon: "fa fa-trash-o",
+                onClick: function (e) {
+                    var index = _this.tableData.changeData.indexOf(e.model.changeDataItem);
+                    if (index < 0) {
+                        return;
+                    }
+                    _this.tableData.changeData.splice(index, 1);
+                }
+            };
+        }
+        ChangeData.prototype.show = function () {
+            this.changeDataPopupVisible = true;
+        };
+        ChangeData.prototype.onStatementEditorExecute = function () {
+        };
+        ChangeData.prototype.onCodeEditorExecute = function () {
+        };
+        return ChangeData;
+    }());
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], ChangeData.prototype, "notification", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], ChangeData.prototype, "tableData", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Array)
+    ], ChangeData.prototype, "dataSource", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", statement_editor_1.StatementEditor)
+    ], ChangeData.prototype, "statementEditorViewModel", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", code_editor_1.CodeEditor)
+    ], ChangeData.prototype, "codeEditorViewModel", void 0);
+    ChangeData = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [Services.SqlService])
+    ], ChangeData);
+    exports.ChangeData = ChangeData;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('resources/elements/table/table',["require", "exports", "aurelia-framework", "../statement-editor/statement-editor", "../find-column/find-column", "../change-data/change-data", "../../models/export", "../../services/export"], function (require, exports, aurelia_framework_1, statement_editor_1, find_column_1, change_data_1, Models, Services) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Table = (function () {
+        function Table(sql, table, taskQueue) {
+            var _this = this;
+            this.sql = sql;
+            this.table = table;
+            this.taskQueue = taskQueue;
+            this._isTableInNewMode = false;
+            this.statementEditorNotification = {
+                onExecute: this.loadData.bind(this)
+            };
+            this.changeDataNotification = {
+                onDataChanged: this.setGridData.bind(this)
+            };
+            this.findColumnNotification = {
+                onColumnSelected: this.onColumnSelected.bind(this)
+            };
+            this.tableOptions = {
+                allowColumnReordering: true,
+                allowColumnResizing: true,
+                editing: {
+                    allowUpdating: true,
+                    mode: "cell"
+                },
+                pager: {
+                    allowedPageSizes: [30, 100, 1000],
+                    showInfo: true,
+                    showNavigationButtons: true,
+                    showPageSizeSelector: true,
+                    visible: true
+                },
+                paging: {
+                    enabled: true,
+                    pageSize: 30
+                },
+                searchPanel: {
+                    visible: true
+                },
+                selection: {
+                    allowSelectAll: true,
+                    mode: "multiple",
+                    selectAllMode: "allPages",
+                    showCheckBoxesMode: "always"
+                },
+                sorting: {
+                    mode: "multiple"
+                },
+                height: "100%",
+                onContextMenuPreparing: function (e) {
+                    if (e.row.rowType === "data") {
+                        var column_1 = e.column;
+                        var data_1 = e.row.data;
+                        var columnInfo_1 = _this.tableData.columns.find(function (c) { return c.internalFieldName == column_1.dataField; });
+                        if (!columnInfo_1 || !columnInfo_1.relatedTableName || !columnInfo_1.relatedColumnName) {
+                            return;
+                        }
+                        if (data_1[column_1.dataField] == void (0)) {
+                            return;
+                        }
+                        e.items = [{
+                                text: "Verknüpften Datensatz öffnen",
+                                onItemClick: function () {
+                                    if (!_this.notification) {
+                                        return;
+                                    }
+                                    _this.notification.onRelationClicked(_this.tableData.databaseId, columnInfo_1.relatedTableName, columnInfo_1.relatedColumnName, data_1[column_1.dataField]);
+                                }
+                            }];
+                    }
+                },
+                onRowPrepared: function (e) {
+                    if (!e.data || !e.data._state) {
+                        return;
+                    }
+                    switch (e.data._state) {
+                        case 1:
+                            e.rowElement.addClass("row-modified");
+                            break;
+                        case 2:
+                            e.rowElement.addClass("row-inserted");
+                            break;
+                        case 3:
+                            e.rowElement.addClass("row-deleted");
+                            break;
+                        default:
+                            break;
+                    }
+                },
+                onRowInserted: function (e) {
+                    e.key._state = 2;
+                    _this._isTableInNewMode = false;
+                    _this.hasChanges = true;
+                    var grid = _this.tableViewModel.instance;
+                    grid.option("editing.mode", "cell");
+                    grid.repaint();
+                },
+                onRowUpdated: function (e) {
+                    if (e.key._state === undefined || e.key._state === 0) {
+                        e.key._state = 1;
+                        if (!e.key._changed) {
+                            e.key._changed = {};
+                        }
+                        for (var prop in e.data) {
+                            e.key._changed[prop] = true;
+                        }
+                    }
+                    _this.hasChanges = true;
+                    var grid = _this.tableViewModel.instance;
+                    grid.repaint();
+                },
+                onRowRemoved: function (e) {
+                    var grid = _this.tableViewModel.instance;
+                    grid.option("editing.mode", "cell");
+                    grid.repaint();
+                },
+                onSelectionChanged: function (e) {
+                    _this.hasSelection = e.selectedRowKeys.length > 0;
+                    var grid = _this.tableViewModel.instance;
+                    grid.repaint();
+                },
+                onToolbarPreparing: function (e) {
+                    var dataGrid = e.component;
+                    e.toolbarOptions.items.push({
+                        location: "center",
+                        text: _this.caption || "Tabelle"
+                    }, {
+                        widget: "dxButton",
+                        location: "before",
+                        visible: !_this._isTableInNewMode,
+                        options: {
+                            hint: "Statement editieren",
+                            icon: "fa fa-pencil",
+                            onClick: function () {
+                                _this.statementEditorViewModel.show();
+                            }
+                        }
+                    }, {
+                        widget: "dxButton",
+                        location: "before",
+                        visible: !_this._isTableInNewMode,
+                        options: {
+                            hint: "Daten neu aus Datenbank laden",
+                            icon: "fa fa-refresh",
+                            onClick: function () {
+                                _this.loadData();
+                            }
+                        }
+                    }, {
+                        widget: "dxButton",
+                        location: "before",
+                        visible: !_this._isTableInNewMode,
+                        options: {
+                            hint: "Daten ändern",
+                            icon: "fa fa-chain",
+                            onClick: function () {
+                                _this.changeDataViewModel.show();
+                            }
+                        }
+                    }, {
+                        widget: "dxButton",
+                        location: "before",
+                        visible: !_this._isTableInNewMode,
+                        options: {
+                            hint: "Neue Zeile erstellen",
+                            icon: "fa fa-plus",
+                            onClick: function () {
+                                _this._isTableInNewMode = true;
+                                var grid = _this.tableViewModel.instance;
+                                grid.option("editing.mode", "row");
+                                grid.addRow();
+                            }
+                        }
+                    }, {
+                        widget: "dxButton",
+                        location: "before",
+                        visible: !_this._isTableInNewMode && _this.hasChanges,
+                        options: {
+                            hint: "Geänderte Daten speichern",
+                            icon: "fa fa-floppy-o",
+                            onClick: function () {
+                                _this.saveData();
+                            }
+                        }
+                    }, {
+                        widget: "dxButton",
+                        location: "before",
+                        visible: _this._isTableInNewMode,
+                        options: {
+                            hint: "Änderungen übernehmen",
+                            icon: "fa fa-check",
+                            onClick: function () {
+                                _this._isTableInNewMode = false;
+                                _this.hasChanges = true;
+                                var grid = _this.tableViewModel.instance;
+                                grid.saveEditData();
+                                grid.option("editing.mode", "cell");
+                                grid.repaint();
+                            }
+                        }
+                    }, {
+                        widget: "dxButton",
+                        location: "before",
+                        visible: _this._isTableInNewMode,
+                        options: {
+                            hint: "Änderungen verwerfen",
+                            icon: "fa fa-undo",
+                            onClick: function () {
+                                _this._isTableInNewMode = false;
+                                var grid = _this.tableViewModel.instance;
+                                grid.cancelEditData();
+                                grid.option("editing.mode", "cell");
+                            }
+                        }
+                    }, {
+                        widget: "dxButton",
+                        location: "before",
+                        visible: !_this._isTableInNewMode && _this.hasSelection,
+                        options: {
+                            hint: "Markierte Zeilen löschen",
+                            icon: "fa fa-trash-o",
+                            onClick: function () {
+                                var grid = _this.tableViewModel.instance;
+                                var selectedRows = grid.getSelectedRowsData();
+                                if (selectedRows.length === 0) {
+                                    DevExpress.ui.dialog.alert("Bitte markieren Sie zuerst die zu löschenden Zeilen", "Information");
+                                }
+                                else {
+                                    DevExpress.ui.dialog.confirm("Sind Sie sicher, dass Sie die markierte(n) " + selectedRows.length + " Zeile(n) l\u00F6schen wollen?", "Frage").then(function (r) {
+                                        if (!r) {
+                                            return;
+                                        }
+                                        grid.getSelectedRowsData().forEach(function (r) {
+                                            r._state = 3;
+                                        });
+                                        grid.clearSelection();
+                                        grid.repaint();
+                                    });
+                                }
+                            }
+                        }
+                    }, {
+                        widget: "dxButton",
+                        location: "before",
+                        options: {
+                            hint: "Spalte suchen",
+                            icon: "fa fa-search",
+                            onClick: function () {
+                                _this.findColumnViewModel.show();
+                            }
+                        }
+                    }, {
+                        widget: "dxButton",
+                        location: "before",
+                        visible: !_this._isTableInNewMode,
+                        options: {
+                            hint: "Daten nach Excel exportieren",
+                            icon: "fa fa-file-excel-o",
+                            onClick: function () {
+                                var grid = _this.tableViewModel.instance;
+                                grid.exportToExcel(grid.getSelectedRowKeys().length > 0 ? true : false);
+                            }
+                        }
+                    }, {
+                        location: "after",
+                        html: "<i class='fa fa-exclamation table-no-all-rows-loaded' title='Es wurden nicht alle Daten geladen'></i>",
+                        visible: !_this._isTableInNewMode && _this.hasMoreRows
+                    }, {
+                        widget: "dxButton",
+                        location: "after",
+                        options: {
+                            hint: "Tabellen schließen",
+                            icon: "fa fa-times",
+                            onClick: function () {
+                                _this.notification.onDispose(_this);
+                            }
+                        }
+                    });
+                }
+            };
+        }
+        Table.prototype.bind = function () {
+            this.loadData();
+        };
+        Table.prototype.attached = function () {
+            this.table.registerTable(this);
+        };
+        Table.prototype.detached = function () {
+            this.table.deregisterTable(this);
+        };
+        Table.prototype.calcTextWidth = function (text) {
+            var canvas = this._canvas || (this._canvas = document.createElement("canvas"));
+            var context = canvas.getContext("2d");
+            context.font = "12pt arial";
+            var metrics = context.measureText(text);
+            return Math.ceil(metrics.width);
+        };
+        Table.prototype.calcColumnWidth = function (data, fieldName, header) {
+            var min = Math.min(data.length, 15);
+            var curr = this.calcTextWidth(header);
+            for (var i = 0; i < min; i++) {
+                var val = data[i][fieldName];
+                if (val == void (0)) {
+                    continue;
+                }
+                var width = this.calcTextWidth(val);
+                if (curr < width) {
+                    curr = width;
+                }
+            }
+            if (curr > 250) {
+                curr = 250;
+            }
+            else if (curr < 30) {
+                curr = 30;
+            }
+            return curr + 5 + "px";
+        };
+        Table.prototype.loadData = function () {
+            var _this = this;
+            this.sql
+                .execute(this.tableData)
+                .then(function (r) {
+                if (!r || r.tableId) {
+                    return;
+                }
+                _this.tableData = r.tableData;
+                _this.caption = _this.tableData.tables + " [" + _this.tableData.tableId + "]";
+                _this.hasChanges = false;
+                _this.hasSelection = false;
+                var grid = _this.tableViewModel.instance;
+                var columns = _this.tableData.columns.map(function (c) { return ({
+                    caption: c.caption,
+                    dataField: c.internalFieldName,
+                    width: _this.calcColumnWidth(r.result.data, c.internalFieldName, c.caption),
+                    cssClass: r.columnsSave.find(function (d) { return d.internalFieldName === c.internalFieldName; }) ? null : "column-disabled"
+                }); });
+                if (!_this.tableData.changeData) {
+                    _this.tableData.changeData = [];
+                }
+                var infoText = "Seite {0} von {1}";
+                _this.hasMoreRows = r.result.hasMoreRows;
+                if (r.result.hasMoreRows) {
+                    infoText += " (es wurden nicht alle Daten geladen)";
+                }
+                else {
+                    infoText += " ({2} Datensätze)";
+                }
+                grid.option("pager.infoText", infoText);
+                grid.option("columns", columns);
+                _this.setGridData(r.result.data);
+            });
+        };
+        Table.prototype.saveData = function () {
+            var _this = this;
+            var tableData = Object.assign({}, this.tableData);
+            tableData.data = this.dataSource.filter(function (c) {
+                return !!c._state;
+            });
+            this.sql
+                .save(tableData)
+                .then(function (r) {
+                if (r && r.ok) {
+                    _this.loadData();
+                }
+            });
+        };
+        Table.prototype.setGridData = function (data) {
+            var grid = this.tableViewModel.instance;
+            grid.option("dataSource", data);
+            this.dataSource = data;
+            this.hasChanges = data.some(function (c) { return c["_state"] && c["_state"] != 0; });
+            grid.repaint();
+        };
+        Table.prototype.onColumnSelected = function (columnName) {
+            if (!columnName) {
+                return;
+            }
+            var grid = this.tableViewModel.instance;
+            var columns = grid.option("columns");
+            var column = grid.getCellElement(0, columnName);
+            if (!column) {
+                return;
+            }
+            grid.focus(column);
+        };
+        return Table;
+    }());
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], Table.prototype, "tableData", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], Table.prototype, "notification", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", change_data_1.ChangeData)
+    ], Table.prototype, "changeDataViewModel", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", statement_editor_1.StatementEditor)
+    ], Table.prototype, "statementEditorViewModel", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", find_column_1.FindColumn)
+    ], Table.prototype, "findColumnViewModel", void 0);
+    __decorate([
+        aurelia_framework_1.observable,
+        __metadata("design:type", Object)
+    ], Table.prototype, "tableViewModel", void 0);
+    Table = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [Services.SqlService, Services.TableService, aurelia_framework_1.TaskQueue])
+    ], Table);
+    exports.Table = Table;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('resources/services/table-service',["require", "exports", "aurelia-framework"], function (require, exports, aurelia_framework_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var TableService = (function () {
+        function TableService() {
+            this.tables = [];
+        }
+        TableService.prototype.getTableDataByTableId = function (tableId) {
+            var table = this.tables.find(function (c) { return c.tableData.tableId == tableId; });
+            if (table) {
+                return table.tableData;
+            }
+            else {
+                return null;
+            }
+        };
+        TableService.prototype.registerTable = function (table) {
+            this.tables.push(table);
+        };
+        TableService.prototype.deregisterTable = function (table) {
+            var index = this.tables.indexOf(table);
+            if (index < 0) {
+                return;
+            }
+            this.tables.splice(index, 1);
+        };
+        return TableService;
+    }());
+    TableService = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [])
+    ], TableService);
+    exports.TableService = TableService;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('resources/services/sql-service',["require", "exports", "aurelia-framework", "../../framework/base/services/export", "./table-service"], function (require, exports, aurelia_framework_1, export_1, table_service_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SqlService = (function () {
+        function SqlService(rest, table) {
+            this.rest = rest;
+            this.table = table;
+        }
+        SqlService.prototype.execute = function (tableData) {
+            var _this = this;
+            this.checkReferencedTableData(tableData);
+            var promise = new Promise(function (resolve, reject) {
+                _this
+                    .post("Sql/Execute", tableData)
+                    .then(function (result) {
+                    _this.checkResult(resolve, reject, result);
+                }).catch(function (error) {
+                    reject(error);
+                });
+            });
+            return promise;
+        };
+        SqlService.prototype.executeChanges = function (tableData) {
+            var _this = this;
+            this.checkReferencedTableData(tableData);
+            var promise = new Promise(function (resolve, reject) {
+                _this
+                    .post("Sql/ExecuteChanges", tableData)
+                    .then(function (result) {
+                    _this.checkResult(resolve, reject, result);
+                }).catch(function (error) {
+                    reject(error);
+                });
+            });
+            return promise;
+        };
+        SqlService.prototype.formatSql = function (script) {
+            return this
+                .post("Sql/FormatSql", {
+                script: script
+            });
+        };
+        SqlService.prototype.save = function (tableData) {
+            var _this = this;
+            var promise = new Promise(function (resolve, reject) {
+                _this
+                    .post("Sql/Save", tableData)
+                    .then(function (result) {
+                    _this.checkResult(resolve, reject, result);
+                }).catch(function (error) {
+                    reject(error);
+                });
+            });
+            return promise;
+        };
+        SqlService.prototype.selectSql = function (tableData) {
+            return this
+                .post("Sql/SelectSql", tableData);
+        };
+        SqlService.prototype.tableInfo = function (databaseId, tableName) {
+            return this
+                .post("Sql/TableInfo", {
+                databaseId: databaseId,
+                tableName: tableName
+            });
+        };
+        SqlService.prototype.checkReferencedTableData = function (tableData) {
+            if (tableData.referencedTableDataId) {
+                var referencedTable = this.table.tables.find(function (c) { return c.tableData.tableId == tableData.referencedTableDataId; });
+                if (referencedTable) {
+                    tableData.referencedTableData = {
+                        tableId: tableData.referencedTableDataId,
+                        databaseId: tableData.databaseId,
+                        columns: tableData.columns,
+                    };
+                    tableData.data = referencedTable.dataSource;
+                }
+                else {
+                    tableData.referencedTableData = null;
+                    tableData.data = null;
+                }
+            }
+            else {
+                tableData.referencedTableData = null;
+                tableData.data = null;
+            }
+        };
+        SqlService.prototype.checkResult = function (resolve, reject, result) {
+            var _this = this;
+            if (result.exception) {
+                DevExpress.ui.dialog.alert(result.exception, "Fehler");
+                reject();
+            }
+            else if (result.transactionId != void (0)) {
+                DevExpress.ui.dialog.confirm(result.changedRows + " Datens\u00E4tze wurden ge\u00E4ndert. Speichern?", "Frage").then(function (dialogResult) {
+                    if (dialogResult) {
+                        _this.commit(resolve, reject, result);
+                    }
+                    else {
+                        _this.rollback(resolve, reject, result);
+                    }
+                });
+            }
+            else {
+                resolve(result);
+            }
+        };
+        SqlService.prototype.commit = function (resolve, reject, result) {
+            this
+                .post("Sql/Commit", {
+                transactionId: result.transactionId
+            }).then(function (commitResult) {
+                resolve(commitResult);
+                if (!commitResult.ok) {
+                    DevExpress.ui.dialog.alert("Fehler beim Commit", "Information");
+                }
+            }).catch(function (error) {
+                reject(error);
+            });
+        };
+        SqlService.prototype.rollback = function (resolve, reject, result) {
+            this
+                .post("Sql/Rollback", {
+                transactionId: result.transactionId
+            }).then(function (rollbackResult) {
+                resolve(rollbackResult);
+                if (!rollbackResult.ok) {
+                    DevExpress.ui.dialog.alert("Fehler beim Rollback", "Information");
+                }
+            }).catch(function (error) {
+                reject(error);
+            });
+        };
+        SqlService.prototype.post = function (url, data) {
+            return this.rest
+                .post({
+                url: this.rest.getApiUrl(url),
+                data: data
+            });
+        };
+        return SqlService;
+    }());
+    SqlService = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [export_1.RestService,
+            table_service_1.TableService])
+    ], SqlService);
+    exports.SqlService = SqlService;
+});
+
+define('resources/services/export',["require", "exports", "./database-service", "./sql-service", "./table-service"], function (require, exports, database_service_1, sql_service_1, table_service_1) {
+    "use strict";
+    function __export(m) {
+        for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    __export(database_service_1);
+    __export(sql_service_1);
+    __export(table_service_1);
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('framework/dx/services/dx-template-service',["require", "exports", "aurelia-framework"], function (require, exports, aurelia_framework_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var DxTemplateService = (function () {
+        function DxTemplateService(templatingEngine) {
+            this.templatingEngine = templatingEngine;
+            this.templates = {};
+        }
+        DxTemplateService.prototype.registerTemplate = function (key, template) {
+            this.templates[key] = template;
+        };
+        DxTemplateService.prototype.getTemplates = function (scope, overrideContext, resources) {
+            var _this = this;
+            var result = {};
+            var _loop_1 = function (templateKey) {
+                result[templateKey] = {
+                    render: function (renderData) {
+                        return _this.render(_this.templates[templateKey], renderData.container, resources, scope, renderData.model);
+                    }
+                };
+            };
+            for (var templateKey in this.templates) {
+                _loop_1(templateKey);
+            }
+            return result;
+        };
+        DxTemplateService.prototype.render = function (template, container, resources, scope, model) {
+            var newItem;
+            if (typeof template === "string") {
+                newItem = document.createElement("div");
+                newItem.innerHTML = template;
+            }
+            else {
+                newItem = template.cloneNode(true);
+            }
+            var newElement = $(newItem).appendTo(container);
+            var itemBindingContext;
+            var itemOverrideContext;
+            if (model) {
+                itemBindingContext = {
+                    data: model
+                };
+                itemOverrideContext = aurelia_framework_1.createOverrideContext(scope.bindingContext, scope.overrideContext);
+            }
+            else {
+                itemBindingContext = scope.bindingContext;
+                itemOverrideContext = scope.overrideContext;
+            }
+            var result = this.templatingEngine.enhance({
+                element: newElement.get(0),
+                bindingContext: itemBindingContext,
+                overrideContext: itemOverrideContext,
+                resources: resources
+            });
+            result.attached();
+            return $(newElement);
+        };
+        return DxTemplateService;
+    }());
+    DxTemplateService = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [aurelia_framework_1.TemplatingEngine])
+    ], DxTemplateService);
+    exports.DxTemplateService = DxTemplateService;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('framework/dx/elements/dx-widget',["require", "exports", "aurelia-framework", "../services/dx-template-service", "../../base/export", "jquery"], function (require, exports, aurelia_framework_1, dx_template_service_1, export_1, $) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var DxWidget = DxWidget_1 = (function () {
+        function DxWidget(element, templatingEngine, bindingEngine, binding, deepObserver, dxTemplate) {
+            this.element = element;
+            this.templatingEngine = templatingEngine;
+            this.bindingEngine = bindingEngine;
+            this.binding = binding;
+            this.deepObserver = deepObserver;
+            this.dxTemplate = dxTemplate;
+            this.templates = {};
+        }
+        DxWidget.prototype.created = function (owningView, myView) {
+            this.owningView = owningView;
+            this.extractTemplates();
+        };
+        DxWidget.prototype.bind = function (bindingContext, overrideContext) {
+            this.bindingContext = bindingContext;
+            this.overrideContext = overrideContext;
+            this.checkBindings();
+        };
+        DxWidget.prototype.attached = function () {
+            this.renderInline();
+            this.options = this.options || {};
+            this.options.onOptionChanged = this.onOptionChanged.bind(this);
+            this.options.modelByElement = DxWidget_1.modelByElement;
+            this.options.integrationOptions = {
+                templates: this.templates
+            };
+            var element = $(this.element);
+            if (!element[this.name]) {
+                throw new Error("Widget " + this.name + " does not exist");
+            }
+            element = element[this.name](this.options);
+            if (this.validator) {
+                element.dxValidator(this.validator);
+            }
+            else if (this.options["validators"]) {
+                element.dxValidator({
+                    validationRules: this.options["validators"]
+                });
+            }
+            this.instance = element[this.name]("instance");
+            this.registerBindings();
+        };
+        DxWidget.prototype.detached = function () {
+            if (this.instance) {
+                this.instance._dispose();
+                this.instance = null;
+            }
+            if (this.options && this.options.bindingOptions) {
+                for (var _i = 0, _a = this.options.bindingOptions; _i < _a.length; _i++) {
+                    var binding = _a[_i];
+                    if (binding.deepObserver) {
+                        binding.deepObserver();
+                        binding.deepObserver = null;
+                    }
+                }
+            }
+        };
+        DxWidget.prototype.resetValidation = function () {
+            if (this.instance.option("isValid") === false) {
+                this.setOptionValue("isValid", true);
+            }
+        };
+        DxWidget.modelByElement = function (element) {
+            if (element.jquery) {
+                element = element.get(0);
+            }
+            if (!element.au || !element.au.controller || !element.au.controller.viewModel) {
+                return null;
+            }
+            return element.au.controller.viewModel.bindingContext;
+        };
+        DxWidget.prototype.extractTemplates = function () {
+            var _this = this;
+            $(this.element)
+                .children("dx-template")
+                .each(function (index, item) {
+                var itemJQuery = $(item);
+                var name = itemJQuery.attr("name");
+                var alias = itemJQuery.attr("alias") || "data";
+                _this.templates[name] = {
+                    render: function (renderData) {
+                        return _this.dxTemplate.render(item, renderData.container, _this.owningView.resources, {
+                            bindingContext: _this.bindingContext,
+                            overrideContext: _this.overrideContext
+                        }, renderData.model);
+                    }
+                };
+                $(item).remove();
+            });
+            Object.assign(this.templates, this.dxTemplate.getTemplates(this.bindingContext, this.overrideContext, this.owningView.resources));
+        };
+        DxWidget.prototype.registerBindings = function () {
+            var _this = this;
+            if (!this.options.bindingOptions) {
+                return;
+            }
+            var _loop_1 = function (property) {
+                var binding = this_1.options.bindingOptions[property];
+                var context = this_1.binding.getBindingContext(binding.parsed, {
+                    bindingContext: this_1.bindingContext,
+                    overrideContext: this_1.overrideContext
+                });
+                this_1.bindingEngine.expressionObserver(context, binding.expression)
+                    .subscribe(function (newValue, oldValue) {
+                    _this.setOptionValue(property, newValue);
+                    _this.registerDeepObserver(binding, property, value);
+                });
+                var value = binding.parsed.evaluate({
+                    bindingContext: this_1.bindingContext,
+                    overrideContext: this_1.overrideContext
+                });
+                this_1.setOptionValue(property, value);
+                this_1.registerDeepObserver(binding, property, value);
+            };
+            var this_1 = this;
+            for (var property in this.options.bindingOptions) {
+                _loop_1(property);
+            }
+        };
+        DxWidget.prototype.checkBindings = function () {
+            if (!this.options) {
+                throw new Error("Invalid or no options for " + this.name);
+            }
+            if (!this.options.bindingOptions) {
+                return;
+            }
+            for (var property in this.options.bindingOptions) {
+                var binding = this.checkBinding(property);
+            }
+        };
+        DxWidget.prototype.checkBinding = function (property) {
+            var bindingOptions = this.options.bindingOptions;
+            if (typeof bindingOptions[property] === "string") {
+                bindingOptions[property] = {
+                    expression: bindingOptions[property]
+                };
+            }
+            var binding = bindingOptions[property];
+            binding.parsed = this.bindingEngine.parseExpression(binding.expression);
+        };
+        DxWidget.prototype.registerDeepObserver = function (binding, property, value) {
+            var _this = this;
+            if (binding.deepObserver) {
+                binding.deepObserver();
+                binding.deepObserver = null;
+            }
+            if (!binding.deep) {
+                return;
+            }
+            binding.deepObserver = this.deepObserver.observe(value, function () {
+                _this.setOptionValue(property, value);
+            });
+        };
+        DxWidget.prototype.onOptionChanged = function (e) {
+            if (!this.options.bindingOptions) {
+                return;
+            }
+            var binding = this.options.bindingOptions[e.name];
+            if (!binding) {
+                return;
+            }
+            if (!binding.parsed.isAssignable) {
+                return;
+            }
+            var currValue = binding.parsed.evaluate({
+                bindingContext: this.bindingContext,
+                overrideContext: this.overrideContext
+            });
+            if (currValue === e.value) {
+                return;
+            }
+            binding.parsed.assign({
+                bindingContext: this.bindingContext,
+                overrideContext: this.overrideContext
+            }, e.value);
+        };
+        DxWidget.prototype.renderInline = function () {
+            var _this = this;
+            $(this.element).children().each(function (index, child) {
+                var result = _this.templatingEngine.enhance({
+                    element: child,
+                    bindingContext: _this.bindingContext,
+                    overrideContext: _this.overrideContext
+                });
+                result.attached();
+            });
+        };
+        DxWidget.prototype.setOptionValue = function (propertyName, value) {
+            if (value == void (0) && (propertyName === "items" || propertyName === "dataSource")) {
+                value = [];
+            }
+            this.instance.option(propertyName, value);
+        };
+        return DxWidget;
+    }());
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", String)
+    ], DxWidget.prototype, "name", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], DxWidget.prototype, "options", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], DxWidget.prototype, "validator", void 0);
+    DxWidget = DxWidget_1 = __decorate([
+        aurelia_framework_1.autoinject,
+        aurelia_framework_1.processContent(false),
+        __metadata("design:paramtypes", [Element,
+            aurelia_framework_1.TemplatingEngine,
+            aurelia_framework_1.BindingEngine,
+            export_1.BindingService,
+            export_1.DeepObserverService,
+            dx_template_service_1.DxTemplateService])
+    ], DxWidget);
+    exports.DxWidget = DxWidget;
+    var DxWidget_1;
+});
+
+define('framework/dx/services/export',["require", "exports", "./dx-template-service"], function (require, exports, dx_template_service_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.DxTemplateService = dx_template_service_1.DxTemplateService;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('resources/elements/databases/databases',["require", "exports", "aurelia-framework", "../../services/export"], function (require, exports, aurelia_framework_1, Services) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Databases = (function () {
+        function Databases(database) {
+            var _this = this;
+            this.database = database;
+            this.databasesPopupOptions = {
+                contentTemplate: "contentTemplate",
+                showCloseButton: false,
+                toolbarItems: [{
+                        widget: "dxButton",
+                        location: "before",
+                        options: {
+                            hint: "Datenbank hinzufügen",
+                            icon: "fa fa-plus",
+                            onClick: function () {
+                                _this.database.databases.push({});
+                            }
+                        }
+                    }, {
+                        text: "Datenbanken konfigurieren",
+                        location: "center"
+                    }, {
+                        widget: "dxButton",
+                        location: "after",
+                        options: {
+                            hint: "Schließen",
+                            icon: "fa fa-times",
+                            onClick: function () {
+                                _this.databasesPopupVisible = false;
+                            }
+                        }
+                    }],
+                onHiding: function () {
+                    _this.database.reload();
+                },
+                onShown: function (e) {
+                },
+                bindingOptions: {
+                    "visible": "databasesPopupVisible"
+                }
+            };
+            this.providerSelectOptions = {
+                displayExpr: "name",
+                valueExpr: "fullName",
+                width: "300px",
+                bindingOptions: {
+                    "dataSource": "providers",
+                    "value": "databaseItem.providerName"
+                }
+            };
+            this.nameTextOptions = {
+                width: "300px",
+                bindingOptions: {
+                    "value": "databaseItem.caption"
+                }
+            };
+            this.connectionStringTextOptions = {
+                width: "100%",
+                bindingOptions: {
+                    "value": "databaseItem.connectionString"
+                }
+            };
+            this.saveDatabaseButtonOptions = {
+                text: "Speichern",
+                icon: "fa fa-floppy-o",
+                onClick: function (e) {
+                    _this.database.postDatabase(e.model.databaseItem);
+                }
+            };
+            this.deleteDatabaseButtonOptions = {
+                text: "Entfernen",
+                icon: "fa fa-trash-o",
+                onClick: function (e) {
+                    _this.database.deleteDatabase(e.model.databaseItem);
+                }
+            };
+            database.getProviders()
+                .then(function (r) {
+                _this.providers = r;
+            });
+        }
+        Databases.prototype.show = function () {
+            this.databasesPopupVisible = true;
+        };
+        return Databases;
+    }());
+    Databases = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [Services.DatabaseService])
+    ], Databases);
+    exports.Databases = Databases;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('resources/elements/container/container',["require", "exports", "aurelia-framework", "../databases/databases", "../../services/export"], function (require, exports, aurelia_framework_1, databases_1, Services) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Container = (function () {
+        function Container(table, database, taskQueue) {
+            var _this = this;
+            this.table = table;
+            this.database = database;
+            this.taskQueue = taskQueue;
+            this.tableSelectionNotification = {
+                onTableClicked: this.onTableClicked.bind(this)
+            };
+            this.tableNotification = {
+                onRelationClicked: this.onRelationClicked.bind(this),
+                onDispose: this.onTableDispose.bind(this)
+            };
+            this.settingButtonOptions = {
+                icon: "fa fa-cog",
+                onClick: function () {
+                    _this.containerContextMenuViewModel.instance.show();
+                }
+            };
+            this.containerContextMenuOptions = {
+                target: "#settings-button",
+                position: { my: "left bottom", at: "top" },
+                items: [{
+                        text: "Alle Tabellen schließen",
+                        onClick: function () {
+                            _this.table.tables.slice().forEach(function (c) { return c.notification.onDispose(c); });
+                        }
+                    }, {
+                        text: "Struktur laden",
+                        beginGroup: true,
+                        onClick: function () {
+                        }
+                    }, {
+                        text: "Struktur speichern",
+                        onClick: function () {
+                        }
+                    }, {
+                        text: "Datenbanken verwalten",
+                        beginGroup: true,
+                        onClick: function () {
+                            _this.databasesViewModel.show();
+                        }
+                    }],
+                bindingOptions: {
+                    "items[3].disabled": "databaseDisabled"
+                }
+            };
+            this.tableData = [];
+        }
+        Object.defineProperty(Container.prototype, "databaseDisabled", {
+            get: function () {
+                return !this.database
+                    || !this.database.databases;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Container.prototype.onRelationClicked = function (databaseId, tableName, columnName, value) {
+            var table = {
+                tableId: new Date().getTime(),
+                databaseId: databaseId,
+                tableName: tableName,
+                columnName: columnName,
+                value: value,
+                rows: 100
+            };
+            this.tableData.push(table);
+            this.queueRefreshTablesLayout();
+        };
+        Container.prototype.onTableClicked = function (databaseId, tableName, alias) {
+            var table = {
+                tableId: new Date().getTime(),
+                databaseId: databaseId,
+                tableName: tableName,
+                alias: alias,
+                rows: 100
+            };
+            this.tableData.push(table);
+            this.queueRefreshTablesLayout();
+        };
+        Container.prototype.onTableDispose = function (table) {
+            var index = this.tableData.findIndex(function (c) { return c.tableId == table.tableData.tableId; });
+            if (index >= 0) {
+                this.tableData.splice(index, 1);
+            }
+            this.queueRefreshTablesLayout();
+        };
+        Container.prototype.queueRefreshTablesLayout = function () {
+            var _this = this;
+            if (this.tableData.length <= 1) {
+                this.tableHeight = "100%";
+            }
+            else if (this.tableData.length == 2) {
+                this.tableHeight = "50%";
+            }
+            else {
+                this.tableHeight = "33%";
+            }
+            this.taskQueue.queueMicroTask(function () {
+                _this.table.tables.forEach(function (t) {
+                    if (!t.tableViewModel || !t.tableViewModel.instance) {
+                        return;
+                    }
+                    var grid = t.tableViewModel.instance;
+                    grid.updateDimensions();
+                });
+            });
+        };
+        return Container;
+    }());
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Object)
+    ], Container.prototype, "containerContextMenuViewModel", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", databases_1.Databases)
+    ], Container.prototype, "databasesViewModel", void 0);
+    __decorate([
+        aurelia_framework_1.computedFrom("database", "database.databases"),
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [])
+    ], Container.prototype, "databaseDisabled", null);
+    Container = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [Services.TableService, Services.DatabaseService, aurelia_framework_1.TaskQueue])
+    ], Container);
+    exports.Container = Container;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('framework/base/attributes/icon/fa-icon-attribute',["require", "exports", "aurelia-framework"], function (require, exports, aurelia_framework_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var FaIconAttribute = (function () {
+        function FaIconAttribute(element) {
+            this.element = element;
+        }
+        FaIconAttribute.prototype.bind = function () {
+            this.setClass();
+        };
+        FaIconAttribute.prototype.iconChanged = function (newValue, oldValue) {
+            this.setClass();
+        };
+        FaIconAttribute.prototype.setClass = function () {
+            var element = $(this.element);
+            if (this.currentIcon) {
+                element.removeClass(this.currentIcon);
+                this.currentIcon = null;
+            }
+            if (this.icon) {
+                this.currentIcon = "fa fa-" + this.icon;
+                element.addClass(this.currentIcon);
+            }
+        };
+        return FaIconAttribute;
+    }());
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", String)
+    ], FaIconAttribute.prototype, "icon", void 0);
+    FaIconAttribute = __decorate([
+        aurelia_framework_1.autoinject,
+        aurelia_framework_1.customAttribute("fa-icon"),
+        __metadata("design:paramtypes", [Element])
+    ], FaIconAttribute);
+    exports.FaIconAttribute = FaIconAttribute;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('framework/base/attributes/translation/translation-attribute',["require", "exports", "aurelia-framework", "../../services/localization-service"], function (require, exports, aurelia_framework_1, localization_service_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var TrCustomAttribute = (function () {
+        function TrCustomAttribute(element, localization) {
+            this.element = element;
+            this.localization = localization;
+        }
+        TrCustomAttribute.prototype.bind = function (bindingContext) {
+            this.expressionProvider = bindingContext.expressions;
+            this.setInnerHtml();
+        };
+        TrCustomAttribute.prototype.keyChanged = function (newValue, oldValue) {
+            this.setInnerHtml();
+        };
+        TrCustomAttribute.prototype.setInnerHtml = function () {
+            var _this = this;
+            this.localization.translate(this.expressionProvider, this.key, function (val) {
+                _this.element.innerHTML = val;
+            });
+        };
+        return TrCustomAttribute;
+    }());
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", String)
+    ], TrCustomAttribute.prototype, "mode", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", String)
+    ], TrCustomAttribute.prototype, "key", void 0);
+    __decorate([
+        aurelia_framework_1.bindable,
+        __metadata("design:type", Boolean)
+    ], TrCustomAttribute.prototype, "markdown", void 0);
+    TrCustomAttribute = __decorate([
+        aurelia_framework_1.autoinject,
+        aurelia_framework_1.customAttribute("tr"),
+        __metadata("design:paramtypes", [Element,
+            localization_service_1.LocalizationService])
+    ], TrCustomAttribute);
+    exports.TrCustomAttribute = TrCustomAttribute;
+});
+
+define('text!app.html', ['module'], function(module) { module.exports = "<template>\r\n  <require from=\"./app.css\"></require>\r\n\r\n  <container></container>\r\n</template>\r\n"; });
+define('text!app.css', ['module'], function(module) { module.exports = "html,\nbody {\n  margin: 0;\n  padding: 0;\n  height: 100vh;\n  width: 100vw;\n  font-family: \"Helvetica Neue\", \"Segoe UI\", Helvetica, Verdana, sans-serif;\n  font-size: 12px;\n}\n.dx-datagrid-header-panel .dx-toolbar {\n  padding: 5px;\n  margin: 0;\n}\n.dx-datagrid-header-panel .dx-toolbar .dx-toolbar-label {\n  font-size: 12px;\n}\n.dx-popup-content .dx-button {\n  margin: 0 !important;\n}\n.row-modified {\n  background-color: rgba(135, 211, 124, 0.2);\n}\n.row-inserted {\n  background-color: rgba(135, 211, 124, 0.2);\n}\n.row-deleted {\n  background-color: rgba(236, 100, 75, 0.2);\n}\n.column-disabled {\n  background-color: rgba(236, 100, 75, 0.2);\n}\n"; });
+define('text!resources/import.css', ['module'], function(module) { module.exports = ""; });
+define('text!framework/dx/elements/dx-widget.html', ['module'], function(module) { module.exports = "<template class=\"dx-widget\">\r\n</template>"; });
+define('text!resources/elements/change-data/change-data.html', ['module'], function(module) { module.exports = "<template>\r\n  <require from=\"./change-data.css\"></require>\r\n\r\n  <dx-widget name=\"dxPopup\" options.bind=\"changeDataPopupOptions\" class=\"changedata-popup\">\r\n    <dx-template name=\"contentTemplate\">\r\n      <div class=\"changedata-container\">\r\n        <statement-editor view-model.ref=\"statementEditorViewModel\" notification.bind=\"statementEditorNotification\" table-data.bind=\"tableData\">          \r\n        </statement-editor>\r\n        <code-editor view-model.ref=\"codeEditorViewModel\" notification.bind=\"codeEditorNotification\" table-data.bind=\"tableData\">\r\n        </code-editor>\r\n\r\n        <div repeat.for=\"changeDataItem of tableData.changeData\">\r\n          <div if.bind=\"changeDataItem.type == 'sql'\" class=\"changedata-custom-settings\">\r\n            <div>\r\n              SQL\r\n            </div>\r\n            <div>\r\n              <dx-widget name=\"dxButton\" options.bind=\"sqlChangeDataOptions\">\r\n              </dx-widget>\r\n            </div>\r\n          </div>\r\n          <div if.bind=\"changeDataItem.type == 'text'\" class=\"changedata-custom-settings\">\r\n            <div>\r\n              Text\r\n            </div>\r\n            <div>\r\n              <dx-widget name=\"dxTextBox\" options.bind=\"textChangeDataOptions\">\r\n              </dx-widget>\r\n            </div>\r\n          </div>\r\n          <div if.bind=\"changeDataItem.type == 'running'\" class=\"changedata-custom-settings\">\r\n            <div>\r\n              Laufende Nummer ab\r\n            </div>\r\n            <div>\r\n              <dx-widget name=\"dxNumberBox\" options.bind=\"runningChangeDataOptions\">\r\n              </dx-widget>\r\n            </div>\r\n          </div>\r\n          <div if.bind=\"changeDataItem.type == 'code'\" class=\"changedata-custom-settings\">\r\n            <div>\r\n              C#-Code\r\n            </div>\r\n            <div>\r\n              <dx-widget name=\"dxButton\" options.bind=\"codeChangeDataOptions\">\r\n              </dx-widget>\r\n            </div>\r\n          </div>\r\n          <div class=\"changedata-default-settings\">\r\n            <div>\r\n              <dx-widget name=\"dxSelectBox\" options.bind=\"columnChangeDataOptions\">\r\n              </dx-widget>\r\n            </div>\r\n            <div>\r\n              <dx-widget name=\"dxButton\" options.bind=\"deleteChangeDataOptions\">\r\n              </dx-widget>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </dx-template>\r\n  </dx-widget>\r\n</template>"; });
+define('text!resources/elements/code-editor/code-editor.html', ['module'], function(module) { module.exports = "<template>\r\n  <require from=\"./code-editor.css\"></require>\r\n\r\n  <dx-widget name=\"dxPopup\" options.bind=\"codePopupOptions\" class=\"codeeditor-popup\">\r\n    <dx-template name=\"contentTemplate\">\r\n      <div class=\"codeeditor-container\">\r\n        <editor class=\"codeeditor\" view-model.ref=\"editorViewModel\" table-data.bind=\"editorData\" language=\"csharp\"></editor>\r\n        <column-chooser class=\"codeditor-columnchooser\" view-model.ref=\"columnChooserViewModel\" fixed-table-id.bind=\"fixedTableId\" notification.bind=\"columnChooserNotification\"></column-chooser>\r\n      </div>\r\n    </dx-template>\r\n  </dx-widget>\r\n</template>"; });
+define('text!resources/elements/column-chooser/column-chooser.html', ['module'], function(module) { module.exports = "<template class=\"columnchooser\">\r\n  <require from=\"./column-chooser.css\"></require>\r\n\r\n  <div class=\"columnchooser-tables\">\r\n    <dx-widget name=\"dxSelectBox\" options.bind=\"tableSelectOptions\" class=\"columnchooser-tables-select-box\"></dx-widget>\r\n  </div>\r\n  <div class=\"columnchooser-columns\">\r\n    <div>\r\n      <dx-widget name=\"dxDataGrid\" options.bind=\"columnGridOptions\"></dx-widget>\r\n    </div>\r\n  </div>\r\n</template>"; });
+define('text!framework/base/styles/styles.css', ['module'], function(module) { module.exports = "@keyframes leftFadeIn {\n  from {\n    opacity: 0;\n    transform: translateX(-10px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\nbody {\n  margin: 0;\n  padding: 0;\n  font-family: \"Helvetica Neue\", \"Segoe UI\", Helvetica, Verdana, sans-serif;\n  font-size: 12px;\n}\n.t--margin-top {\n  margin-top: 12px;\n}\n.t--editor-caption {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.t--cursor-pointer {\n  cursor: pointer;\n}\n.t--invisible-submit {\n  height: 0;\n  width: 0;\n  margin: 0;\n  padding: 0;\n  border: 0;\n}\n"; });
+define('text!resources/elements/container/container.html', ['module'], function(module) { module.exports = "<template class=\"container\">\r\n  <require from=\"./container.css\"></require>\r\n\r\n  <div class=\"container-sidebar\">\r\n    <div class=\"container-table-selection\">\r\n      <div>\r\n        <table-selection notification.bind=\"tableSelectionNotification\"></table-selection>\r\n      </div>\r\n    </div>\r\n    <div class=\"container-buttons\">\r\n      <dx-widget id=\"settings-button\" name=\"dxButton\" options.bind=\"settingButtonOptions\"></dx-widget>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"tables\">\r\n    <table repeat.for=\"data of tableData\" css.bind=\"{height: tableHeight}\" table-data.bind=\"data\" notification.bind=\"tableNotification\"></table>\r\n  </div>\r\n\r\n  <databases view-model.ref=\"databasesViewModel\"></databases>\r\n  <dx-widget name=\"dxContextMenu\" view-model.ref=\"containerContextMenuViewModel\" options.bind=\"containerContextMenuOptions\"></dx-widget>\r\n</template>"; });
+define('text!framework/base/styles/variables.css', ['module'], function(module) { module.exports = "@keyframes leftFadeIn {\n  from {\n    opacity: 0;\n    transform: translateX(-10px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\n"; });
+define('text!resources/elements/databases/databases.html', ['module'], function(module) { module.exports = "<template>\r\n  <require from=\"./databases.css\"></require>\r\n\r\n  <dx-widget name=\"dxPopup\" options.bind=\"databasesPopupOptions\" class=\"databases-popup\">\r\n    <dx-template name=\"contentTemplate\">\r\n      <div class=\"database-container\">\r\n        <div class=\"databases-item\" repeat.for=\"databaseItem of database.databases\">\r\n          <div class=\"databases-header\">\r\n            <div>\r\n              Name\r\n            </div>\r\n            <div>\r\n              <dx-widget name=\"dxTextBox\" options.bind=\"nameTextOptions\">\r\n              </dx-widget>\r\n            </div>\r\n            <div>\r\n              <dx-widget name=\"dxButton\" options.bind=\"saveDatabaseButtonOptions\">\r\n              </dx-widget>\r\n            </div>\r\n            <div>\r\n              <dx-widget name=\"dxButton\" options.bind=\"deleteDatabaseButtonOptions\">\r\n              </dx-widget>\r\n            </div>\r\n          </div>\r\n          <div class=\"databases-provider\">\r\n            <div>\r\n              Provider\r\n            </div>\r\n            <div>\r\n              <dx-widget name=\"dxSelectBox\" options.bind=\"providerSelectOptions\">\r\n              </dx-widget>\r\n            </div>\r\n          </div>\r\n          <div class=\"databases-connectionstring\">\r\n            <div>\r\n              Connection-String\r\n            </div>\r\n            <div>\r\n              <dx-widget name=\"dxTextBox\" options.bind=\"connectionStringTextOptions\">\r\n              </dx-widget>\r\n            </div>\r\n          </div>\r\n        </div>    \r\n      </div>\r\n    </dx-template>\r\n  </dx-widget>\r\n</template>"; });
+define('text!resources/elements/editor/editor.html', ['module'], function(module) { module.exports = "<template class=\"editor\">  \r\n  <require from=\"./editor.css\"></require>\r\n</template>"; });
+define('text!resources/elements/change-data/change-data.css', ['module'], function(module) { module.exports = ".changedata-popup .dx-popup-normal {\n  border-radius: 0;\n  border: 0;\n}\n.changedata-popup .dx-popup-normal.dx-state-focused.dx-overlay-content {\n  border: 0;\n}\n.changedata-popup .dx-popup-normal .dx-popup-content {\n  padding: 0;\n}\n.changedata-popup .dx-toolbar {\n  height: 50px;\n  margin: 0;\n  padding: 0 0;\n  background-color: #2C3E50;\n  box-sizing: border-box;\n  border-bottom: none;\n}\n.changedata-popup .dx-toolbar .dx-toolbar-items-container {\n  height: 50px;\n}\n.changedata-popup .dx-toolbar .dx-toolbar-items-container > div {\n  -webkit-border-horizontal-spacing: 0;\n  -webkit-border-vertical-spacing: 0;\n}\n.changedata-popup .dx-toolbar .dx-toolbar-label {\n  color: white;\n}\n.changedata-popup .dx-toolbar .dx-button {\n  border: 0;\n  background-color: transparent;\n  width: 50px;\n  height: 50px;\n  display: flex;\n  justify-content: center;\n}\n.changedata-popup .dx-toolbar .dx-button:hover {\n  background-color: #698aac;\n}\n.changedata-popup .dx-toolbar .dx-button .dx-button-content {\n  display: flex;\n  align-items: center;\n}\n.changedata-popup .dx-toolbar .dx-button .dx-button-content i {\n  color: white;\n}\n.changedata-popup .dx-toolbar .dx-texteditor {\n  border: none;\n}\n.changedata-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button {\n  background-color: #507192;\n  padding: 0;\n}\n.changedata-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-up-icon,\n.changedata-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-down-icon {\n  background-color: #698aac;\n}\n.changedata-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-up-icon,\n.changedata-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-down-icon {\n  color: white;\n}\n.changedata-popup .dx-toolbar .dx-texteditor input {\n  background-color: #476481;\n  color: white;\n}\n.changedata-container {\n  padding: 12px 5px;\n  height: 100%;\n  overflow-y: auto;\n}\n.changedata-container > div {\n  display: flex;\n  padding-bottom: 5px;\n}\n.changedata-container .changedata-custom-settings {\n  display: flex;\n  align-items: center;\n}\n.changedata-container .changedata-custom-settings > div:first-child {\n  width: 150px;\n}\n.changedata-container .changedata-default-settings {\n  display: flex;\n  flex-grow: 1;\n  justify-content: flex-end;\n  margin-left: 30px;\n}\n.changedata-container .changedata-default-settings > div:first-child {\n  margin-right: 5px;\n}\n"; });
+define('text!resources/elements/find-column/find-column.html', ['module'], function(module) { module.exports = "<template>\r\n  <require from=\"./find-column.css\"></require>\r\n\r\n  <dx-widget name=\"dxPopup\" options.bind=\"findColumnPopupOptions\" class=\"findcolumn-popup\">\r\n    <dx-template name=\"contentTemplate\">\r\n      <div class=\"findcolumn-container\">\r\n        <dx-widget name=\"dxSelectBox\" options.bind=\"columnSelectDataOptions\">\r\n        </dx-widget>\r\n      </div>\r\n    </dx-template>\r\n  </dx-widget>\r\n</template>"; });
+define('text!resources/elements/statement-editor/statement-editor.html', ['module'], function(module) { module.exports = "<template>\r\n  <require from=\"./statement-editor.css\"></require>\r\n\r\n  <dx-widget name=\"dxPopup\" options.bind=\"statementPopupOptions\" class=\"statementeditor-popup\">\r\n    <dx-template name=\"contentTemplate\">\r\n      <div class=\"statementeditor-container\">\r\n        <table-selection class=\"statementeditor-table-selection\" view-model.ref=\"tableSelectionViewModel\" notification.bind=\"tableSelectionNotification\"></table-selection>\r\n        <editor class=\"statementeditor\" view-model.ref=\"editorViewModel\" table-data.bind=\"editorData\"></editor>\r\n        <column-chooser class=\"statementeditor-columnchooser\" view-model.ref=\"columnChooserViewModel\" fixed-table-id.bind=\"fixedTableId\" notification.bind=\"columnChooserNotification\"></column-chooser>\r\n      </div>\r\n    </dx-template>\r\n  </dx-widget>\r\n</template>"; });
+define('text!resources/elements/table/table.html', ['module'], function(module) { module.exports = "<template class=\"table\">\r\n  <require from=\"./table.css\"></require>\r\n\r\n  <dx-widget name=\"dxDataGrid\" options.bind=\"tableOptions\" view-model.ref=\"tableViewModel\"></dx-widget>\r\n  <statement-editor view-model.ref=\"statementEditorViewModel\" notification.bind=\"statementEditorNotification\" table-data.bind=\"tableData\" editor-data.bind=\"tableData\"></statement-editor>\r\n  <change-data view-model.ref=\"changeDataViewModel\" table-data.bind=\"tableData\" notification.bind=\"changeDataNotification\" data-source.bind=\"dataSource\"></change-data>\r\n  <find-column view-model.ref=\"findColumnViewModel\" table-data.bind=\"tableData\" notification.bind=\"findColumnNotification\"></find-column>\r\n</template>"; });
+define('text!resources/elements/code-editor/code-editor.css', ['module'], function(module) { module.exports = ".codeeditor-popup .dx-popup-normal {\n  border-radius: 0;\n  border: 0;\n}\n.codeeditor-popup .dx-popup-normal.dx-state-focused.dx-overlay-content {\n  border: 0;\n}\n.codeeditor-popup .dx-popup-normal .dx-popup-content {\n  padding: 0;\n}\n.codeeditor-popup .dx-toolbar {\n  height: 50px;\n  margin: 0;\n  padding: 0 0;\n  background-color: #2C3E50;\n  box-sizing: border-box;\n  border-bottom: none;\n}\n.codeeditor-popup .dx-toolbar .dx-toolbar-items-container {\n  height: 50px;\n}\n.codeeditor-popup .dx-toolbar .dx-toolbar-items-container > div {\n  -webkit-border-horizontal-spacing: 0;\n  -webkit-border-vertical-spacing: 0;\n}\n.codeeditor-popup .dx-toolbar .dx-toolbar-label {\n  color: white;\n}\n.codeeditor-popup .dx-toolbar .dx-button {\n  border: 0;\n  background-color: transparent;\n  width: 50px;\n  height: 50px;\n  display: flex;\n  justify-content: center;\n}\n.codeeditor-popup .dx-toolbar .dx-button:hover {\n  background-color: #698aac;\n}\n.codeeditor-popup .dx-toolbar .dx-button .dx-button-content {\n  display: flex;\n  align-items: center;\n}\n.codeeditor-popup .dx-toolbar .dx-button .dx-button-content i {\n  color: white;\n}\n.codeeditor-popup .dx-toolbar .dx-texteditor {\n  border: none;\n}\n.codeeditor-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button {\n  background-color: #507192;\n  padding: 0;\n}\n.codeeditor-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-up-icon,\n.codeeditor-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-down-icon {\n  background-color: #698aac;\n}\n.codeeditor-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-up-icon,\n.codeeditor-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-down-icon {\n  color: white;\n}\n.codeeditor-popup .dx-toolbar .dx-texteditor input {\n  background-color: #476481;\n  color: white;\n}\n.codeeditor-container {\n  display: flex;\n  height: 100%;\n}\n.codeeditor-container > .codeeditor {\n  height: 100%;\n  width: 100%;\n}\n.codeeditor-container > .codeditor-columnchooser {\n  flex: 300px 0 0;\n  position: relative;\n}\n"; });
+define('text!resources/elements/table-information/table-information.html', ['module'], function(module) { module.exports = "<template>\r\n  <dx-widget name=\"dxPopup\" options.bind=\"tableInfoPopupOptions\" class=\"tableinfo-popup\">\r\n    <dx-template name=\"contentTemplate\">\r\n      <div class=\"tableinfo-container\">\r\n        <div>\r\n          <div if.bind=\"!tableInfo.table.isView\">Tabelle: ${tableInfo.table.tableName}</div>\r\n          <div if.bind=\"tableInfo.table.isView\">View: ${tableInfo.table.tableName}</div>\r\n          <div if.bind=\"tableInfo.table.primaryKeyColumn\">Primärschlüssel: ${tableInfo.table.primaryKeyColumn}</div>\r\n        </div>\r\n        <div>\r\n          <div>\r\n            <dx-widget name=\"dxDataGrid\" options.bind=\"tableInfoGridOptions\"></dx-widget>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </dx-template>\r\n  </dx-widget>\r\n</template>"; });
+define('text!resources/elements/table-selection/table-selection.html', ['module'], function(module) { module.exports = "<template class=\"table-selection\">  \r\n  <require from=\"./table-selection.css\"></require>\r\n\r\n  <div class=\"databases\">\r\n    <dx-widget name=\"dxSelectBox\" options.bind=\"databaseOptions\" class=\"database-select-box\"></dx-widget>\r\n  </div>\r\n  <div class=\"tables\">\r\n    <div class=\"tables-container\">\r\n      <dx-widget name=\"dxDataGrid\" options.bind=\"tableOptions\"></dx-widget>\r\n    </div>\r\n  </div>\r\n  \r\n  <table-information view-model.ref=\"tableInformationViewModel\"></table-information>\r\n</template>"; });
+define('text!resources/elements/column-chooser/column-chooser.css', ['module'], function(module) { module.exports = ".columnchooser {\n  display: flex;\n  flex-direction: column;\n}\n.columnchooser > .columnchooser-tables {\n  background-color: #34495E;\n  padding: 5px;\n}\n.columnchooser > .columnchooser-tables .dx-selectbox {\n  border: none;\n}\n.columnchooser > .columnchooser-tables .dx-selectbox .dx-texteditor-container input {\n  color: lightgray;\n  background-color: #4f6f8f;\n}\n.columnchooser > .columnchooser-tables .dx-selectbox .dx-texteditor-container .dx-button-normal .dx-dropdowneditor-icon {\n  color: lightgray;\n}\n.columnchooser > .columnchooser-tables .dx-selectbox .dx-texteditor-container .dx-placeholder {\n  color: lightgray;\n}\n.columnchooser > .columnchooser-tables .dx-selectbox.dx-dropdowneditor.dx-state-hover .dx-dropdowneditor-icon {\n  background-color: #7795b4;\n}\n.columnchooser > .columnchooser-tables .dx-selectbox.dx-dropdowneditor.dx-dropdowneditor-active .dx-dropdowneditor-icon {\n  background-color: #587ca0;\n}\n.columnchooser > .columnchooser-columns {\n  flex-grow: 1;\n  position: relative;\n}\n.columnchooser > .columnchooser-columns > div {\n  position: absolute;\n  height: 100%;\n  width: 100%;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid {\n  background-color: #EEEEEE;\n  color: gray;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-rowsview {\n  border-top: none;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel {\n  border-bottom: none;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-datagrid-search-panel {\n  border: none;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-datagrid-search-panel .dx-icon {\n  color: lightgray;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-datagrid-search-panel .dx-placeholder {\n  color: lightgray;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-datagrid-search-panel input {\n  color: lightgray;\n  background-color: #4f6f8f;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar {\n  height: 40px;\n  margin: 0;\n  padding: 0 5px;\n  background-color: #34495E;\n  box-sizing: border-box;\n  border-bottom: none;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-toolbar-items-container {\n  height: 40px;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-toolbar-items-container > div {\n  -webkit-border-horizontal-spacing: 0;\n  -webkit-border-vertical-spacing: 0;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-toolbar-label {\n  color: lightgray;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-button {\n  border: 0;\n  background-color: transparent;\n  width: 40px;\n  height: 40px;\n  display: flex;\n  justify-content: center;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-button:hover {\n  background-color: #7795b4;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-button .dx-button-content {\n  display: flex;\n  align-items: center;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-button .dx-button-content i {\n  color: lightgray;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-texteditor {\n  border: none;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button {\n  background-color: #587ca0;\n  padding: 0;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-up-icon,\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-down-icon {\n  background-color: #7795b4;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-up-icon,\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-down-icon {\n  color: lightgray;\n}\n.columnchooser > .columnchooser-columns > div .dx-datagrid-header-panel .dx-toolbar .dx-texteditor input {\n  background-color: #4f6f8f;\n  color: lightgray;\n}\n"; });
+define('text!resources/elements/container/container.css', ['module'], function(module) { module.exports = ".container {\n  display: flex;\n  height: 100%;\n}\n.container > .container-sidebar {\n  flex: 300px 0 0;\n  display: flex;\n  flex-direction: column;\n}\n.container > .container-sidebar > .container-table-selection {\n  position: relative;\n  flex-grow: 1;\n  overflow-y: hidden;\n}\n.container > .container-sidebar > .container-table-selection > div {\n  position: absolute;\n  height: 100%;\n  width: 100%;\n}\n.container .container-buttons {\n  background-color: #34495E;\n}\n.container > .tables {\n  height: 100%;\n  width: 100%;\n  box-sizing: border-box;\n  overflow-y: scroll;\n  background-color: gray;\n}\n"; });
+define('text!resources/elements/databases/databases.css', ['module'], function(module) { module.exports = ".databases-popup .dx-popup-normal {\n  border-radius: 0;\n  border: 0;\n}\n.databases-popup .dx-popup-normal.dx-state-focused.dx-overlay-content {\n  border: 0;\n}\n.databases-popup .dx-popup-normal .dx-popup-content {\n  padding: 0;\n}\n.databases-popup .dx-toolbar {\n  height: 50px;\n  margin: 0;\n  padding: 0 0;\n  background-color: #2C3E50;\n  box-sizing: border-box;\n  border-bottom: none;\n}\n.databases-popup .dx-toolbar .dx-toolbar-items-container {\n  height: 50px;\n}\n.databases-popup .dx-toolbar .dx-toolbar-items-container > div {\n  -webkit-border-horizontal-spacing: 0;\n  -webkit-border-vertical-spacing: 0;\n}\n.databases-popup .dx-toolbar .dx-toolbar-label {\n  color: white;\n}\n.databases-popup .dx-toolbar .dx-button {\n  border: 0;\n  background-color: transparent;\n  width: 50px;\n  height: 50px;\n  display: flex;\n  justify-content: center;\n}\n.databases-popup .dx-toolbar .dx-button:hover {\n  background-color: #698aac;\n}\n.databases-popup .dx-toolbar .dx-button .dx-button-content {\n  display: flex;\n  align-items: center;\n}\n.databases-popup .dx-toolbar .dx-button .dx-button-content i {\n  color: white;\n}\n.databases-popup .dx-toolbar .dx-texteditor {\n  border: none;\n}\n.databases-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button {\n  background-color: #507192;\n  padding: 0;\n}\n.databases-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-up-icon,\n.databases-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-down-icon {\n  background-color: #698aac;\n}\n.databases-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-up-icon,\n.databases-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-down-icon {\n  color: white;\n}\n.databases-popup .dx-toolbar .dx-texteditor input {\n  background-color: #476481;\n  color: white;\n}\n.database-container {\n  height: 100%;\n  overflow-y: auto;\n}\n.database-container .databases-item {\n  padding: 5px 7px 5px 12px;\n}\n.database-container .databases-item > div {\n  display: flex;\n  align-items: center;\n  padding: 5px 0 5px 0;\n}\n.database-container .databases-item > div > div:first-child {\n  width: 145px;\n}\n.database-container .databases-item > div > div:nth-child(2) {\n  flex-grow: 1;\n}\n.database-container .databases-item > div > div {\n  margin-right: 5px;\n}\n"; });
+define('text!resources/elements/editor/editor.css', ['module'], function(module) { module.exports = ".editor {\n  display: block;\n  height: 100%;\n  width: 100%;\n}\n"; });
+define('text!resources/elements/find-column/find-column.css', ['module'], function(module) { module.exports = ".findcolumn-popup .dx-popup-normal {\n  border-radius: 0;\n  border: 0;\n}\n.findcolumn-popup .dx-popup-normal.dx-state-focused.dx-overlay-content {\n  border: 0;\n}\n.findcolumn-popup .dx-popup-normal .dx-popup-content {\n  padding: 0;\n}\n.findcolumn-popup .dx-toolbar {\n  height: 50px;\n  margin: 0;\n  padding: 0 0;\n  background-color: #2C3E50;\n  box-sizing: border-box;\n  border-bottom: none;\n}\n.findcolumn-popup .dx-toolbar .dx-toolbar-items-container {\n  height: 50px;\n}\n.findcolumn-popup .dx-toolbar .dx-toolbar-items-container > div {\n  -webkit-border-horizontal-spacing: 0;\n  -webkit-border-vertical-spacing: 0;\n}\n.findcolumn-popup .dx-toolbar .dx-toolbar-label {\n  color: white;\n}\n.findcolumn-popup .dx-toolbar .dx-button {\n  border: 0;\n  background-color: transparent;\n  width: 50px;\n  height: 50px;\n  display: flex;\n  justify-content: center;\n}\n.findcolumn-popup .dx-toolbar .dx-button:hover {\n  background-color: #698aac;\n}\n.findcolumn-popup .dx-toolbar .dx-button .dx-button-content {\n  display: flex;\n  align-items: center;\n}\n.findcolumn-popup .dx-toolbar .dx-button .dx-button-content i {\n  color: white;\n}\n.findcolumn-popup .dx-toolbar .dx-texteditor {\n  border: none;\n}\n.findcolumn-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button {\n  background-color: #507192;\n  padding: 0;\n}\n.findcolumn-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-up-icon,\n.findcolumn-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-down-icon {\n  background-color: #698aac;\n}\n.findcolumn-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-up-icon,\n.findcolumn-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-down-icon {\n  color: white;\n}\n.findcolumn-popup .dx-toolbar .dx-texteditor input {\n  background-color: #476481;\n  color: white;\n}\n.findcolumn-container {\n  padding: 12px 5px;\n}\n"; });
+define('text!resources/elements/statement-editor/statement-editor.css', ['module'], function(module) { module.exports = ".statementeditor-popup .dx-popup-normal {\n  border-radius: 0;\n  border: 0;\n}\n.statementeditor-popup .dx-popup-normal.dx-state-focused.dx-overlay-content {\n  border: 0;\n}\n.statementeditor-popup .dx-popup-normal .dx-popup-content {\n  padding: 0;\n}\n.statementeditor-popup .dx-toolbar {\n  height: 50px;\n  margin: 0;\n  padding: 0 0;\n  background-color: #2C3E50;\n  box-sizing: border-box;\n  border-bottom: none;\n}\n.statementeditor-popup .dx-toolbar .dx-toolbar-items-container {\n  height: 50px;\n}\n.statementeditor-popup .dx-toolbar .dx-toolbar-items-container > div {\n  -webkit-border-horizontal-spacing: 0;\n  -webkit-border-vertical-spacing: 0;\n}\n.statementeditor-popup .dx-toolbar .dx-toolbar-label {\n  color: white;\n}\n.statementeditor-popup .dx-toolbar .dx-button {\n  border: 0;\n  background-color: transparent;\n  width: 50px;\n  height: 50px;\n  display: flex;\n  justify-content: center;\n}\n.statementeditor-popup .dx-toolbar .dx-button:hover {\n  background-color: #698aac;\n}\n.statementeditor-popup .dx-toolbar .dx-button .dx-button-content {\n  display: flex;\n  align-items: center;\n}\n.statementeditor-popup .dx-toolbar .dx-button .dx-button-content i {\n  color: white;\n}\n.statementeditor-popup .dx-toolbar .dx-texteditor {\n  border: none;\n}\n.statementeditor-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button {\n  background-color: #507192;\n  padding: 0;\n}\n.statementeditor-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-up-icon,\n.statementeditor-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-down-icon {\n  background-color: #698aac;\n}\n.statementeditor-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-up-icon,\n.statementeditor-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-down-icon {\n  color: white;\n}\n.statementeditor-popup .dx-toolbar .dx-texteditor input {\n  background-color: #476481;\n  color: white;\n}\n.statementeditor-container {\n  display: flex;\n  height: 100%;\n}\n.statementeditor-container > .statementeditor-table-selection {\n  flex: 300px 0 0;\n}\n.statementeditor-container > .statementeditor {\n  height: 100%;\n  width: 100%;\n}\n.statementeditor-container > .statementeditor-columnchooser {\n  flex: 300px 0 0;\n  position: relative;\n}\n"; });
+define('text!resources/elements/table/table.css', ['module'], function(module) { module.exports = ".table {\n  display: block;\n  padding: 0 5px;\n  box-sizing: border-box;\n}\n.table > * {\n  max-width: 100% !important;\n}\n.table > * > .dx-datagrid {\n  box-sizing: border-box;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel {\n  border: none;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-datagrid-search-panel {\n  border: none;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-datagrid-search-panel .dx-icon {\n  color: lightgray;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-datagrid-search-panel .dx-placeholder {\n  color: lightgray;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-datagrid-search-panel input {\n  color: lightgray;\n  background-color: #4f6f8f;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar {\n  height: 40px;\n  margin: 0;\n  padding: 0 0;\n  background-color: #2C3E50;\n  box-sizing: border-box;\n  border-bottom: none;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-toolbar-items-container {\n  height: 40px;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-toolbar-items-container > div {\n  -webkit-border-horizontal-spacing: 0;\n  -webkit-border-vertical-spacing: 0;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-toolbar-label {\n  color: white;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-button {\n  border: 0;\n  background-color: transparent;\n  width: 40px;\n  height: 40px;\n  display: flex;\n  justify-content: center;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-button:hover {\n  background-color: #698aac;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-button .dx-button-content {\n  display: flex;\n  align-items: center;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-button .dx-button-content i {\n  color: white;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-texteditor {\n  border: none;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button {\n  background-color: #507192;\n  padding: 0;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-up-icon,\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-down-icon {\n  background-color: #698aac;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-up-icon,\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-down-icon {\n  color: white;\n}\n.table > * > .dx-datagrid .dx-datagrid-header-panel .dx-toolbar .dx-texteditor input {\n  background-color: #476481;\n  color: white;\n}\n.table .table-no-all-rows-loaded {\n  color: white;\n  background-color: red;\n  height: 30px;\n  width: 30px;\n  line-height: 30px;\n  border-radius: 30px;\n  margin: 5px;\n  text-align: center;\n  font-size: 14px;\n}\n"; });
+define('text!resources/elements/table-selection/table-selection.css', ['module'], function(module) { module.exports = ".table-selection {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  box-sizing: border-box;\n  background-color: gray;\n}\n.table-selection > .databases {\n  background-color: #34495E;\n  padding: 5px;\n}\n.table-selection > .databases .dx-selectbox {\n  border: none;\n}\n.table-selection > .databases .dx-selectbox .dx-texteditor-container input {\n  color: lightgray;\n  background-color: #4f6f8f;\n}\n.table-selection > .databases .dx-selectbox .dx-texteditor-container .dx-button-normal .dx-dropdowneditor-icon {\n  color: lightgray;\n}\n.table-selection > .databases .dx-selectbox .dx-texteditor-container .dx-placeholder {\n  color: lightgray;\n}\n.table-selection > .databases .dx-selectbox.dx-dropdowneditor.dx-state-hover .dx-dropdowneditor-icon {\n  background-color: #7795b4;\n}\n.table-selection > .databases .dx-selectbox.dx-dropdowneditor.dx-dropdowneditor-active .dx-dropdowneditor-icon {\n  background-color: #587ca0;\n}\n.table-selection > .tables {\n  box-sizing: border-box;\n  flex-grow: 1;\n  position: relative;\n}\n.table-selection > .tables .tables-container {\n  position: absolute;\n  height: 100%;\n  width: 100%;\n}\n.table-selection > .tables .dx-datagrid {\n  background-color: #EEEEEE;\n  color: gray;\n}\n.table-selection > .tables .dx-datagrid-rowsview {\n  border-top: none;\n}\n.table-selection > .tables .dx-datagrid-header-panel {\n  border-bottom: none;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-datagrid-search-panel {\n  border: none;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-datagrid-search-panel .dx-icon {\n  color: lightgray;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-datagrid-search-panel .dx-placeholder {\n  color: lightgray;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-datagrid-search-panel input {\n  color: lightgray;\n  background-color: #4f6f8f;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar {\n  height: 40px;\n  margin: 0;\n  padding: 0 5px;\n  background-color: #34495E;\n  box-sizing: border-box;\n  border-bottom: none;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-toolbar-items-container {\n  height: 40px;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-toolbar-items-container > div {\n  -webkit-border-horizontal-spacing: 0;\n  -webkit-border-vertical-spacing: 0;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-toolbar-label {\n  color: lightgray;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-button {\n  border: 0;\n  background-color: transparent;\n  width: 40px;\n  height: 40px;\n  display: flex;\n  justify-content: center;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-button:hover {\n  background-color: #7795b4;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-button .dx-button-content {\n  display: flex;\n  align-items: center;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-button .dx-button-content i {\n  color: lightgray;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-texteditor {\n  border: none;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button {\n  background-color: #587ca0;\n  padding: 0;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-up-icon,\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-down-icon {\n  background-color: #7795b4;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-up-icon,\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-down-icon {\n  color: lightgray;\n}\n.table-selection > .tables .dx-datagrid-header-panel .dx-toolbar .dx-texteditor input {\n  background-color: #4f6f8f;\n  color: lightgray;\n}\n.tableinfo-popup .dx-popup-normal {\n  border-radius: 0;\n  border: 0;\n}\n.tableinfo-popup .dx-popup-normal.dx-state-focused.dx-overlay-content {\n  border: 0;\n}\n.tableinfo-popup .dx-popup-normal .dx-popup-content {\n  padding: 0;\n}\n.tableinfo-popup .dx-toolbar {\n  height: 50px;\n  margin: 0;\n  padding: 0 0;\n  background-color: #2C3E50;\n  box-sizing: border-box;\n  border-bottom: none;\n}\n.tableinfo-popup .dx-toolbar .dx-toolbar-items-container {\n  height: 50px;\n}\n.tableinfo-popup .dx-toolbar .dx-toolbar-items-container > div {\n  -webkit-border-horizontal-spacing: 0;\n  -webkit-border-vertical-spacing: 0;\n}\n.tableinfo-popup .dx-toolbar .dx-toolbar-label {\n  color: white;\n}\n.tableinfo-popup .dx-toolbar .dx-button {\n  border: 0;\n  background-color: transparent;\n  width: 50px;\n  height: 50px;\n  display: flex;\n  justify-content: center;\n}\n.tableinfo-popup .dx-toolbar .dx-button:hover {\n  background-color: #698aac;\n}\n.tableinfo-popup .dx-toolbar .dx-button .dx-button-content {\n  display: flex;\n  align-items: center;\n}\n.tableinfo-popup .dx-toolbar .dx-button .dx-button-content i {\n  color: white;\n}\n.tableinfo-popup .dx-toolbar .dx-texteditor {\n  border: none;\n}\n.tableinfo-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button {\n  background-color: #507192;\n  padding: 0;\n}\n.tableinfo-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-up-icon,\n.tableinfo-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button.dx-state-hover .dx-numberbox-spin-down-icon {\n  background-color: #698aac;\n}\n.tableinfo-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-up-icon,\n.tableinfo-popup .dx-toolbar .dx-texteditor .dx-texteditor-buttons-container .dx-numberbox-spin-button .dx-numberbox-spin-down-icon {\n  color: white;\n}\n.tableinfo-popup .dx-toolbar .dx-texteditor input {\n  background-color: #476481;\n  color: white;\n}\n.tableinfo-container {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n}\n.tableinfo-container > div:first-child {\n  padding: 12px 5px;\n  font-weight: bold;\n}\n.tableinfo-container > div:last-child {\n  position: relative;\n  flex-grow: 1;\n}\n.tableinfo-container > div:last-child > div {\n  position: absolute;\n  height: 100%;\n  width: 100%;\n}\n"; });
+//# sourceMappingURL=app-bundle.js.map
