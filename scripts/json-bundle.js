@@ -1,1 +1,1 @@
-define('text!localization-neutral.json',[],function () { return '{}';});
+define("text!localization-neutral.json",[],function(){return"{}"});

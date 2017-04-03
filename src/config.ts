@@ -1,3 +1,3 @@
 export default {
-  apiUrl: "http://localhost/Stef.DatabaseQuery/api/"
+  apiUrl: "http://10.20.50.53/DBQ/api/"
 }

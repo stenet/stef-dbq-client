@@ -5,6 +5,8 @@ export interface ITableData {
 
   databaseId?: number;
   tableName?: string;
+  columnName?: string;
+  value?: any;
   script?: string;
   columns?: IColumnInfo[];
   rows?: number;

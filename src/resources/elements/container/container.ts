@@ -75,12 +75,13 @@ export class Container {
   }
 
   private onRelationClicked(databaseId: number, tableName: string, columnName: string, value: any) {
-    const table = {
+    const table: Models.ITableData = {
       tableId: new Date().getTime(),
       databaseId: databaseId,
       tableName: tableName,
       columnName: columnName,
-      value: value
+      value: value,
+      rows: 100
     };
 
     this.tableData.push(table);
